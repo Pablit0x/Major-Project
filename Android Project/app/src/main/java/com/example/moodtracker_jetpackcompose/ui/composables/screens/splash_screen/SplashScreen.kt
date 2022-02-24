@@ -1,4 +1,4 @@
-package com.example.moodtracker_jetpackcompose.composables
+package com.example.moodtracker_jetpackcompose.ui.composables
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween

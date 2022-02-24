@@ -1,11 +1,13 @@
 package com.example.moodtracker_jetpackcompose
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.moodtracker_jetpackcompose.composables.*
+import com.example.moodtracker_jetpackcompose.ui.composables.AnimatedSplashScreen
+import com.example.moodtracker_jetpackcompose.ui.composables.ForgotPasswordScreen
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.login.LoginScreen
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.sign_up.SignUpScreen
 
 @Composable
 fun SetupNavGraph(navController : NavHostController){

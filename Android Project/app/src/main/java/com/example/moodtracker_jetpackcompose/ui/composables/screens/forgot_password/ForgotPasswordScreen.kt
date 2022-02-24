@@ -1,4 +1,4 @@
-package com.example.moodtracker_jetpackcompose.composables
+package com.example.moodtracker_jetpackcompose.ui.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,43 +24,53 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.moodtracker_jetpackcompose.R
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.EmailField
 import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
 
 @Composable
-fun ForgotPasswordScreen(navController: NavController){
+fun ForgotPasswordScreen(navController: NavController) {
     val image = painterResource(id = R.drawable.ic_launcher_foreground)
-    val email : MutableState<String> = remember{ mutableStateOf("") }
+    val email: MutableState<String> = remember { mutableStateOf("") }
+    val emailError: MutableState<Boolean> = remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier
-        .fillMaxSize()) {
-        Column(verticalArrangement = Arrangement.Center, modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.4f)
-            .background(color = primaryColor)){
-            Image(painter = image, contentDescription = "Application Logo", modifier = Modifier
-                .align(Alignment.CenterHorizontally))
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center, modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.4f)
+                .background(color = primaryColor)
+        ) {
+            Image(
+                painter = image, contentDescription = "Application Logo", modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
         }
 
-        Spacer(modifier = Modifier.padding(20.dp))
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-            .background(whiteBackground)
-            .padding(10.dp)) {
-            Text(modifier = Modifier.fillMaxWidth(0.8f),
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+                .background(whiteBackground)
+                .padding(10.dp)
+        ) {
+            Text(
                 text = "Forgot your password?",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp
                 ),
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp
+                fontSize = 30.sp
             )
             Spacer(modifier = Modifier.padding(10.dp))
-            Text(modifier = Modifier.fillMaxWidth(0.8f),
+            Text(
+                modifier = Modifier.fillMaxWidth(0.8f),
                 text = "Please enter the email you use to sign in to the Mood Tracker.",
                 style = TextStyle(
                     fontWeight = FontWeight.Light,
@@ -70,7 +80,7 @@ fun ForgotPasswordScreen(navController: NavController){
                 fontSize = 14.sp
             )
             Spacer(modifier = Modifier.padding(15.dp))
-            EmailField(email)
+            EmailField(email, emailError)
             Spacer(modifier = Modifier.padding(10.dp))
             Button(
                 onClick = {},
@@ -93,6 +103,6 @@ fun ForgotPasswordScreen(navController: NavController){
 
 @Composable
 @Preview(showBackground = true)
-fun ForgotPasswordPreview(){
+fun ForgotPasswordPreview() {
     ForgotPasswordScreen(navController = rememberNavController())
 }
