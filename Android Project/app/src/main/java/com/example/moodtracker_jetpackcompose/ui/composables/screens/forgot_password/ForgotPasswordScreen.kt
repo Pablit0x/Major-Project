@@ -1,6 +1,5 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.forgot_password
 
-import android.view.Gravity
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,7 +32,6 @@ import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 private lateinit var forgotPasswordViewModel: ForgotPasswordViewModel
 private lateinit var firebaseAuth: FirebaseAuth

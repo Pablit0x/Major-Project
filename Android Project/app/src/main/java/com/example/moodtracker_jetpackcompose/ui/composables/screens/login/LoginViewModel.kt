@@ -27,7 +27,7 @@ class LoginViewModel : ViewModel() {
     fun checkLoginStatus(firebaseAuth: FirebaseAuth) {
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser != null) {
-
+            //TODO
         }
     }
 }

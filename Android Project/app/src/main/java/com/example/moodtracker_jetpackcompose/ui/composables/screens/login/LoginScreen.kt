@@ -1,14 +1,14 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.login
 
-import android.util.Log
-import androidx.compose.runtime.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,20 +27,14 @@ import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.EmailField
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.PasswordField
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ProgressBar
 import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.core.Constants
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 private lateinit var firebaseAuth: FirebaseAuth
 private lateinit var loginViewModel: LoginViewModel
-private lateinit var database: DatabaseReference
 
 @Composable
 fun LoginScreen(navController: NavController) {

@@ -1,13 +1,13 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.sign_up
 
-import android.location.Location
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.*
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,14 +19,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.motion.widget.Debug.getLocation
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
-import com.example.moodtracker_jetpackcompose.ui.theme.*
+import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
+import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
+import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 private lateinit var firebaseAuth: FirebaseAuth
 private lateinit var signUpViewModel: SignUpViewModel
