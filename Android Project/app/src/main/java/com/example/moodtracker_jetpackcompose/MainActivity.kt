@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.example.moodtracker_jetpackcompose.nav.SetupNavGraph
 import com.example.moodtracker_jetpackcompose.ui.theme.MoodTracker_JetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,8 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MoodTracker_JetpackComposeTheme {
-                navController = rememberNavController()
-                SetupNavGraph(navController = navController)
+                SetupNavGraph()
             }
         }
     }

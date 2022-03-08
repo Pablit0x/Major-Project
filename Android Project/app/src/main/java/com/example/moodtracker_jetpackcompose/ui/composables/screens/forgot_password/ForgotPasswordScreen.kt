@@ -1,5 +1,7 @@
-package com.example.moodtracker_jetpackcompose.ui.composables
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.forgot_password
 
+import android.view.Gravity
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -24,13 +27,24 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.moodtracker_jetpackcompose.R
+import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.EmailField
 import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+
+private lateinit var forgotPasswordViewModel: ForgotPasswordViewModel
+private lateinit var firebaseAuth: FirebaseAuth
 
 @Composable
 fun ForgotPasswordScreen(navController: NavController) {
+
+    forgotPasswordViewModel = ForgotPasswordViewModel()
+    firebaseAuth = FirebaseAuth.getInstance()
+    val context = LocalContext.current
+
     val image = painterResource(id = R.drawable.ic_launcher_foreground)
     val email: MutableState<String> = remember { mutableStateOf("") }
     val emailError: MutableState<Boolean> = remember { mutableStateOf(false) }
@@ -83,10 +97,29 @@ fun ForgotPasswordScreen(navController: NavController) {
             EmailField(email, emailError)
             Spacer(modifier = Modifier.padding(10.dp))
             Button(
-                onClick = {},
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
-                    .height(50.dp)
+                    .height(50.dp),
+                onClick = {
+                    if (forgotPasswordViewModel.validateEmail(email = email.value)) {
+                        firebaseAuth.sendPasswordResetEmail(email.value)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(
+                                        context,
+                                        "We have sent a password recovery instructions to your email.", Toast.LENGTH_SHORT
+                                    ).show()
+                                    navController.navigate(Screen.LoginScreen.route)
+                                }
+                                else{
+                                    Toast.makeText(
+                                        context,
+                                        task.exception!!.message.toString(), Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    }
+                }
             ) {
                 Text(text = "Submit", fontSize = 20.sp)
             }

@@ -3,6 +3,8 @@ package com.example.moodtracker_jetpackcompose.ui.composables.screens.login
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.example.moodtracker_jetpackcompose.BottomBarScreen
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginViewModel : ViewModel() {
@@ -10,9 +12,10 @@ class LoginViewModel : ViewModel() {
         return !(!Patterns.EMAIL_ADDRESS.matcher(email).matches() || email.isEmpty())
     }
 
-    fun firebaseLogin(firebaseAuth: FirebaseAuth, email: String, password: String) {
+    fun firebaseLogin(firebaseAuth: FirebaseAuth, email: String, password: String, navController: NavController) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
+                navController.navigate(BottomBarScreen.Home.route)
                 Log.e("Login", "Logged in successfully")
             }
             .addOnFailureListener {
@@ -24,7 +27,7 @@ class LoginViewModel : ViewModel() {
     fun checkLoginStatus(firebaseAuth: FirebaseAuth) {
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser != null) {
-            // Go to profile Screen
+
         }
     }
 }

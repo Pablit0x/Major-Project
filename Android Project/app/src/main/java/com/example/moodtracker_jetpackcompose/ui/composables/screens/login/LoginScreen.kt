@@ -1,5 +1,6 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.login
 
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,13 +27,20 @@ import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.EmailField
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.PasswordField
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ProgressBar
 import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.core.Constants
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 private lateinit var firebaseAuth: FirebaseAuth
 private lateinit var loginViewModel: LoginViewModel
+private lateinit var database: DatabaseReference
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -83,14 +91,19 @@ fun LoginScreen(navController: NavController) {
                 fontSize = 30.sp
             )
             Spacer(modifier = Modifier.padding(20.dp))
-            EmailField(email, emailError)
-            PasswordField(password, passwordError)
+            EmailField(email = email, isError = emailError)
+            PasswordField(password = password, isError = passwordError)
             Spacer(modifier = Modifier.padding(10.dp))
             Button(
                 onClick = {
                     emailError.value = !loginViewModel.validateEmail(email = email.value)
-                    if (loginViewModel.validateEmail(email.value)) {
-                        loginViewModel.firebaseLogin(firebaseAuth, email.value, password.value)
+                    if (loginViewModel.validateEmail(email = email.value)) {
+                        loginViewModel.firebaseLogin(
+                            firebaseAuth = firebaseAuth,
+                            email = email.value,
+                            password = password.value,
+                            navController = navController
+                        )
                     }
                 },
                 modifier = Modifier
@@ -116,29 +129,6 @@ fun LoginScreen(navController: NavController) {
         }
     }
 }
-
-//private fun validateData(email : String, password : String) {
-//    if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-//        //invalid Email
-//        Log.e("Email", "INVALID EMAIL")
-//    } else if(email.isEmpty()){
-//        Log.e("Email", "Email is empty")
-//    } else{
-//        firebaseLogin(email, password)
-//    }
-//}
-
-//fun firebaseLogin(email: String, password : String) {
-//    firebaseAuth.signInWithEmailAndPassword(email, password)
-//        .addOnSuccessListener {
-//            //login success
-//            Log.e("Login", "Logged in successfully")
-//        }
-//        .addOnFailureListener {
-//            //login failed
-//            Log.e("Login", "Login failed")
-//        }
-//}
 
 @Preview(showBackground = true)
 @Composable
