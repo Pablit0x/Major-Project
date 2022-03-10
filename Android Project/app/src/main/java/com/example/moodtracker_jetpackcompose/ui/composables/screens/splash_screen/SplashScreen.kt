@@ -19,11 +19,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.Screen
+
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
+
+private lateinit var splashScreenViewModel: SplashScreenViewModel
 
 @Composable
 fun AnimatedSplashScreen(navController: NavController) {
+
+    splashScreenViewModel = SplashScreenViewModel()
+    val firebaseAuth = FirebaseAuth.getInstance()
+
     var startAnimation by remember {
         mutableStateOf(false)
     }
@@ -35,7 +43,7 @@ fun AnimatedSplashScreen(navController: NavController) {
         startAnimation = true
         delay(4000)
         navController.popBackStack()
-        navController.navigate(Screen.LoginScreen.route)
+        splashScreenViewModel.checkLoginStatus(firebaseAuth = firebaseAuth, navController = navController)
     }
     SplashScreen(alpha = alphaAnim.value)
 }

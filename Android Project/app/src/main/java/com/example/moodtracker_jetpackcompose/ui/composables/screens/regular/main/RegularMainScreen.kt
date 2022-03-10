@@ -10,25 +10,25 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.BottomBar
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.RegularUserTopBar
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.google.firebase.auth.FirebaseAuth
 
-private lateinit var regularMainViewModel: RegularMainViewModel
-private lateinit var firebaseAuth: FirebaseAuth
+
+val regularMainViewModel = RegularMainViewModel()
+val firebaseAuth = FirebaseAuth.getInstance()
+val firebaseEmail = firebaseAuth.currentUser!!.email
 
 @Composable
 fun RegularMainScreen(navController: NavHostController) {
-    regularMainViewModel = RegularMainViewModel()
-    firebaseAuth = FirebaseAuth.getInstance()
-    val firebaseEmail = firebaseAuth.currentUser!!.email
-    Scaffold(bottomBar = { BottomBar(navController = navController) }, content = { padding ->
+    Scaffold(bottomBar = { BottomBar(navController = navController) }, topBar = {RegularUserTopBar(navController,"Today's Activities")}, content = { padding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -37,7 +37,7 @@ fun RegularMainScreen(navController: NavHostController) {
                 .padding(padding)
         ) {
             if (firebaseEmail != null) {
-                Text(text = firebaseEmail, fontSize = 24.sp)
+                Text(text = "Regular user: $firebaseEmail", fontSize = 16.sp)
             }
         }
         Column(

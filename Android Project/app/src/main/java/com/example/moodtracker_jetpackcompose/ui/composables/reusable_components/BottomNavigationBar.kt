@@ -12,6 +12,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.moodtracker_jetpackcompose.BottomBarScreen
+import com.example.moodtracker_jetpackcompose.Screen
 
 @Composable
 fun BottomBar(navController: NavHostController){

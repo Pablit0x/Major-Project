@@ -1,5 +1,6 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +32,6 @@ import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 
 private lateinit var firebaseAuth: FirebaseAuth
 private lateinit var loginViewModel: LoginViewModel

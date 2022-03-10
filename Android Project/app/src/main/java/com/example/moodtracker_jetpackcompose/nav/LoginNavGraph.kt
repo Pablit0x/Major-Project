@@ -11,9 +11,9 @@ import com.example.moodtracker_jetpackcompose.ui.composables.screens.forgot_pass
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.login.LoginScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.calendar.CalendarScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.RegularMainScreen
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.messenger.MessengerScreen
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.messenger.MessengerScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.sign_up.SignUpScreen
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor_main.SupervisorMainScreen
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.SupervisorMainScreen
 
 @Composable
 fun SetupNavGraph(){

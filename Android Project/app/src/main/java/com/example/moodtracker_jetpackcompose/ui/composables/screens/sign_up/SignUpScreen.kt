@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.login.LoginViewModel
 import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
@@ -30,14 +31,13 @@ import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var firebaseAuth: FirebaseAuth
 private lateinit var signUpViewModel: SignUpViewModel
+private lateinit var loginViewModel : LoginViewModel
 
 @Composable
 fun SignUpScreen(navController: NavController) {
 
     firebaseAuth = FirebaseAuth.getInstance()
     signUpViewModel = SignUpViewModel()
-
-    val loading = signUpViewModel.loading.value
 
     val username: MutableState<String> = remember { mutableStateOf("") }
     val userType: MutableState<String> = remember { mutableStateOf("") }
@@ -56,7 +56,6 @@ fun SignUpScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize(),
     ) {
-        ProgressBar(isDisplayed = loading)
         Column(
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
