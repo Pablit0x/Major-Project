@@ -1,5 +1,6 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.splash_screen
 
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
+import java.time.LocalDate
 
 private lateinit var splashScreenViewModel: SplashScreenViewModel
 

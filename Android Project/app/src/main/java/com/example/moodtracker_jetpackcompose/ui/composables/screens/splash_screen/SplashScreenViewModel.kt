@@ -10,6 +10,8 @@ import com.google.firebase.ktx.Firebase
 class SplashScreenViewModel : ViewModel() {
 
 
+
+
     fun checkLoginStatus(firebaseAuth: FirebaseAuth, navController: NavController) {
         val db = Firebase.firestore
         val firebaseUser = firebaseAuth.currentUser

@@ -21,7 +21,7 @@ fun DatePickerView() {
     ) {
         AndroidView(factory = { CalendarView(it)}, update = {
             it.setOnDateChangeListener{ _, year, month, day ->
-                date = "$day / $month / $year"
+                date = "$year-$month-$day"
             }
         })
         Text(text = date)
