@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityTypeField
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.AddActivityViewModel
 import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
@@ -107,7 +108,9 @@ fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, navController: NavContr
                                     done = isChecked.value,
                                     id = uniqueID
                                 )
-                                addActivityViewModel.addActivity(activity, firebaseUser!!.uid)
+                                if(activity != null){
+                                    addActivityViewModel.addActivity(activity, firebaseUser!!.uid)
+                                }
                                 isDialogOpen.value = false
                                 navController.navigate(Screen.RegularMainScreen.route)
                             },

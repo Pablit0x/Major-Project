@@ -22,24 +22,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.ActivityType
-import com.example.moodtracker_jetpackcompose.ui.theme.SourceSerifPro
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.tertiaryColor
 
 @Composable
 fun ActivityTypeField(activityType : MutableState<String>) {
     var expanded by remember { mutableStateOf(false) }
-//    var selectedType by remember{ mutableStateOf()}
-//
-//    val activityTypes : Map<String, ImageVector> = mapOf(
-//        ActivityType.Sleep.name to ActivityType.Sleep.icon,
-//        ActivityType.Work.name to ActivityType.Work.icon,
-//        ActivityType.Study.name to ActivityType.Study.icon,
-//        ActivityType.Meditation.name to ActivityType.Meditation.icon,
-//        ActivityType.Workout.name to ActivityType.Workout.icon,
-//        ActivityType.Other.name to ActivityType.Other.icon
-//    )
+
+
     val activityTypes = listOf(
         ActivityType.Sleep.name,
         ActivityType.Work.name,
@@ -49,14 +37,6 @@ fun ActivityTypeField(activityType : MutableState<String>) {
         ActivityType.Other.name
     )
 
-//    val activityIcons = listOf(
-//        Icons.Default.AccountBox,
-//        Icons.Default.AccountCircle,
-//        Icons.Default.Send,
-//        Icons.Default.Favorite,
-//        Icons.Default.Email,
-//        Icons.Default.Build
-//    )
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
     val icon = if (expanded)

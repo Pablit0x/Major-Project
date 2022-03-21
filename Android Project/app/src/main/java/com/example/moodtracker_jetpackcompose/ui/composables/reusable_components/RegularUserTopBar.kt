@@ -2,6 +2,8 @@ package com.example.moodtracker_jetpackcompose.ui.composables.reusable_component
 
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,9 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
@@ -27,6 +31,7 @@ fun RegularUserTopBar(navController: NavController, title: String) {
 
     var showMenu by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val checkedState = remember { mutableStateOf(true) }
 
     TopAppBar(
         title = { Text(title) },
@@ -45,24 +50,29 @@ fun RegularUserTopBar(navController: NavController, title: String) {
             DropdownMenu(
                 expanded = showMenu,
                 onDismissRequest = { showMenu = false },
-                modifier = Modifier.fillMaxWidth(0.45f)
+                modifier = Modifier.fillMaxWidth(0.55f)
             ) {
 
                 DropdownMenuItem(onClick = {
-                    Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Dark Mode", Toast.LENGTH_SHORT).show()
                 }) {
                     Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = "Settings",
+                        painter = painterResource(id = R.drawable.ic_dark_mode),
+                        contentDescription = "Dark mode",
                         modifier = Modifier.padding(end = 10.dp)
                     )
-                    Text(text = "Settings")
+                    Text(text = "Dark Mode",  modifier = Modifier.padding(end = 10.dp))
+                    Switch(
+                        checked = checkedState.value,
+                        onCheckedChange = { checkedState.value = it }
+                    )
                 }
+                Divider(color = Color.LightGray, modifier = Modifier.fillMaxWidth(), thickness = 1.dp)
 
                 DropdownMenuItem(onClick = {
+                    navController.navigate(Screen.LoginScreen.route)
                     Toast.makeText(context, "Logged out successfully!", Toast.LENGTH_SHORT).show()
                     firebaseAuth.signOut()
-                    navController.navigate(Screen.LoginScreen.route)
                 }) {
                     Icon(
                         imageVector = Icons.Default.ExitToApp,
@@ -76,7 +86,6 @@ fun RegularUserTopBar(navController: NavController, title: String) {
 
         }
     )
-
-
 }
+
 

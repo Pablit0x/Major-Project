@@ -3,6 +3,7 @@ package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.RegularUserTopBar
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var supervisorMainViewModel: SupervisorMainViewModel
@@ -19,8 +21,11 @@ private lateinit var firebaseAuth: FirebaseAuth
 
 @Composable
 fun SupervisorMainScreen(navController: NavController) {
+    Scaffold(topBar = { RegularUserTopBar(navController = navController, title = "XD")}) {
+
+    }
     firebaseAuth = FirebaseAuth.getInstance()
-    val firebaseEmail = firebaseAuth.currentUser!!.email
+    val firebaseEmail = firebaseAuth.currentUser?.email
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

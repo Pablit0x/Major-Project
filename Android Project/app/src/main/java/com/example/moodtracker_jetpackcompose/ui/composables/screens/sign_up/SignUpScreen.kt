@@ -103,7 +103,7 @@ fun SignUpScreen(navController: NavController) {
                     usernameError.value = !signUpViewModel.validateUsername(username = username.value)
                     userTypeError.value = !signUpViewModel.validateUserType(userType = userType.value)
 
-                    if (!(usernameError.value && userTypeError.value && emailError.value && passwordError.value)) {
+                    if (!usernameError.value && !userTypeError.value && !emailError.value && !passwordError.value) {
                         signUpViewModel.firebaseSignUp(
                             firebaseAuth = firebaseAuth,
                             username = username.value,

@@ -1,4 +1,4 @@
-package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.add_activity
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
