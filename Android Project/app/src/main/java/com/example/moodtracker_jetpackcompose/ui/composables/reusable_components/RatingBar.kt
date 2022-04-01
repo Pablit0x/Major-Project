@@ -2,14 +2,13 @@ package com.example.moodtracker_jetpackcompose.ui.composables.reusable_component
 
 import android.util.Log
 import android.view.MotionEvent
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -18,10 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.FinishDayViewModel
-import kotlin.math.absoluteValue
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.RegularMainViewModel
 
 
 @ExperimentalComposeUiApi
@@ -30,7 +27,7 @@ fun RatingBar(
     modifier: Modifier = Modifier,
     rating: Int
 ) {
-    val finishDayViewModel = FinishDayViewModel()
+    val regularMainViewModel = RegularMainViewModel()
     var ratingState by remember { mutableStateOf(rating) }
 
     var selected by remember { mutableStateOf(false) }
@@ -45,8 +42,8 @@ fun RatingBar(
     ) {
         for (i in 1..5) {
             Icon(
-                painter = painterResource(id =R.drawable.ic_round_star_rate_24),
-                contentDescription = "star",
+                imageVector = Icons.Default.Favorite,
+                contentDescription = "heart",
                 modifier = modifier
                     .width(size)
                     .height(size)
@@ -63,8 +60,29 @@ fun RatingBar(
                         }
                         true
                     },
-                tint = if (i <= ratingState) Color(0xFFFFD700) else Color(0xFFA2ADB1)
+                tint = if (i <= ratingState) Color(0xFFFF0000) else Color(0xFFA2ADB1)
             )
+//            Icon(
+//                painter = painterResource(id =R.drawable.ic_round_star_rate_24),
+//                contentDescription = "star",
+//                modifier = modifier
+//                    .width(size)
+//                    .height(size)
+//                    .pointerInteropFilter {
+//                        when (it.action) {
+//                            MotionEvent.ACTION_DOWN -> {
+//                                selected = true
+//                                ratingState = i
+//                                Log.e("xxx", i.toString())
+//                            }
+//                            MotionEvent.ACTION_UP -> {
+//                                selected = false
+//                            }
+//                        }
+//                        true
+//                    },
+//                tint = if (i <= ratingState) Color(0xFFFFD700) else Color(0xFFA2ADB1)
+//            )
         }
     }
 }

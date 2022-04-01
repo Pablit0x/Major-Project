@@ -1,9 +1,12 @@
 package com.example.moodtracker_jetpackcompose.nav
 
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.moodtracker_jetpackcompose.BottomBarScreen
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.splash_screen.AnimatedSplashScreen
@@ -36,14 +39,23 @@ fun SetupNavGraph(){
         composable(route = Screen.SignUpScreen.route){
             SignUpScreen(navController = navController)
         }
-         composable(route = Screen.RegularMainScreen.route){
-             RegularMainScreen(navController = navController)
+         composable(route = Screen.RegularMainScreen.route,
+         arguments = listOf(navArgument("date"){
+             type = NavType.StringType
+             defaultValue = ""
+         })){
+             RegularMainScreen(navController = navController, it.arguments?.getString("date")!!)
          }
         composable(route = Screen.SupervisorMainScreen.route){
             SupervisorMainScreen(navController = navController)
         }
-        composable(route = BottomBarScreen.Home.route){
-            RegularMainScreen(navController = navController)
+        composable(route = BottomBarScreen.Home.route,
+            arguments = listOf(navArgument("date"){
+                type = NavType.StringType
+                defaultValue = ""
+            })){
+            RegularMainScreen(navController = navController, it.arguments?.getString("date")!!)
+            Log.e("Arg", it.arguments?.getString("date")!!)
         }
         composable(route = BottomBarScreen.Calendar.route){
             CalendarScreen(navController = navController)

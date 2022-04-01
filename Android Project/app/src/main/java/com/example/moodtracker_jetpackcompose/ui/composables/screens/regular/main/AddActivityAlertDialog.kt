@@ -1,4 +1,4 @@
-package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.add_activity
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,18 +18,17 @@ import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityTypeField
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.AddActivityViewModel
 import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
-private lateinit var addActivityViewModel: AddActivityViewModel
+private lateinit var mRegularMainViewModel: RegularMainViewModel
 
 @Composable
-fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, navController: NavController) {
+fun ShowAddActivityAlertDialog(isDialogOpen: MutableState<Boolean>, navController: NavController, date : String) {
 
     val firebaseUser = FirebaseAuth.getInstance().currentUser
-    addActivityViewModel = AddActivityViewModel()
+    mRegularMainViewModel = RegularMainViewModel()
     val nameVal = remember { mutableStateOf("") }
     val activityType = remember { mutableStateOf("") }
     val isChecked = remember { mutableStateOf(false) }
@@ -40,7 +40,7 @@ fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, navController: NavContr
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.75f)
+                    .fillMaxHeight(0.70f)
                     .padding(5.dp)
                     .border(width = 1.dp, color = primaryColor, shape = RoundedCornerShape(10.dp)),
                 color = Color.White
@@ -59,7 +59,7 @@ fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, navController: NavContr
                         fontSize = 25.sp
                     )
 
-                    Spacer(modifier = Modifier.padding(10.dp))
+                    Spacer(modifier = Modifier.padding(8.dp))
 
                     OutlinedTextField(
                         value = nameVal.value,
@@ -70,29 +70,28 @@ fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, navController: NavContr
                         modifier = Modifier.fillMaxWidth(0.8f)
                     )
 
-                    Spacer(modifier = Modifier.padding(10.dp))
+                    Spacer(modifier = Modifier.padding(8.dp))
 
                     ActivityTypeField(activityType = activityType)
-                    Spacer(modifier = Modifier.padding(10.dp))
+                    Spacer(modifier = Modifier.padding(8.dp))
 
                     Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(5.dp)
                     ) {
-                        Text(text = "Completed:", fontSize = 20.sp)
 
-                        Spacer(modifier = Modifier.padding(start = 8.dp, end = 8.dp))
 
                         Checkbox(
                             checked = isChecked.value,
                             onCheckedChange = { isChecked.value = it },
                             colors = CheckboxDefaults.colors(secondaryColor),
-                            modifier = Modifier.scale(1.5f)
+                            modifier = Modifier.scale(1.5f).padding(end = 8.dp)
                         )
+
+                        Text(text = "Completed", fontSize = 20.sp)
+
                     }
 
-                    Spacer(modifier = Modifier.padding(12.dp))
+                    Spacer(modifier = Modifier.padding(8.dp))
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -108,11 +107,9 @@ fun ShowAlertDialog(isDialogOpen: MutableState<Boolean>, navController: NavContr
                                     done = isChecked.value,
                                     id = uniqueID
                                 )
-                                if(activity != null){
-                                    addActivityViewModel.addActivity(activity, firebaseUser!!.uid)
-                                }
+                                mRegularMainViewModel.addActivity(activity, firebaseUser!!.uid, date)
                                 isDialogOpen.value = false
-                                navController.navigate(Screen.RegularMainScreen.route)
+                                navController.navigate(Screen.RegularMainScreen.passDate(date = date))
                             },
                             modifier = Modifier
                                 .height(70.dp)

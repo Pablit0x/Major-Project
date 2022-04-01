@@ -20,6 +20,14 @@
         <entry key="../../../../../layout/compose-model-1646790516818.xml" value="0.165" />
         <entry key="../../../../../layout/compose-model-1646792401358.xml" value="0.2638888888888889" />
         <entry key="../../../../../layout/compose-model-1647047537059.xml" value="0.2638888888888889" />
+        <entry key="app/src/main/res/drawable/ic_add_person.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_baseline_flag_24.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_exercise_ac.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_meditation_ac.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_other_ac.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_sleep_ac.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_study_ac.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_work_ac.xml" value="0.1335" />
       </map>
     </option>
   </component>

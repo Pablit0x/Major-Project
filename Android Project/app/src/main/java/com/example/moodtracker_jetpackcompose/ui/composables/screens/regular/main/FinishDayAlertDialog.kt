@@ -1,7 +1,5 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
@@ -17,30 +15,29 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.FinishDayViewModel
-import kotlin.math.absoluteValue
-import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
 
-private lateinit var finishDayViewModel: FinishDayViewModel
+private lateinit var mRegularMainViewModel: RegularMainViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavController) {
+fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavController, date : String) {
 
     val firebaseUser = FirebaseAuth.getInstance().currentUser
-    finishDayViewModel = FinishDayViewModel()
+    mRegularMainViewModel = RegularMainViewModel()
     var ratingState by remember { mutableStateOf(3) }
     var selected by remember { mutableStateOf(false) }
     val size by animateDpAsState(
@@ -108,7 +105,8 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
                     Button(
                         onClick = {
                             isDialogOpen.value = false
-                            finishDayViewModel.saveRating(firebaseUser!!.uid, ratingState)
+                            mRegularMainViewModel.saveRating(firebaseUser!!.uid, ratingState, date)
+                            navController.navigate(Screen.RegularMainScreen.passDate(date = date))
                         },
                         modifier = Modifier
                             .height(70.dp)

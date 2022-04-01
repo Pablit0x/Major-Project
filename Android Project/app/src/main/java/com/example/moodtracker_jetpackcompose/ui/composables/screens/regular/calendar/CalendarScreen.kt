@@ -15,5 +15,5 @@ fun CalendarScreen(navController: NavHostController) {
     Scaffold(bottomBar = { BottomBar(navController = navController) }, topBar = { RegularUserTopBar(
         navController = navController,
         title = "Calendar"
-    )}, content = { DatePickerView()})
+    )}, content = { DatePickerView(navController = navController)})
 }
