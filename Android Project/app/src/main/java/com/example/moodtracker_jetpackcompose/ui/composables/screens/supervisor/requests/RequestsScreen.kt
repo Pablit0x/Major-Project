@@ -1,4 +1,4 @@
-package com.example.moodtracker_jetpackcompose.ui.composables.screens.messenger
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.requests
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,30 +12,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserBottomBar
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorBottomBar
 
 @Composable
-fun MessengerScreen(navHostController: NavHostController) {
-    Scaffold(
-        bottomBar = { UserBottomBar(navController = navHostController) },
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "Messenger")
-                }, backgroundColor = Color.White
-            )
-        },
-        content = { padding ->
+fun RequestsScreen(navController: NavHostController) {
+    Scaffold(topBar = {
+        TopAppBar(
+            title = {
+                Text(text = "Requests")
+            }, backgroundColor = Color.White
+        )
+    },
+        bottomBar = { SupervisorBottomBar(navController = navController) }, content = { padding ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
                     .padding(padding)
             ) {
-                Text(text = "Messenger", fontSize = 24.sp)
+                Text(text = "Request Screen", fontSize = 32.sp)
             }
-
         })
 }

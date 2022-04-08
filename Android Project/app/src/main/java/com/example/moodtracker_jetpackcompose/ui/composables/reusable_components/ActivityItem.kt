@@ -71,14 +71,13 @@ fun ListItem(activity : Activity, date : String){
                 .defaultMinSize(minHeight = 80.dp)
                 .fillMaxWidth()
         ){
-            Icon(painter =(painterResource(id = icon)), contentDescription = "", modifier = Modifier.fillMaxWidth(0.15f).fillMaxHeight())
-            Text(text = activity.name.toString(), textAlign = TextAlign.Center, style = style ,fontFamily = FontFamily.Serif, fontSize = 24.sp, modifier = Modifier.fillMaxWidth(0.7f).fillMaxHeight())
+            Icon(painter =(painterResource(id = icon)), contentDescription = "", modifier = Modifier.weight(1f).fillMaxHeight())
+            Text(text = activity.name.toString(), textAlign = TextAlign.Center, style = style ,fontFamily = FontFamily.Serif, fontSize = 24.sp, modifier = Modifier.weight(4f).fillMaxHeight())
             Checkbox(checked = checkState, onCheckedChange = {
                 checkState = it
                 setDone(!activity.done.toString().toBoolean(), activity, date = date)}, modifier = Modifier
                 .scale(1.5f)
-                .padding(end = 8.dp)
-                .fillMaxWidth(0.15f)
+                .weight(1f)
                 .fillMaxHeight(),
             colors = CheckboxDefaults.colors(secondaryColor))
         }

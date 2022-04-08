@@ -4,11 +4,9 @@ import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.example.moodtracker_jetpackcompose.BottomBarScreen
 import com.example.moodtracker_jetpackcompose.Screen
-import com.example.moodtracker_jetpackcompose.data.model.User
+import com.example.moodtracker_jetpackcompose.UserBottomBarScreen
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -26,11 +24,18 @@ class LoginViewModel : ViewModel() {
     ) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                navController.navigate(BottomBarScreen.Home.route)
-                Log.e("Login", "Logged in successfully")
+                val db = Firebase.firestore
+                val doc = db.collection("regularUsers").whereEqualTo("email", firebaseAuth.currentUser!!.email)
+                doc.get().addOnSuccessListener { documents ->
+                    if(documents.size() == 1){
+                        navController.navigate(Screen.RegularMainScreen.route)
+                    }
+                    else{
+                        navController.navigate(Screen.SupervisorMainScreen.route)
+                    }
+                }
             }
             .addOnFailureListener {
-                //login failed
                 Log.e("Login", "Login failed")
             }
     }

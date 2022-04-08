@@ -4,25 +4,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class BottomBarScreen(
+sealed class UserBottomBarScreen(
     val route: String,
     val title: String,
     val icon: ImageVector
 ) {
 
-    object Calendar : BottomBarScreen(
+    object Calendar : UserBottomBarScreen(
         route = "calendar",
         title = "Calendar",
         icon = Icons.Default.DateRange
     )
 
-    object Home : BottomBarScreen(
-        route = "home",
+    object Home : UserBottomBarScreen(
+        route = "home/user",
         title = "Home",
         icon = Icons.Default.Home
     )
 
-    object Messenger : BottomBarScreen(
+    object Messenger : UserBottomBarScreen(
         route = "messenger",
         title = "Messenger",
         icon = Icons.Default.Email

@@ -7,8 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.moodtracker_jetpackcompose.BottomBarScreen
+import com.example.moodtracker_jetpackcompose.UserBottomBarScreen
 import com.example.moodtracker_jetpackcompose.Screen
+import com.example.moodtracker_jetpackcompose.SupervisorBottomBarScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.splash_screen.AnimatedSplashScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.forgot_password.ForgotPasswordScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.login.LoginScreen
@@ -17,6 +18,7 @@ import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.mai
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.messenger.MessengerScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.sign_up.SignUpScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.SupervisorMainScreen
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.requests.RequestsScreen
 
 @Composable
 fun SetupNavGraph(){
@@ -49,7 +51,7 @@ fun SetupNavGraph(){
         composable(route = Screen.SupervisorMainScreen.route){
             SupervisorMainScreen(navController = navController)
         }
-        composable(route = BottomBarScreen.Home.route,
+        composable(route = UserBottomBarScreen.Home.route,
             arguments = listOf(navArgument("date"){
                 type = NavType.StringType
                 defaultValue = ""
@@ -57,10 +59,19 @@ fun SetupNavGraph(){
             RegularMainScreen(navController = navController, it.arguments?.getString("date")!!)
             Log.e("Arg", it.arguments?.getString("date")!!)
         }
-        composable(route = BottomBarScreen.Calendar.route){
+        composable(route = UserBottomBarScreen.Calendar.route){
             CalendarScreen(navController = navController)
         }
-        composable(route = BottomBarScreen.Messenger.route){
+        composable(route = UserBottomBarScreen.Messenger.route){
+            MessengerScreen(navHostController = navController)
+        }
+        composable(route = SupervisorBottomBarScreen.Requests.route){
+            RequestsScreen(navController = navController)
+        }
+        composable(route = SupervisorBottomBarScreen.Home.route){
+            SupervisorMainScreen(navController = navController)
+        }
+        composable(route = SupervisorBottomBarScreen.Messenger.route){
             MessengerScreen(navHostController = navController)
         }
     }

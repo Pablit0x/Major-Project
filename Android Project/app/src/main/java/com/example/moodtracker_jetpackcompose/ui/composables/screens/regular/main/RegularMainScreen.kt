@@ -65,7 +65,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
     }
     Scaffold(
         bottomBar = {
-            BottomBar(navController = navController)
+            UserBottomBar(navController = navController)
         },
         floatingActionButton = {
             Column(
@@ -179,7 +179,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                             Divider()
 
                             if (index == activities.size - 1) {
-                                Spacer(modifier = Modifier.padding(70.dp))
+                                Spacer(modifier = Modifier.padding(bottom = 70.dp))
                             }
                         }
                     }
