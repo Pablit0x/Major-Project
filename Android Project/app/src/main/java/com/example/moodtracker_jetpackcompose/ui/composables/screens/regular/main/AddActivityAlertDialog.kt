@@ -81,24 +81,24 @@ fun ShowAddActivityAlertDialog(
                     Spacer(modifier = Modifier.padding(8.dp))
 
                     ActivityTypeField(activityType = activityType)
-                    Spacer(modifier = Modifier.padding(8.dp))
+                    if (userType == REGULAR_USER) {
+                        Spacer(modifier = Modifier.padding(8.dp))
 
-                    Row(
-                        modifier = Modifier.padding(5.dp)
-                    ) {
+                        Row(
+                            modifier = Modifier.padding(5.dp)
+                        ) {
+                            Checkbox(
+                                checked = isChecked.value,
+                                onCheckedChange = { isChecked.value = it },
+                                colors = CheckboxDefaults.colors(secondaryColor),
+                                modifier = Modifier
+                                    .scale(1.5f)
+                                    .padding(end = 8.dp)
+                            )
 
+                            Text(text = "Completed", fontSize = 20.sp)
 
-                        Checkbox(
-                            checked = isChecked.value,
-                            onCheckedChange = { isChecked.value = it },
-                            colors = CheckboxDefaults.colors(secondaryColor),
-                            modifier = Modifier
-                                .scale(1.5f)
-                                .padding(end = 8.dp)
-                        )
-
-                        Text(text = "Completed", fontSize = 20.sp)
-
+                        }
                     }
 
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -124,9 +124,18 @@ fun ShowAddActivityAlertDialog(
                                     date = date
                                 )
                                 isDialogOpen.value = false
-                                when(userType){
-                                    REGULAR_USER -> navController.navigate(Screen.RegularMainScreen.passDate(date = date))
-                                    SUPERVISOR_USER -> navController.navigate(Screen.SupervisorViewScreen.passDateAndUID(date = date, uid = userID))
+                                when (userType) {
+                                    REGULAR_USER -> navController.navigate(
+                                        Screen.RegularMainScreen.passDate(
+                                            date = date
+                                        )
+                                    )
+                                    SUPERVISOR_USER -> navController.navigate(
+                                        Screen.SupervisorViewScreen.passDateAndUID(
+                                            date = date,
+                                            uid = userID
+                                        )
+                                    )
                                 }
                             },
                             modifier = Modifier

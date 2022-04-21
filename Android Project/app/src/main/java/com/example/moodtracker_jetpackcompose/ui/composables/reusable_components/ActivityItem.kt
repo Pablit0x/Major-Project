@@ -1,5 +1,6 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -29,16 +30,18 @@ import com.example.moodtracker_jetpackcompose.ui.theme.IconSizes
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.tertiaryColor
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.time.LocalDateTime
 
 @Composable
-fun ListItem(activity: Activity, date: String) {
+fun ListItem(activity: Activity, date: String, userType: Int) {
     val regularTextStyle = TextStyle(textDecoration = TextDecoration.None)
     val crossedTextStyle = TextStyle(textDecoration = TextDecoration.LineThrough)
     var style by remember { mutableStateOf(regularTextStyle) }
     var bgColor by remember { mutableStateOf(Color.White) }
+    var textAlignment by remember { mutableStateOf(TextAlign.Center) }
     var dividerColor by remember { mutableStateOf(Color.LightGray) }
     var checkState by remember { mutableStateOf(activity.done.toString().toBoolean()) }
     var icon by remember { mutableStateOf(R.drawable.ic_other_ac) }
@@ -50,6 +53,11 @@ fun ListItem(activity: Activity, date: String) {
         "Workout" -> icon = R.drawable.ic_exercise_ac
         "Meditation" -> icon = R.drawable.ic_meditation_ac
         "Other" -> icon - R.drawable.ic_other_ac
+    }
+
+    when (userType) {
+        REGULAR_USER -> textAlignment = TextAlign.Center
+        SUPERVISOR_USER -> textAlignment = TextAlign.Start
     }
 
     when (activity.createdBy) {
@@ -89,7 +97,7 @@ fun ListItem(activity: Activity, date: String) {
             )
             Text(
                 text = activity.name.toString(),
-                textAlign = TextAlign.Center,
+                textAlign = textAlignment,
                 style = style,
                 fontFamily = FontFamily.Monospace,
                 fontSize = 24.sp,
@@ -97,16 +105,18 @@ fun ListItem(activity: Activity, date: String) {
                     .weight(4f)
                     .fillMaxHeight()
             )
-            Checkbox(
-                checked = checkState, onCheckedChange = {
-                    checkState = it
-                    setDone(!activity.done.toString().toBoolean(), activity, date = date)
-                }, modifier = Modifier
-                    .scale(1.5f)
-                    .weight(1f)
-                    .fillMaxHeight(),
-                colors = CheckboxDefaults.colors(secondaryColor)
-            )
+            if (userType == REGULAR_USER) {
+                Checkbox(
+                    checked = checkState, onCheckedChange = {
+                        checkState = it
+                        setDone(checkState, activity, date = date)
+                    }, modifier = Modifier
+                        .scale(1.5f)
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    colors = CheckboxDefaults.colors(secondaryColor)
+                )
+            }
         }
         Divider(color = dividerColor, modifier = Modifier.fillMaxWidth(), thickness = 1.dp)
     }
@@ -116,7 +126,6 @@ fun setDone(done: Boolean, activity: Activity, date: String) {
     val uid = FirebaseAuth.getInstance().currentUser!!.uid
     val activityID = activity.id as String
     val db = Firebase.firestore
-    val updatedActivity = Activity(activity.name, activity.type, done, activity.id)
-    db.collection("records").document(uid).collection(date).document(activityID)
-        .set(updatedActivity)
+    val documentRef = db.collection("records").document(uid).collection(date).document(activityID)
+    documentRef.update("done", done)
 }

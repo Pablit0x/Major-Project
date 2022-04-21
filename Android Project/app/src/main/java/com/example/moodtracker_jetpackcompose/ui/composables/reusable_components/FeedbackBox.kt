@@ -23,11 +23,11 @@ import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.SupervisorMainViewModel
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
+import com.example.moodtracker_jetpackcompose.ui.theme.tertiaryColor
 
 @Composable
 fun FeedbackBox(
     isDialogOpen: MutableState<Boolean>,
-    navController: NavHostController,
     date: String,
     userID: String,
     userType: Int,

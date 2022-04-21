@@ -24,6 +24,7 @@ import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorBottomBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorUserTopBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserItem
+import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var supervisorMainViewModel: SupervisorMainViewModel
@@ -93,7 +94,7 @@ fun SupervisorMainScreen(navController: NavHostController) {
                                 background = {
                                     val color = when (state.dismissDirection) {
                                         DismissDirection.StartToEnd -> Color.Transparent
-                                        DismissDirection.EndToStart -> Color.Red
+                                        DismissDirection.EndToStart -> primaryColor
                                         null -> Color.Transparent
                                     }
 

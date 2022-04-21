@@ -195,7 +195,7 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
                                     }
                                 },
                                 dismissContent = {
-                                    ListItem(item, date = date)
+                                    ListItem(activity = item, date = date, userType = SUPERVISOR_USER)
                                 },
                                 directions = setOf(DismissDirection.EndToStart)
                             )
@@ -210,7 +210,6 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
 
                 FeedbackBox(
                     isDialogOpen = isFeedbackCardExpended,
-                    navController = navController,
                     date = date,
                     userID = userUID,
                     userType = REGULAR_USER,
@@ -226,7 +225,6 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
                 )
                 FeedbackBox(
                     isDialogOpen = isAddFeedbackDialogOpen,
-                    navController = navController,
                     date = date,
                     userID = userUID,
                     userType = SUPERVISOR_USER,

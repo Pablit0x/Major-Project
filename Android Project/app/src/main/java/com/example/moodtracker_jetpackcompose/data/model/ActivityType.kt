@@ -6,41 +6,22 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class ActivityType(
     val name: String,
-    val icon: ImageVector,
 ) {
 
-    object None : ActivityType(
-        name = "None",
-        icon = Icons.Default.Clear
-    )
-
-    object Sleep : ActivityType(
-        name = "Sleep",
-        icon = Icons.Default.DateRange
-    )
+    object Sleep : ActivityType(name = "Sleep")
 
     object Work : ActivityType(
-        name = "Work",
-        icon = Icons.Default.Home
-    )
+        name = "Work")
 
     object Meditation : ActivityType(
-        name = "Meditation",
-        icon = Icons.Default.Email
-    )
+        name = "Meditation")
 
     object Workout : ActivityType(
-        name = "Workout",
-        icon = Icons.Default.Person
-    )
+        name = "Workout")
 
     object Study : ActivityType(
-        name = "Study",
-        icon = Icons.Default.AccountBox
-    )
+        name = "Study")
 
     object Other : ActivityType(
-        name = "Other Activity",
-        icon = Icons.Default.Call
-    )
+        name = "Other Activity")
 }

@@ -23,6 +23,7 @@ import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
+import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
@@ -157,7 +158,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 background = {
                                     val color = when (state.dismissDirection) {
                                         DismissDirection.StartToEnd -> Color.Transparent
-                                        DismissDirection.EndToStart -> Color.Red
+                                        DismissDirection.EndToStart -> primaryColor
                                         null -> Color.Transparent
                                     }
 
@@ -176,7 +177,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                     }
                                 },
                                 dismissContent = {
-                                    ListItem(item, date = date)
+                                    ListItem(activity = item, date = date, userType = REGULAR_USER)
                                 },
                                 directions = setOf(DismissDirection.EndToStart)
                             )
