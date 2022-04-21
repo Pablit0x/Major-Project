@@ -1,4 +1,7 @@
-package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main
+
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.RegularMainViewModel
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.ShowAddActivityAlertDialog
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -8,9 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +23,7 @@ import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
+import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 import com.google.firebase.auth.FirebaseAuth
@@ -29,12 +31,11 @@ import java.time.LocalDateTime
 
 
 val regularMainViewModel = RegularMainViewModel()
-val firebaseAuth = FirebaseAuth.getInstance()
-val currentUser = firebaseAuth.currentUser
+val firebaseAuthentication = FirebaseAuth.getInstance()
 var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
-var isAddSupervisorDialogOpen: MutableState<Boolean> = mutableStateOf(false)
-var isFinishDayDialogOpen: MutableState<Boolean> = mutableStateOf(false)
-//var userRating: MutableState<Int> = mutableStateOf(0)
+var isAddFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
+var isFeedbackCardExpended: MutableState<Boolean> = mutableStateOf(false)
+var feedbackComment: MutableState<String> = mutableStateOf("")
 var date: String = ""
 
 
@@ -44,9 +45,9 @@ var date: String = ""
     ExperimentalMaterialApi::class
 )
 @Composable
-fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
-    var userRating by remember{ mutableStateOf(0)}
+fun SupervisorViewScreen(navController: NavHostController, selectedDate: String, userUID: String) {
 
+    var userRating by remember{ mutableStateOf(0)}
     var activities: MutableList<Activity> by remember { mutableStateOf(mutableListOf()) }
 
     SideEffect {
@@ -56,25 +57,37 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
         date = selectedDate.ifEmpty {
             formattedDate
         }
-        currentUser?.let { it ->
-            regularMainViewModel.readData(date, it.uid) {
-                if (!it.isNullOrEmpty()) {
-                    activities = it
-                }
+        regularMainViewModel.readData(date, uid = userUID) {
+            if (!it.isNullOrEmpty()) {
+                activities = it
             }
-            regularMainViewModel.readRating(date, it.uid) {
-                userRating = it
-            }
+        }
+        regularMainViewModel.readRating(date, uid = userUID) {
+            userRating = it
+        }
+        regularMainViewModel.readFeedback(date = date, uid = userUID){
+            feedbackComment = mutableStateOf(it)
         }
     }
     Scaffold(
         bottomBar = {
-            UserBottomBar(navController = navController)
+            SupervisorBottomBar(navController = navController)
         },
         floatingActionButton = {
             Column(
                 horizontalAlignment = Alignment.End
             ) {
+
+                FloatingActionButton(
+                    onClick = { isFeedbackCardExpended.value = !isFeedbackCardExpended.value },
+                    backgroundColor = secondaryColor,
+                    contentColor = Color.White,
+                ) {
+                    Icon(imageVector = Icons.Default.Warning, "Add activity")
+                }
+
+                Spacer(modifier = Modifier.padding(bottom = 10.dp))
+
                 FloatingActionButton(
                     onClick = { isAddActivityDialogOpen.value = true },
                     backgroundColor = secondaryColor,
@@ -86,16 +99,23 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                 Spacer(modifier = Modifier.padding(bottom = 10.dp))
 
                 ExtendedFloatingActionButton(
-                    text = { Text(text = "Rate the day", fontFamily = FontFamily.Monospace) },
-                    icon = { Icon(imageVector = Icons.Default.Star, contentDescription = "") },
-                    onClick = { isFinishDayDialogOpen.value = true },
+                    text = { Text(text = "Leave Feedback", fontFamily = FontFamily.Monospace) },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_add_feedback),
+                            contentDescription = ""
+                        )
+                    },
+                    onClick = { isAddFeedbackDialogOpen.value = true },
                     backgroundColor = secondaryColor,
                     contentColor = Color.White,
                 )
             }
 
         },
-        topBar = { RegularUserTopBar(navController, date) },
+        topBar = {
+            SupervisorUserTopBar(navController = navController, title = date)
+        },
         content = { padding ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -143,10 +163,9 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                         activities.remove(item)
                                         regularMainViewModel.deleteActivity(
                                             activity = item,
-                                            uid = firebaseAuth.uid!!,
+                                            uid = firebaseAuthentication.uid!!,
                                             date = date
                                         )
-
                                     }
                                     true
                                 }
@@ -188,23 +207,32 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                         }
                     }
                 }
+
+                FeedbackBox(
+                    isDialogOpen = isFeedbackCardExpended,
+                    navController = navController,
+                    date = date,
+                    userID = userUID,
+                    userType = REGULAR_USER,
+                    feedbackComment = feedbackComment
+                )
+
                 ShowAddActivityAlertDialog(
                     isDialogOpen = isAddActivityDialogOpen,
                     navController = navController,
                     date = date,
-                    userType = REGULAR_USER,
-                    userID = currentUser!!.uid
+                    userType = SUPERVISOR_USER,
+                    userID = userUID
                 )
-                ShowRatingDialog(
-                    isDialogOpen = isFinishDayDialogOpen,
+                FeedbackBox(
+                    isDialogOpen = isAddFeedbackDialogOpen,
                     navController = navController,
-                    date = date
+                    date = date,
+                    userID = userUID,
+                    userType = SUPERVISOR_USER,
+                    feedbackComment = feedbackComment
                 )
-                ShowAddSupervisorDialog(isDialogOpen = isAddSupervisorDialogOpen)
             }
         })
 }
 
-fun setSupervisorDialog(showDialog : Boolean){
-    isAddSupervisorDialogOpen.value = showDialog
-}

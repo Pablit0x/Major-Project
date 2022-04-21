@@ -2,6 +2,7 @@ package com.example.moodtracker_jetpackcompose.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.dp
 
 val Shapes = Shapes(
@@ -9,3 +10,9 @@ val Shapes = Shapes(
     medium = RoundedCornerShape(4.dp),
     large = RoundedCornerShape(0.dp)
 )
+
+object IconSizes{
+    val small = 24.dp
+    val medium = 36.dp
+    val big = 48.dp
+}

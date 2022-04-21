@@ -17,6 +17,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.Activity
+import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
+import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityTypeField
 import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
@@ -25,9 +27,14 @@ import java.util.*
 private lateinit var mRegularMainViewModel: RegularMainViewModel
 
 @Composable
-fun ShowAddActivityAlertDialog(isDialogOpen: MutableState<Boolean>, navController: NavController, date : String) {
+fun ShowAddActivityAlertDialog(
+    isDialogOpen: MutableState<Boolean>,
+    navController: NavController,
+    date: String,
+    userType: Int,
+    userID: String
+) {
 
-    val firebaseUser = FirebaseAuth.getInstance().currentUser
     mRegularMainViewModel = RegularMainViewModel()
     val nameVal = remember { mutableStateOf("") }
     val activityType = remember { mutableStateOf("") }
@@ -56,7 +63,8 @@ fun ShowAddActivityAlertDialog(isDialogOpen: MutableState<Boolean>, navControlle
                         text = "Add Activity",
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
+                        fontSize = 25.sp,
+                        fontFamily = FontFamily.Monospace
                     )
 
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -84,7 +92,9 @@ fun ShowAddActivityAlertDialog(isDialogOpen: MutableState<Boolean>, navControlle
                             checked = isChecked.value,
                             onCheckedChange = { isChecked.value = it },
                             colors = CheckboxDefaults.colors(secondaryColor),
-                            modifier = Modifier.scale(1.5f).padding(end = 8.dp)
+                            modifier = Modifier
+                                .scale(1.5f)
+                                .padding(end = 8.dp)
                         )
 
                         Text(text = "Completed", fontSize = 20.sp)
@@ -102,14 +112,22 @@ fun ShowAddActivityAlertDialog(isDialogOpen: MutableState<Boolean>, navControlle
                             onClick = {
                                 val uniqueID = UUID.randomUUID().toString()
                                 val activity = Activity(
-                                    nameVal.value,
-                                    activityType.value,
+                                    name = nameVal.value,
+                                    type = activityType.value,
                                     done = isChecked.value,
-                                    id = uniqueID
+                                    id = uniqueID,
+                                    createdBy = userType
                                 )
-                                mRegularMainViewModel.addActivity(activity, firebaseUser!!.uid, date)
+                                mRegularMainViewModel.addActivity(
+                                    activity = activity,
+                                    uid = userID,
+                                    date = date
+                                )
                                 isDialogOpen.value = false
-                                navController.navigate(Screen.RegularMainScreen.passDate(date = date))
+                                when(userType){
+                                    REGULAR_USER -> navController.navigate(Screen.RegularMainScreen.passDate(date = date))
+                                    SUPERVISOR_USER -> navController.navigate(Screen.SupervisorViewScreen.passDateAndUID(date = date, uid = userID))
+                                }
                             },
                             modifier = Modifier
                                 .height(70.dp)

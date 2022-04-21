@@ -2,56 +2,51 @@ package com.example.moodtracker_jetpackcompose.ui.composables.reusable_component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.requests.RequestsScreenViewModel
+import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 
 @Composable
-fun UserItem(user: RegularUser, navController: NavHostController) {
-
+fun RequestItem(regularUser: RegularUser, myCallback: (RegularUser) -> Unit) {
+    val requestsScreenViewModel = RequestsScreenViewModel()
     Column() {
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .background(color = Color.White)
                 .fillMaxHeight(0.3f)
                 .defaultMinSize(minHeight = 80.dp)
                 .fillMaxWidth()
         ) {
-            Icon(
-                imageVector = Icons.Default.Person,
-                contentDescription = "",
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .size(48.dp)
-            )
             Column(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier.weight(4f)
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier
+                    .weight(4f)
+                    .padding(start = 16.dp, end = 16.dp)
             ) {
                 Text(
-                    text = user.username.toString(),
-                    textAlign = TextAlign.Start,
+                    text = regularUser.username.toString(),
+                    textAlign = TextAlign.Center,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 24.sp,
                     modifier = Modifier
@@ -59,8 +54,8 @@ fun UserItem(user: RegularUser, navController: NavHostController) {
                 )
 
                 Text(
-                    text = user.email.toString(),
-                    textAlign = TextAlign.Start,
+                    text = regularUser.email.toString(),
+                    textAlign = TextAlign.Center,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 12.sp,
                     style = TextStyle(color = Color.Gray),
@@ -69,12 +64,29 @@ fun UserItem(user: RegularUser, navController: NavHostController) {
                 )
             }
             IconButton(onClick = {
-                navController.navigate(Screen.SupervisorCalendarScreen.passUID(user.uid!!))
+                requestsScreenViewModel.acceptRequest(regularUser.uid!!)
+                myCallback(regularUser)
             }) {
                 Icon(
-                    imageVector = Icons.Default.ArrowForward,
-                    contentDescription = "Arrow Forward",
-                    tint = Color.LightGray,
+                    imageVector = Icons.Default.Check,
+                    contentDescription = "",
+                    tint = Color.Green,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .size(48.dp)
+                        .padding(end = 8.dp)
+                )
+            }
+
+            IconButton(onClick = {
+                requestsScreenViewModel.declineRequest(regularUser.uid!!)
+                myCallback(regularUser)
+            }) {
+                Icon(
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = "",
+                    tint = Color.Red,
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()

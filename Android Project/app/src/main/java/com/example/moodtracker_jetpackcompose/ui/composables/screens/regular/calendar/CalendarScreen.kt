@@ -3,6 +3,7 @@ package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.ca
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserBottomBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.DatePickerView
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.RegularUserTopBar
@@ -15,5 +16,5 @@ fun CalendarScreen(navController: NavHostController) {
     Scaffold(bottomBar = { UserBottomBar(navController = navController) }, topBar = { RegularUserTopBar(
         navController = navController,
         title = "Calendar"
-    )}, content = { DatePickerView(navController = navController)})
+    )}, content = { DatePickerView(navController = navController, userType = REGULAR_USER, "")})
 }

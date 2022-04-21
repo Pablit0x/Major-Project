@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -80,6 +81,7 @@ fun SignUpScreen(navController: NavController) {
             Text(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 text = "Sign Up",
+                fontFamily = FontFamily.Monospace,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp

@@ -62,27 +62,6 @@ fun RatingBar(
                     },
                 tint = if (i <= ratingState) Color(0xFFFF0000) else Color(0xFFA2ADB1)
             )
-//            Icon(
-//                painter = painterResource(id =R.drawable.ic_round_star_rate_24),
-//                contentDescription = "star",
-//                modifier = modifier
-//                    .width(size)
-//                    .height(size)
-//                    .pointerInteropFilter {
-//                        when (it.action) {
-//                            MotionEvent.ACTION_DOWN -> {
-//                                selected = true
-//                                ratingState = i
-//                                Log.e("xxx", i.toString())
-//                            }
-//                            MotionEvent.ACTION_UP -> {
-//                                selected = false
-//                            }
-//                        }
-//                        true
-//                    },
-//                tint = if (i <= ratingState) Color(0xFFFFD700) else Color(0xFFA2ADB1)
-//            )
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,7 +59,8 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
                         text = "Add Supervisor",
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
+                        fontSize = 25.sp,
+                        fontFamily = FontFamily.Monospace
                     )
 
                     Spacer(modifier = Modifier.padding(10.dp))
@@ -68,6 +70,8 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(
                         onClick = {
+                            regularMainViewModel.addSupervisor(email = email.value)
+                            isDialogOpen.value = false
                         },
                         modifier = Modifier
                             .height(70.dp)

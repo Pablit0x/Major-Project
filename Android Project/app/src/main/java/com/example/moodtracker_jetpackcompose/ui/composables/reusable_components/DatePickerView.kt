@@ -14,41 +14,54 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.colorSpace
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.Screen
+import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.RegularMainScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.regularMainViewModel
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.resetUserRating
+//import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.resetUserRating
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 
 @Composable
-fun DatePickerView(navController: NavController) {
+fun DatePickerView(navController: NavController, userType: Int, userUID : String) {
     var date by remember { mutableStateOf("") }
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        AndroidView(factory = { CalendarView(it)}, update = {
-            it.setOnDateChangeListener{ _, year, month, day ->
-                date = "$day-${month+1}-$year"
-            }
-        }, modifier = Modifier.border(2.dp, color = Color.LightGray, shape = RoundedCornerShape(25.dp)))
+        AndroidView(
+            factory = { CalendarView(it) },
+            update = {
+                it.setOnDateChangeListener { _, year, month, day ->
+                    date = "$day-${month + 1}-$year"
+                }
+            },
+            modifier = Modifier.border(
+                2.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(25.dp)
+            )
+        )
         Spacer(modifier = Modifier.padding(10.dp))
         Button(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(50.dp),
             onClick = {
-                resetUserRating()
-                navController.navigate(Screen.RegularMainScreen.passDate(date = date))
+                if (userType == REGULAR_USER) {
+                    navController.navigate(Screen.RegularMainScreen.passDate(date = date))
+                } else {
+                    navController.navigate(Screen.SupervisorViewScreen.passDateAndUID(date = date, uid = userUID))
+                }
             },
         ) {
-            Text(text = "Select", fontSize = 20.sp)
+            Text(text = "Select", fontSize = 20.sp, fontFamily = FontFamily.Monospace)
         }
     }
 

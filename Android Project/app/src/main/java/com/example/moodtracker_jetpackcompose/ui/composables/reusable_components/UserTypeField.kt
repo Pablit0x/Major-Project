@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -59,7 +60,7 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coords.size.toSize()
                 },
-            placeholder = { Text( text = "Select User Type")},
+            placeholder = { Text( text = "Select User Type", fontFamily = FontFamily.Monospace)},
             trailingIcon = {
                 Icon(icon, "contentDescription",
                     Modifier.clickable { expanded = !expanded })
@@ -82,7 +83,7 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
                         primaryColor
                     }
                 }) {
-                    Text(text = label ,textAlign = TextAlign.Center)
+                    Text(text = label ,textAlign = TextAlign.Center, fontFamily = FontFamily.Monospace)
                 }
             }
         }

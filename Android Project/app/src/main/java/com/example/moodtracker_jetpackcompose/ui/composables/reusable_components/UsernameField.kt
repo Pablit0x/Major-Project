@@ -6,6 +6,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -31,7 +32,7 @@ fun UsernameField(username: MutableState<String>, isError: MutableState<Boolean>
         },
         leadingIcon = {
             Icon(
-                painter = painterResource(id = R.drawable.ic_person),
+                imageVector = Icons.Default.Person,
                 "Person Icon"
             )
         },

@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
@@ -68,7 +69,8 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
                         text = "Rate your day",
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
+                        fontSize = 25.sp,
+                        fontFamily = FontFamily.Monospace
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
 
@@ -104,8 +106,8 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
 
                     Button(
                         onClick = {
-                            isDialogOpen.value = false
                             mRegularMainViewModel.saveRating(firebaseUser!!.uid, ratingState, date)
+                            isDialogOpen.value = false
                             navController.navigate(Screen.RegularMainScreen.passDate(date = date))
                         },
                         modifier = Modifier
