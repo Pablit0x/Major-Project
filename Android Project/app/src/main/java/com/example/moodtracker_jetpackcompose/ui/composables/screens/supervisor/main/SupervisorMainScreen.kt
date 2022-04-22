@@ -41,9 +41,11 @@ fun SupervisorMainScreen(navController: NavHostController) {
     supervisorMainViewModel = SupervisorMainViewModel()
     if(firebaseAuth.currentUser != null){
         SideEffect {
-            supervisorMainViewModel.getSupervisedUsers {
-                if(!it.isNullOrEmpty())
-                    users = it
+            supervisorMainViewModel.getSupervisedUsers { supervisedUsers ->
+                if(!supervisedUsers.isNullOrEmpty()){
+                    users = supervisedUsers
+                    users.sortBy { it!!.username }
+                }
             }
         }
     }

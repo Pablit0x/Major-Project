@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.Screen
+import com.example.moodtracker_jetpackcompose.data.model.saveRating
 import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
 
@@ -106,7 +107,7 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
 
                     Button(
                         onClick = {
-                            mRegularMainViewModel.saveRating(firebaseUser!!.uid, ratingState, date)
+                            saveRating(firebaseUser!!.uid, ratingState, date)
                             isDialogOpen.value = false
                             navController.navigate(Screen.RegularMainScreen.passDate(date = date))
                         },

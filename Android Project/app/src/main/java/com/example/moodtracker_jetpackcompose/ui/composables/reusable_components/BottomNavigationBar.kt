@@ -19,7 +19,7 @@ fun UserBottomBar(navController: NavHostController){
     val screens = listOf(
         UserBottomBarScreen.Calendar,
         UserBottomBarScreen.Home,
-        UserBottomBarScreen.Messenger
+//        UserBottomBarScreen.Messenger
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -57,7 +57,7 @@ fun SupervisorBottomBar(navController: NavHostController){
     val screens = listOf(
         SupervisorBottomBarScreen.Requests,
         SupervisorBottomBarScreen.Home,
-        SupervisorBottomBarScreen.Messenger
+//        SupervisorBottomBarScreen.Messenger
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()

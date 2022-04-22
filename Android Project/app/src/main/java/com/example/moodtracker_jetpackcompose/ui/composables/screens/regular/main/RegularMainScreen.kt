@@ -3,24 +3,31 @@ package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.ma
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.data.model.Activity
+import com.example.moodtracker_jetpackcompose.data.model.*
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
@@ -35,8 +42,7 @@ val currentUser = firebaseAuth.currentUser
 var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isAddSupervisorDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isFinishDayDialogOpen: MutableState<Boolean> = mutableStateOf(false)
-//var userRating: MutableState<Int> = mutableStateOf(0)
-var date: String = ""
+var isFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 
 
 @SuppressLint("UnrememberedMutableState", "SimpleDateFormat")
@@ -46,8 +52,9 @@ var date: String = ""
 )
 @Composable
 fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
-    var userRating by remember{ mutableStateOf(0)}
-
+    var feedbackComment by remember { mutableStateOf("") }
+    var userRating by remember { mutableStateOf(0) }
+    var date by remember { mutableStateOf("") }
     var activities: MutableList<Activity> by remember { mutableStateOf(mutableListOf()) }
 
     SideEffect {
@@ -58,13 +65,16 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
             formattedDate
         }
         currentUser?.let { it ->
-            regularMainViewModel.readData(date, it.uid) {
+            getAllActivities(date, it.uid) {
                 if (!it.isNullOrEmpty()) {
                     activities = it
                 }
             }
-            regularMainViewModel.readRating(date, it.uid) {
+            getRating(date, it.uid) {
                 userRating = it
+            }
+            getFeedback(date = date, uid = it.uid) {
+                feedbackComment = it
             }
         }
     }
@@ -76,6 +86,18 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
             Column(
                 horizontalAlignment = Alignment.End
             ) {
+                if (feedbackComment.isNotEmpty()) {
+                    FloatingActionButton(
+                        onClick = { isFeedbackDialogOpen.value = !isFeedbackDialogOpen.value },
+                        backgroundColor = primaryColor,
+                        contentColor = Color.White,
+                    ) {
+                        Icon(imageVector = Icons.Default.Warning, "Add activity")
+                    }
+
+                    Spacer(modifier = Modifier.padding(bottom = 10.dp))
+                }
+
                 FloatingActionButton(
                     onClick = { isAddActivityDialogOpen.value = true },
                     backgroundColor = secondaryColor,
@@ -142,7 +164,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 confirmStateChange = {
                                     if (it == DismissValue.DismissedToStart) {
                                         activities.remove(item)
-                                        regularMainViewModel.deleteActivity(
+                                        deleteActivity(
                                             activity = item,
                                             uid = firebaseAuth.uid!!,
                                             date = date
@@ -177,18 +199,85 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                     }
                                 },
                                 dismissContent = {
-                                    ListItem(activity = item, date = date, userType = REGULAR_USER)
+                                    ListItem(
+                                        activity = item,
+                                        date = date,
+                                        userType = REGULAR_USER
+                                    )
                                 },
                                 directions = setOf(DismissDirection.EndToStart)
                             )
                             Divider()
 
-                            if (index == activities.size - 1) {
+                            if (index == activities.size) {
                                 Spacer(modifier = Modifier.padding(bottom = 70.dp))
                             }
                         }
                     }
                 }
+
+                if (isFeedbackDialogOpen.value) {
+                    Dialog(onDismissRequest = { isFeedbackDialogOpen.value = false }) {
+                        Surface(
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp)
+                                .border(
+                                    width = 1.dp,
+                                    color = primaryColor,
+                                    shape = RoundedCornerShape(10.dp)
+                                ),
+                            color = Color.White
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(5.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Spacer(modifier = Modifier.padding(5.dp))
+
+                                Text(
+                                    text = "Feedback",
+                                    fontSize = 25.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily.Monospace,
+                                    color = Color.Black
+                                )
+                                Spacer(modifier = Modifier.padding(5.dp))
+
+                                OutlinedTextField(
+                                    value = feedbackComment,
+                                    onValueChange = { text ->
+                                        feedbackComment = text
+                                    },
+                                    enabled = false,
+                                    textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+                                    colors = TextFieldDefaults.textFieldColors(disabledTextColor = Color.Black),
+                                    placeholder = { Text(text = "Enter your feedback...") },
+                                )
+
+                                Spacer(modifier = Modifier.padding(5.dp))
+
+
+                                Button(
+                                    onClick = {
+                                        isFeedbackDialogOpen.value = false
+                                    },
+                                    modifier = Modifier
+                                        .height(70.dp)
+                                        .fillMaxWidth()
+                                        .padding(10.dp),
+                                    shape = RoundedCornerShape(5.dp),
+                                    colors = ButtonDefaults.buttonColors(primaryColor)
+                                ) {
+                                    Text(text = "Close", fontSize = 16.sp)
+                                }
+                            }
+                        }
+                    }
+                }
+
                 ShowAddActivityAlertDialog(
                     isDialogOpen = isAddActivityDialogOpen,
                     navController = navController,
@@ -201,11 +290,13 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                     navController = navController,
                     date = date
                 )
-                ShowAddSupervisorDialog(isDialogOpen = isAddSupervisorDialogOpen)
+                ShowAddSupervisorDialog(
+                    isDialogOpen = isAddSupervisorDialogOpen
+                )
             }
         })
 }
 
-fun setSupervisorDialog(showDialog : Boolean){
+fun setSupervisorDialog(showDialog: Boolean) {
     isAddSupervisorDialogOpen.value = showDialog
 }

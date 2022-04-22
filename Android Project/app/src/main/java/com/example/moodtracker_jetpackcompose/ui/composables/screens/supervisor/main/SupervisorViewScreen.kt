@@ -21,8 +21,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.data.model.Activity
-import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
+import com.example.moodtracker_jetpackcompose.data.model.*
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
@@ -30,16 +29,13 @@ import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
 
 
-val regularMainViewModel = RegularMainViewModel()
 val firebaseAuthentication = FirebaseAuth.getInstance()
 var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isAddFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
-var isFeedbackCardExpended: MutableState<Boolean> = mutableStateOf(false)
 var feedbackComment: MutableState<String> = mutableStateOf("")
 var date: String = ""
 
 
-@SuppressLint("UnrememberedMutableState", "SimpleDateFormat")
 @OptIn(
     ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
     ExperimentalMaterialApi::class
@@ -57,15 +53,15 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
         date = selectedDate.ifEmpty {
             formattedDate
         }
-        regularMainViewModel.readData(date, uid = userUID) {
+        getPublicActivities(date, uid = userUID) {
             if (!it.isNullOrEmpty()) {
                 activities = it
             }
         }
-        regularMainViewModel.readRating(date, uid = userUID) {
+        getRating(date, uid = userUID) {
             userRating = it
         }
-        regularMainViewModel.readFeedback(date = date, uid = userUID){
+        getFeedback(date = date, uid = userUID){
             feedbackComment = mutableStateOf(it)
         }
     }
@@ -77,16 +73,6 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
             Column(
                 horizontalAlignment = Alignment.End
             ) {
-
-                FloatingActionButton(
-                    onClick = { isFeedbackCardExpended.value = !isFeedbackCardExpended.value },
-                    backgroundColor = secondaryColor,
-                    contentColor = Color.White,
-                ) {
-                    Icon(imageVector = Icons.Default.Warning, "Add activity")
-                }
-
-                Spacer(modifier = Modifier.padding(bottom = 10.dp))
 
                 FloatingActionButton(
                     onClick = { isAddActivityDialogOpen.value = true },
@@ -161,7 +147,7 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
                                 confirmStateChange = {
                                     if (it == DismissValue.DismissedToStart) {
                                         activities.remove(item)
-                                        regularMainViewModel.deleteActivity(
+                                        deleteActivity(
                                             activity = item,
                                             uid = firebaseAuthentication.uid!!,
                                             date = date
@@ -202,19 +188,11 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
                             Divider()
 
                             if (index == activities.size - 1) {
-                                Spacer(modifier = Modifier.padding(bottom = 70.dp))
+                                Spacer(modifier = Modifier.padding(bottom = 150.dp))
                             }
                         }
                     }
                 }
-
-                FeedbackBox(
-                    isDialogOpen = isFeedbackCardExpended,
-                    date = date,
-                    userID = userUID,
-                    userType = REGULAR_USER,
-                    feedbackComment = feedbackComment
-                )
 
                 ShowAddActivityAlertDialog(
                     isDialogOpen = isAddActivityDialogOpen,

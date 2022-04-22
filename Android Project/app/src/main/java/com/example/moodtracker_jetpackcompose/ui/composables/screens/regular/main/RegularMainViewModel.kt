@@ -19,49 +19,49 @@ class RegularMainViewModel : ViewModel() {
 
     private val db = Firebase.firestore
 
-    fun readData(date: String, uid: String, myCallback: (SnapshotStateList<Activity>) -> Unit) {
-        val activities = db.collection("records").document(uid).collection(date)
-        activities.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val list = mutableStateListOf<Activity>()
-                for (document in task.result) {
-                    list.add(document.toObject())
-                }
-                myCallback(list)
-            }
-        }
-    }
+//    fun readAllActivities(date: String, uid: String, myCallback: (SnapshotStateList<Activity>) -> Unit) {
+//        val activities = db.collection("records").document(uid).collection(date)
+//        activities.get().addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val list = mutableStateListOf<Activity>()
+//                for (document in task.result) {
+//                    list.add(document.toObject())
+//                }
+//                myCallback(list)
+//            }
+//        }
+//    }
 
-    fun deleteActivity(activity: Activity, uid: String, date: String) {
-        val activityID = activity.id as String
-        db.collection("records").document(uid).collection(date).document(activityID).delete()
-            .addOnSuccessListener { Log.e("del", "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.e("del", "Error deleting document", e) }
-    }
+//    fun deleteActivity(activity: Activity, uid: String, date: String) {
+//        val activityID = activity.id as String
+//        db.collection("records").document(uid).collection(date).document(activityID).delete()
+//            .addOnSuccessListener { Log.e("del", "DocumentSnapshot successfully deleted!") }
+//            .addOnFailureListener { e -> Log.e("del", "Error deleting document", e) }
+//    }
 
-    fun readRating(date: String, uid: String, myCallback: (Int) -> Unit) {
-        val activities = db.collection("records").document(uid).collection("ratings").document(date)
-        activities.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val rating = task.result["rating"]
-                if (rating != null) {
-                    myCallback(rating.toString().toInt())
-                } else {
-                    myCallback(0)
-                }
-            }
-        }
-    }
+//    fun readRating(date: String, uid: String, myCallback: (Int) -> Unit) {
+//        val activities = db.collection("records").document(uid).collection("ratings").document(date)
+//        activities.get().addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val rating = task.result["rating"]
+//                if (rating != null) {
+//                    myCallback(rating.toString().toInt())
+//                } else {
+//                    myCallback(0)
+//                }
+//            }
+//        }
+//    }
 
-    fun saveRating(uid: String, rating: Int, date: String) {
-        val userRating = Rating(rating = rating)
-        db.collection("records").document(uid).collection("ratings").document(date).set(userRating)
-    }
+//    fun saveRating(uid: String, rating: Int, date: String) {
+//        val userRating = Rating(rating = rating)
+//        db.collection("records").document(uid).collection("ratings").document(date).set(userRating)
+//    }
 
-    fun addActivity(activity: Activity, uid: String, date: String) {
-        val activityID = activity.id as String
-        db.collection("records").document(uid).collection(date).document(activityID).set(activity)
-    }
+//    fun addActivity(activity: Activity, uid: String, date: String) {
+//        val activityID = activity.id as String
+//        db.collection("records").document(uid).collection(date).document(activityID).set(activity)
+//    }
 
     fun addSupervisor(email : String){
         FirebaseAuth.getInstance()
@@ -90,18 +90,18 @@ class RegularMainViewModel : ViewModel() {
             }
     }
 
-    fun readFeedback(date: String, uid: String, myCallback: (String) -> Unit){
-        val activities = db.collection("records").document(uid).collection("feedbacks").document(date)
-        activities.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val feedback = task.result["text"]
-                if (feedback != null) {
-                    myCallback(feedback.toString())
-                }
-                else{
-                    myCallback("")
-                }
-            }
-        }
-    }
+//    fun readFeedback(date: String, uid: String, myCallback: (String) -> Unit){
+//        val activities = db.collection("records").document(uid).collection("feedbacks").document(date)
+//        activities.get().addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                val feedback = task.result["text"]
+//                if (feedback != null) {
+//                    myCallback(feedback.toString())
+//                }
+//                else{
+//                    myCallback("")
+//                }
+//            }
+//        }
+//    }
 }

@@ -11,14 +11,13 @@ import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_US
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
 
 @Composable
-fun SupervisorCalendarScreen(navController: NavHostController, userUID: String) {
+fun SupervisorCalendarScreen(navController: NavHostController,username : String,userUID: String) {
     Scaffold(bottomBar = { SupervisorBottomBar(navController = navController) }, topBar = {
         SupervisorUserTopBar(
             navController = navController,
-            title = "User Calendar"
+            title = "$username Calendar"
         )
     }, content = {
         DatePickerView(navController = navController, userType = SUPERVISOR_USER, userUID = userUID)
-        Log.e("ID", userUID)
     })
 }

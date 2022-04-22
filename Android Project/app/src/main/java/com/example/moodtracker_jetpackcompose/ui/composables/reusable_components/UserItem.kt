@@ -69,7 +69,7 @@ fun UserItem(user: RegularUser, navController: NavHostController) {
                 )
             }
             IconButton(onClick = {
-                navController.navigate(Screen.SupervisorCalendarScreen.passUID(user.uid!!))
+                navController.navigate(Screen.SupervisorCalendarScreen.passUsernameAndUID(username = user.username!!,user.uid!!))
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowForward,

@@ -2,6 +2,7 @@ package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
@@ -17,7 +18,7 @@ class RequestsScreenViewModel : ViewModel() {
     private val db = Firebase.firestore
     private val requests = db.collection("supervisorUsers").document(currentSupervisor!!.uid)
 
-    fun getRequests(myCallback: (SnapshotStateList<RegularUser>) -> Unit) {
+    fun getAllRequests(myCallback: (SnapshotStateList<RegularUser>) -> Unit) {
         val users = mutableStateListOf<RegularUser>()
         requests.get().addOnSuccessListener { documents ->
             val userUIDs = (documents.data?.get("requests")) as? MutableList<*>

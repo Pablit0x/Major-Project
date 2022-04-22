@@ -43,7 +43,8 @@ fun SetupNavGraph() {
         composable(route = Screen.SignUpScreen.route) {
             SignUpScreen(navController = navController)
         }
-        composable(route = Screen.RegularMainScreen.route,
+        composable(
+            route = Screen.RegularMainScreen.route,
             arguments = listOf(navArgument("date") {
                 type = NavType.StringType
                 defaultValue = ""
@@ -54,7 +55,8 @@ fun SetupNavGraph() {
         composable(route = Screen.SupervisorMainScreen.route) {
             SupervisorMainScreen(navController = navController)
         }
-        composable(route = UserBottomBarScreen.Home.route,
+        composable(
+            route = UserBottomBarScreen.Home.route,
             arguments = listOf(navArgument("date") {
                 type = NavType.StringType
                 defaultValue = ""
@@ -66,29 +68,34 @@ fun SetupNavGraph() {
         composable(route = UserBottomBarScreen.Calendar.route) {
             CalendarScreen(navController = navController)
         }
-        composable(route = UserBottomBarScreen.Messenger.route) {
-            MessengerScreen(navHostController = navController)
-        }
+//        composable(route = UserBottomBarScreen.Messenger.route) {
+//            MessengerScreen(navHostController = navController)
+//        }
         composable(route = SupervisorBottomBarScreen.Requests.route) {
             RequestsScreen(navController = navController)
         }
         composable(route = SupervisorBottomBarScreen.Home.route) {
             SupervisorMainScreen(navController = navController)
         }
-        composable(route = SupervisorBottomBarScreen.Messenger.route) {
-            MessengerScreen(navHostController = navController)
-        }
+//        composable(route = SupervisorBottomBarScreen.Messenger.route) {
+//            MessengerScreen(navHostController = navController)
+//        }
         composable(
             route = Screen.SupervisorCalendarScreen.route,
-            arguments = listOf(navArgument(
-                "uid"
-            ) {
-                type = NavType.StringType
-                defaultValue = ""
-            })
+            arguments = listOf(
+                navArgument("username") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }, navArgument(
+                    "uid"
+                ) {
+                    type = NavType.StringType
+                    defaultValue = ""
+                })
         ) {
             SupervisorCalendarScreen(
                 navController = navController,
+                username = it.arguments?.getString("username")!!,
                 userUID = it.arguments?.getString("uid")!!
             )
         }

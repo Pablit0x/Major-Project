@@ -3,8 +3,6 @@ package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
-import com.example.moodtracker_jetpackcompose.data.model.Feedback
-import com.example.moodtracker_jetpackcompose.data.model.Rating
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -28,6 +26,7 @@ class SupervisorMainViewModel : ViewModel() {
                             if (task.isSuccessful) {
                                 for (document in task.result) {
                                     users.add(document.toObject())
+                                    users.sortBy { it!!.username }
                                 }
                                 myCallback(users)
                             }
@@ -35,11 +34,5 @@ class SupervisorMainViewModel : ViewModel() {
                 }
             }
         }
-    }
-
-    fun addFeedback(uid: String, text : String, date: String) {
-        val db = Firebase.firestore
-        val feedback = Feedback(text = text)
-        db.collection("records").document(uid).collection("feedbacks").document(date).set(feedback)
     }
 }

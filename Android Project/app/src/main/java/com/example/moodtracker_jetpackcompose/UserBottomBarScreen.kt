@@ -22,9 +22,9 @@ sealed class UserBottomBarScreen(
         icon = Icons.Default.Home
     )
 
-    object Messenger : UserBottomBarScreen(
-        route = "messenger",
-        title = "Messenger",
-        icon = Icons.Default.Email
-    )
+//    object Messenger : UserBottomBarScreen(
+//        route = "messenger",
+//        title = "Messenger",
+//        icon = Icons.Default.Email
+//    )
 }

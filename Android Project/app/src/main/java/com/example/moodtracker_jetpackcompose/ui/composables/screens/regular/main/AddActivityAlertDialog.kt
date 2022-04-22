@@ -1,24 +1,39 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
+import com.example.moodtracker_jetpackcompose.data.model.addActivity
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityTypeField
 import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
@@ -39,6 +54,9 @@ fun ShowAddActivityAlertDialog(
     val nameVal = remember { mutableStateOf("") }
     val activityType = remember { mutableStateOf("") }
     val isChecked = remember { mutableStateOf(false) }
+    var privacyType by remember {
+        mutableStateOf("Public")
+    }
 
 
     if (isDialogOpen.value) {
@@ -47,7 +65,7 @@ fun ShowAddActivityAlertDialog(
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.70f)
+                    .fillMaxHeight(0.8f)
                     .padding(5.dp)
                     .border(width = 1.dp, color = primaryColor, shape = RoundedCornerShape(10.dp)),
                 color = Color.White
@@ -82,6 +100,74 @@ fun ShowAddActivityAlertDialog(
 
                     ActivityTypeField(activityType = activityType)
                     if (userType == REGULAR_USER) {
+
+                        Spacer(modifier = Modifier.padding(8.dp))
+
+                        var expanded by remember { mutableStateOf(false) }
+
+                        val privacyTypes = listOf(
+                            "Public",
+                            "Private"
+                        )
+
+                        var textFieldSize by remember { mutableStateOf(Size.Zero) }
+
+                        val icon = if (expanded)
+                            Icons.Filled.KeyboardArrowUp
+                        else
+                            Icons.Filled.KeyboardArrowDown
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                        ) {
+                            OutlinedTextField(
+                                value = privacyType,
+                                onValueChange = { accountTypeValue ->
+                                    privacyType = accountTypeValue
+                                },
+                                enabled = false,
+                                textStyle = TextStyle(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                leadingIcon = {
+                                    when(privacyType){
+                                        "Public" -> Icon(painter = painterResource(id = R.drawable.ic_lock_open), "")
+                                        "Private"-> Icon(painter = painterResource(id = R.drawable.ic_lock_closed), "")
+                                    }
+                                },
+                                colors = TextFieldDefaults.outlinedTextFieldColors(disabledTextColor = Color.Black),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.CenterHorizontally)
+                                    .onGloballyPositioned
+                                    { coords ->
+                                        //This value is used to assign to the DropDown the same width
+                                        textFieldSize = coords.size.toSize()
+                                    },
+                                trailingIcon = {
+                                    Icon(icon, "arrow",
+                                        Modifier.clickable { expanded = !expanded })
+                                }
+                            )
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { expanded = false },
+                                modifier = Modifier
+                                    .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+                            ) {
+                                privacyTypes.forEach { name ->
+                                    DropdownMenuItem(onClick = {
+                                        privacyType = name
+                                        expanded = false
+                                    }) {
+                                        Text(text = name, textAlign = TextAlign.Center)
+                                    }
+                                }
+                            }
+                        }
+
                         Spacer(modifier = Modifier.padding(8.dp))
 
                         Row(
@@ -99,6 +185,7 @@ fun ShowAddActivityAlertDialog(
                             Text(text = "Completed", fontSize = 20.sp)
 
                         }
+
                     }
 
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -116,9 +203,10 @@ fun ShowAddActivityAlertDialog(
                                     type = activityType.value,
                                     done = isChecked.value,
                                     id = uniqueID,
-                                    createdBy = userType
+                                    createdBy = userType,
+                                    privacyType = privacyType
                                 )
-                                mRegularMainViewModel.addActivity(
+                                addActivity(
                                     activity = activity,
                                     uid = userID,
                                     date = date

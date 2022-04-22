@@ -1,18 +1,11 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -26,14 +19,10 @@ import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
+import com.example.moodtracker_jetpackcompose.data.model.setActivityStatus
 import com.example.moodtracker_jetpackcompose.ui.theme.IconSizes
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.tertiaryColor
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import java.time.LocalDateTime
 
 @Composable
 fun ListItem(activity: Activity, date: String, userType: Int) {
@@ -109,7 +98,7 @@ fun ListItem(activity: Activity, date: String, userType: Int) {
                 Checkbox(
                     checked = checkState, onCheckedChange = {
                         checkState = it
-                        setDone(checkState, activity, date = date)
+                        setActivityStatus(checkState, activity, date = date)
                     }, modifier = Modifier
                         .scale(1.5f)
                         .weight(1f)
@@ -120,12 +109,4 @@ fun ListItem(activity: Activity, date: String, userType: Int) {
         }
         Divider(color = dividerColor, modifier = Modifier.fillMaxWidth(), thickness = 1.dp)
     }
-}
-
-fun setDone(done: Boolean, activity: Activity, date: String) {
-    val uid = FirebaseAuth.getInstance().currentUser!!.uid
-    val activityID = activity.id as String
-    val db = Firebase.firestore
-    val documentRef = db.collection("records").document(uid).collection(date).document(activityID)
-    documentRef.update("done", done)
 }

@@ -25,9 +25,9 @@ sealed class SupervisorBottomBarScreen(
         icon = Icons.Default.Home
     )
 
-    object Messenger : SupervisorBottomBarScreen(
-        route = "messenger",
-        title = "Messenger",
-        icon = Icons.Default.Email
-    )
+//    object Messenger : SupervisorBottomBarScreen(
+//        route = "messenger",
+//        title = "Messenger",
+//        icon = Icons.Default.Email
+//    )
 }
