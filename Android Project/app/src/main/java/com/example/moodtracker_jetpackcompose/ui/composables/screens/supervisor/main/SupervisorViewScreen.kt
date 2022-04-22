@@ -18,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.*
@@ -41,7 +43,7 @@ var date: String = ""
     ExperimentalMaterialApi::class
 )
 @Composable
-fun SupervisorViewScreen(navController: NavHostController, selectedDate: String, userUID: String) {
+fun SupervisorViewScreen(navController: NavHostController, selectedDate: String, userUID: String, username : String) {
 
     var userRating by remember{ mutableStateOf(0)}
     var activities: MutableList<Activity> by remember { mutableStateOf(mutableListOf()) }
@@ -100,7 +102,7 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
 
         },
         topBar = {
-            SupervisorUserTopBar(navController = navController, title = date)
+            SupervisorUserTopBar(navController = navController, title = "$username Activities")
         },
         content = { padding ->
             Column(
@@ -111,6 +113,16 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
                     .fillMaxHeight()
                     .padding(padding)
             ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.04f)
+                        .background(color = secondaryColor)
+                ) {
+                    Text(text = date, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
                 if (userRating != 0) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -199,7 +211,8 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
                     navController = navController,
                     date = date,
                     userType = SUPERVISOR_USER,
-                    userID = userUID
+                    userID = userUID,
+                    username = username
                 )
                 FeedbackBox(
                     isDialogOpen = isAddFeedbackDialogOpen,

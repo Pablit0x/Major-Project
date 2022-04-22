@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -28,7 +29,7 @@ import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.mai
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 
 @Composable
-fun DatePickerView(navController: NavController, userType: Int, userUID : String) {
+fun DatePickerView(navController: NavController, userType: Int, userUID : String, username : String) {
     var date by remember { mutableStateOf("") }
     Column(
         verticalArrangement = Arrangement.Center,
@@ -53,15 +54,16 @@ fun DatePickerView(navController: NavController, userType: Int, userUID : String
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(50.dp),
+            colors = ButtonDefaults.buttonColors(Color.White),
             onClick = {
                 if (userType == REGULAR_USER) {
                     navController.navigate(Screen.RegularMainScreen.passDate(date = date))
                 } else {
-                    navController.navigate(Screen.SupervisorViewScreen.passDateAndUID(date = date, uid = userUID))
+                    navController.navigate(Screen.SupervisorViewScreen.passUsernameDateAndUID(username = username,date = date, uid = userUID))
                 }
             },
         ) {
-            Text(text = "Select", fontSize = 20.sp, fontFamily = FontFamily.Monospace)
+            Text(text = "Select", fontSize = 20.sp, color = Color.Black)
         }
     }
 

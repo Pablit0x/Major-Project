@@ -57,7 +57,7 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
                     .fillMaxHeight(0.6f)
                     .padding(5.dp)
                     .border(width = 1.dp, color = primaryColor, shape = RoundedCornerShape(10.dp)),
-                color = Color.White
+                color = Color((0xFF2D4263))
             ) {
                 Column(
                     modifier = Modifier.padding(5.dp),
@@ -68,7 +68,7 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
 
                     Text(
                         text = "Rate your day",
-                        color = Color.Black,
+                        color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp,
                         fontFamily = FontFamily.Monospace
@@ -116,9 +116,9 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
                             .fillMaxWidth()
                             .padding(10.dp),
                         shape = RoundedCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(primaryColor)
+                        colors = ButtonDefaults.buttonColors(Color.White)
                     ){
-                        Text(text = "Submit", fontSize = 16.sp)
+                        Text(text = "Submit", fontSize = 16.sp, color = Color.Black)
                     }
                 }
             }

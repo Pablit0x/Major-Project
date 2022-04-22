@@ -101,18 +101,24 @@ fun SetupNavGraph() {
         }
         composable(
             route = Screen.SupervisorViewScreen.route,
-            arguments = listOf(navArgument("date") {
-                type = NavType.StringType
-                defaultValue = ""
-            }, navArgument("uid") {
-                type = NavType.StringType
-                defaultValue = ""
-            })
+            arguments = listOf(
+                navArgument("username") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("date") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }, navArgument("uid") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                })
         ) {
             SupervisorViewScreen(
                 navController = navController,
                 selectedDate = it.arguments?.getString("date")!!,
-                it.arguments?.getString("uid")!!
+                userUID = it.arguments?.getString("uid")!!,
+                username = it.arguments?.getString("username")!!
             )
         }
     }

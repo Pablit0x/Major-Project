@@ -31,7 +31,7 @@ fun RegularUserTopBar(navController: NavController, title: String) {
 
     TopAppBar(
         title = { Text(title, textAlign = TextAlign.Center) },
-        backgroundColor = Color.White,
+        backgroundColor = Color(0xFF191919),
         actions = {
 
             OutlinedButton(onClick = { setSupervisorDialog(!isAddSupervisorDialogOpen)},

@@ -17,9 +17,9 @@ sealed class Screen(val route: String) {
         }
     }
 
-    object SupervisorViewScreen : Screen(route = "supervisor_view_screen?uid={uid}&date={date}") {
-        fun passDateAndUID(uid: String, date: String): String {
-            return "supervisor_view_screen?uid=$uid&date=$date"
+    object SupervisorViewScreen : Screen(route = "supervisor_view_screen?username={username}&uid={uid}&date={date}") {
+        fun passUsernameDateAndUID(username : String, uid: String, date: String): String {
+            return "supervisor_view_screen?username=$username&uid=$uid&date=$date"
         }
     }
 }

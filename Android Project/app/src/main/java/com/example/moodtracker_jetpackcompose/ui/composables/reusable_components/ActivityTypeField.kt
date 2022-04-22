@@ -22,9 +22,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.ActivityType
+import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 
 @Composable
-fun ActivityTypeField(activityType : MutableState<String>) {
+fun ActivityTypeField(activityType: MutableState<String>) {
     var expanded by remember { mutableStateOf(false) }
 
 
@@ -48,17 +49,21 @@ fun ActivityTypeField(activityType : MutableState<String>) {
         modifier = Modifier
             .fillMaxWidth(0.8f)
     ) {
-        OutlinedTextField(
+        TextField(
             value = activityType.value,
             onValueChange = { accountTypeValue ->
                 activityType.value = accountTypeValue
             },
             enabled = false,
-            textStyle = TextStyle(
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+//            textStyle = TextStyle(
+//                fontSize = 20.sp,
+//                fontWeight = FontWeight.Bold
+//            ),
+            colors = TextFieldDefaults.textFieldColors(
+                disabledTextColor = Color.White,
+                backgroundColor = Color(0xFF191919)
             ),
-            colors = TextFieldDefaults.outlinedTextFieldColors(disabledTextColor = Color.Black),
+//            colors = TextFieldDefaults.outlinedTextFieldColors(disabledTextColor = Color.Black),
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
@@ -67,10 +72,10 @@ fun ActivityTypeField(activityType : MutableState<String>) {
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coords.size.toSize()
                 },
-            placeholder = { Text(text = "Select Activity Type") },
+            placeholder = { Text(text = "Select Activity Type...", color = Color.LightGray) },
             trailingIcon = {
                 Icon(icon, "contentDescription",
-                    Modifier.clickable { expanded = !expanded })
+                    Modifier.clickable { expanded = !expanded }, tint = Color.LightGray)
             }
         )
         DropdownMenu(

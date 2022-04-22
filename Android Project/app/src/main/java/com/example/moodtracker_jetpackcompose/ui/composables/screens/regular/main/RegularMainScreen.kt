@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -118,7 +119,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
             }
 
         },
-        topBar = { RegularUserTopBar(navController, date) },
+        topBar = { RegularUserTopBar(navController, "My Activities") },
         content = { padding ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -128,24 +129,37 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                     .fillMaxHeight()
                     .padding(padding)
             ) {
-                if (userRating != 0) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.1f)
-                            .background(color = secondaryColor)
-                    ) {
-                        for (i in 1..userRating) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_round_star_rate_24),
-                                contentDescription = "star",
-                                modifier = Modifier
-                                    .width(52.dp)
-                                    .height(52.dp),
-                                tint = Color(0xFFFFD700)
-                            )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.1f)
+                        .background(color = Color(0xFF2D4263))
+                ) {
+                    Text(
+                        text = date,
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    if (userRating != 0) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            for (i in 1..userRating) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_round_star_rate_24),
+                                    contentDescription = "star",
+                                    modifier = Modifier
+                                        .width(52.dp)
+                                        .height(52.dp),
+                                    tint = Color(0xFFFFD700)
+                                )
+                            }
                         }
                     }
                 }
@@ -207,8 +221,6 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 },
                                 directions = setOf(DismissDirection.EndToStart)
                             )
-                            Divider()
-
                             if (index == activities.size) {
                                 Spacer(modifier = Modifier.padding(bottom = 70.dp))
                             }
@@ -225,10 +237,10 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 .padding(5.dp)
                                 .border(
                                     width = 1.dp,
-                                    color = primaryColor,
+                                    color = Color.White,
                                     shape = RoundedCornerShape(10.dp)
                                 ),
-                            color = Color.White
+                            color = Color((0xFF2D4263))
                         ) {
                             Column(
                                 modifier = Modifier.padding(5.dp),
@@ -242,19 +254,23 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                     fontSize = 25.sp,
                                     fontWeight = FontWeight.Bold,
                                     fontFamily = FontFamily.Monospace,
-                                    color = Color.Black
+                                    color = Color.White
                                 )
                                 Spacer(modifier = Modifier.padding(5.dp))
-
-                                OutlinedTextField(
+                                TextField(
                                     value = feedbackComment,
                                     onValueChange = { text ->
                                         feedbackComment = text
                                     },
                                     enabled = false,
                                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                                    colors = TextFieldDefaults.textFieldColors(disabledTextColor = Color.Black),
-                                    placeholder = { Text(text = "Enter your feedback...") },
+                                    colors = textFieldColors(
+                                        backgroundColor = Color((0xFF2D4263)),
+                                        disabledTextColor = Color.White,
+                                        focusedIndicatorColor = Color.Transparent,
+                                        unfocusedIndicatorColor = Color.Transparent,
+                                        disabledIndicatorColor = Color.Transparent
+                                    ),
                                 )
 
                                 Spacer(modifier = Modifier.padding(5.dp))
@@ -269,9 +285,9 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                         .fillMaxWidth()
                                         .padding(10.dp),
                                     shape = RoundedCornerShape(5.dp),
-                                    colors = ButtonDefaults.buttonColors(primaryColor)
+                                    colors = ButtonDefaults.buttonColors(Color.White)
                                 ) {
-                                    Text(text = "Close", fontSize = 16.sp)
+                                    Text(text = "Close", fontSize = 16.sp, color = Color.Black)
                                 }
                             }
                         }
@@ -283,7 +299,8 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                     navController = navController,
                     date = date,
                     userType = REGULAR_USER,
-                    userID = currentUser!!.uid
+                    userID = currentUser!!.uid,
+                    username = ""
                 )
                 ShowRatingDialog(
                     isDialogOpen = isFinishDayDialogOpen,

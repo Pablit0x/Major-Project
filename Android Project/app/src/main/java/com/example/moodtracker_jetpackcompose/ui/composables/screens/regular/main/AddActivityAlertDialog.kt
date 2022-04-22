@@ -1,5 +1,6 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -47,7 +48,8 @@ fun ShowAddActivityAlertDialog(
     navController: NavController,
     date: String,
     userType: Int,
-    userID: String
+    userID: String,
+    username: String
 ) {
 
     mRegularMainViewModel = RegularMainViewModel()
@@ -67,8 +69,8 @@ fun ShowAddActivityAlertDialog(
                     .fillMaxWidth()
                     .fillMaxHeight(0.8f)
                     .padding(5.dp)
-                    .border(width = 1.dp, color = primaryColor, shape = RoundedCornerShape(10.dp)),
-                color = Color.White
+                    .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(10.dp)),
+                color = Color((0xFF2D4263))
             ) {
                 Column(
                     modifier = Modifier.padding(5.dp),
@@ -79,7 +81,7 @@ fun ShowAddActivityAlertDialog(
 
                     Text(
                         text = "Add Activity",
-                        color = Color.Black,
+                        color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp,
                         fontFamily = FontFamily.Monospace
@@ -87,13 +89,17 @@ fun ShowAddActivityAlertDialog(
 
                     Spacer(modifier = Modifier.padding(8.dp))
 
-                    OutlinedTextField(
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f),
                         value = nameVal.value,
                         onValueChange = { nameVal.value = it },
-                        label = { Text(text = "Activity Name") },
-                        placeholder = { Text(text = "Activity Name") },
+                        placeholder = { Text(text = "Enter Activity Name...", color = Color.LightGray) },
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth(0.8f)
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = Color.White,
+                            backgroundColor = Color(0xFF191919)
+                        )
                     )
 
                     Spacer(modifier = Modifier.padding(8.dp))
@@ -121,23 +127,32 @@ fun ShowAddActivityAlertDialog(
                             modifier = Modifier
                                 .fillMaxWidth(0.8f)
                         ) {
-                            OutlinedTextField(
+                            TextField(
                                 value = privacyType,
                                 onValueChange = { accountTypeValue ->
                                     privacyType = accountTypeValue
                                 },
                                 enabled = false,
-                                textStyle = TextStyle(
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                ),
+//                                textStyle = TextStyle(
+//                                    fontSize = 20.sp,
+//                                    fontFamily = FontFamily.Monospace
+//                                ),
                                 leadingIcon = {
-                                    when(privacyType){
-                                        "Public" -> Icon(painter = painterResource(id = R.drawable.ic_lock_open), "")
-                                        "Private"-> Icon(painter = painterResource(id = R.drawable.ic_lock_closed), "")
+                                    when (privacyType) {
+                                        "Public" -> Icon(
+                                            painter = painterResource(id = R.drawable.ic_lock_open),
+                                            "", tint = Color.White
+                                        )
+                                        "Private" -> Icon(
+                                            painter = painterResource(id = R.drawable.ic_lock_closed),
+                                            "", tint = Color.White
+                                        )
                                     }
                                 },
-                                colors = TextFieldDefaults.outlinedTextFieldColors(disabledTextColor = Color.Black),
+                                colors = TextFieldDefaults.textFieldColors(
+                                    disabledTextColor = Color.White,
+                                    backgroundColor = Color(0xFF191919)
+                                ),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .align(Alignment.CenterHorizontally)
@@ -148,7 +163,7 @@ fun ShowAddActivityAlertDialog(
                                     },
                                 trailingIcon = {
                                     Icon(icon, "arrow",
-                                        Modifier.clickable { expanded = !expanded })
+                                        Modifier.clickable { expanded = !expanded }, tint = Color.LightGray)
                                 }
                             )
                             DropdownMenu(
@@ -176,7 +191,7 @@ fun ShowAddActivityAlertDialog(
                             Checkbox(
                                 checked = isChecked.value,
                                 onCheckedChange = { isChecked.value = it },
-                                colors = CheckboxDefaults.colors(secondaryColor),
+                                colors = CheckboxDefaults.colors(Color.White),
                                 modifier = Modifier
                                     .scale(1.5f)
                                     .padding(end = 8.dp)
@@ -219,9 +234,10 @@ fun ShowAddActivityAlertDialog(
                                         )
                                     )
                                     SUPERVISOR_USER -> navController.navigate(
-                                        Screen.SupervisorViewScreen.passDateAndUID(
-                                            date = date,
-                                            uid = userID
+                                        Screen.SupervisorViewScreen.passUsernameDateAndUID(
+                                            username = username,
+                                            uid = userID,
+                                            date = date
                                         )
                                     )
                                 }
@@ -231,11 +247,11 @@ fun ShowAddActivityAlertDialog(
                                 .fillMaxWidth(0.5f)
                                 .padding(10.dp),
                             shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(primaryColor)
+                            colors = ButtonDefaults.buttonColors(Color.White)
                         ) {
                             Text(
                                 text = "Add",
-                                color = Color.White,
+                                color = Color.Black,
                                 fontSize = 16.sp
                             )
                         }
@@ -249,11 +265,11 @@ fun ShowAddActivityAlertDialog(
                                 .fillMaxWidth()
                                 .padding(10.dp),
                             shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(primaryColor)
+                            colors = ButtonDefaults.buttonColors(Color.White)
                         ) {
                             Text(
                                 text = "Cancel",
-                                color = Color.White,
+                                color = Color.Black,
                                 fontSize = 16.sp
                             )
                         }

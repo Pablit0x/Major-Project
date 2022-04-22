@@ -37,7 +37,6 @@ fun FeedbackBox(
     userType: Int,
     feedbackComment: MutableState<String>
 ) {
-    val supervisorMainViewModel = SupervisorMainViewModel()
     var msg by remember {
         mutableStateOf("")
     }
