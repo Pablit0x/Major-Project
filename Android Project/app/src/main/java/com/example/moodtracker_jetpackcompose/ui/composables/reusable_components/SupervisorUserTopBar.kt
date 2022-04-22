@@ -34,14 +34,15 @@ fun SupervisorUserTopBar(navController: NavController, title: String) {
     val context = LocalContext.current
 
     TopAppBar(
-        title = { Text(title, textAlign = TextAlign.Center) },
-        backgroundColor = Color.White,
+        title = { Text(title, textAlign = TextAlign.Center, color = Color.White) },
+        backgroundColor = Color(0xFF191919),
         navigationIcon = if (navController.previousBackStackEntry != null) {
             {
                 IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Back"
+                        contentDescription = "Back",
+                        tint = Color.White
                     )
                 }
             }
@@ -49,20 +50,32 @@ fun SupervisorUserTopBar(navController: NavController, title: String) {
             null
         },
         actions = {
-            OutlinedButton(onClick = {
-                navController.navigate(Screen.LoginScreen.route)
-                Toast.makeText(context, "Logged out successfully!", Toast.LENGTH_SHORT).show()
-                firebaseAuth.signOut()
-            },
+            IconButton(
+                onClick = {
+                    navController.navigate(Screen.LoginScreen.route)
+                    Toast.makeText(context, "Logged out successfully!", Toast.LENGTH_SHORT).show()
+                    firebaseAuth.signOut()
+                },
                 modifier = Modifier
                     .width(45.dp)
-                    .height(45.dp),
-                shape = CircleShape,
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor =  Color.DarkGray, backgroundColor = Color.LightGray)
+                    .height(45.dp)
             ) {
-                Icon(Icons.Default.ExitToApp, "Logout")
+                Icon(Icons.Default.ExitToApp, "Logout", tint = Color.White)
             }
+//            OutlinedButton(onClick = {
+//                navController.navigate(Screen.LoginScreen.route)
+//                Toast.makeText(context, "Logged out successfully!", Toast.LENGTH_SHORT).show()
+//                firebaseAuth.signOut()
+//            },
+//                modifier = Modifier
+//                    .width(45.dp)
+//                    .height(45.dp),
+//                shape = CircleShape,
+//                contentPadding = PaddingValues(0.dp),
+//                colors = ButtonDefaults.outlinedButtonColors(contentColor =  Color.DarkGray, backgroundColor = Color.LightGray)
+//            ) {
+//                Icon(Icons.Default.ExitToApp, "Logout")
+//            }
         }
     )
 }

@@ -221,10 +221,20 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 },
                                 directions = setOf(DismissDirection.EndToStart)
                             )
-                            if (index == activities.size) {
-                                Spacer(modifier = Modifier.padding(bottom = 70.dp))
+                            if (index == activities.size - 1) {
+                                Spacer(modifier = Modifier.padding(bottom = 200.dp))
                             }
                         }
+                    }
+                } else {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(padding)
+                    ){
+                        AnimatedText("No activities are recorded for that day!")
                     }
                 }
 

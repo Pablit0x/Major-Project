@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -12,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -61,7 +63,7 @@ fun SignUpScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.25f)
-                .background(color = primaryColor)
+                .background(color = Color(0xFF191919))
         ) {
             Image(
                 painter = image, contentDescription = "Application Logo", modifier = Modifier
@@ -70,9 +72,10 @@ fun SignUpScreen(navController: NavController) {
         }
         Column(
             modifier = Modifier
+                .background(Color(0xFF191919))
                 .fillMaxSize()
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(whiteBackground)
+                .background(Color(0xFF2D4263))
                 .padding(10.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -81,6 +84,7 @@ fun SignUpScreen(navController: NavController) {
             Text(
                 modifier = Modifier.fillMaxWidth(0.8f),
                 text = "Sign Up",
+                color = Color.White,
                 fontFamily = FontFamily.Monospace,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
@@ -118,15 +122,16 @@ fun SignUpScreen(navController: NavController) {
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
-                    .height(50.dp)
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(Color.White)
             ) {
-                Text(text = "Sign Up", fontSize = 20.sp)
+                Text(text = "Sign Up", fontSize = 20.sp, color = Color.Black)
             }
             Spacer(modifier = Modifier.padding(10.dp))
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                 Text("Back to Sign in",
                     fontSize = 16.sp,
-                    color = hyperlinkColor,
+                    color = Color.White,
                     modifier = Modifier.clickable { navController.popBackStack() })
             }
         }

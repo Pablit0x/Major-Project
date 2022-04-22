@@ -26,17 +26,42 @@
         <entry key="../../../../../layout/compose-model-1650396617791.xml" value="0.1" />
         <entry key="../../../../../layout/compose-model-1650399058303.xml" value="0.15462962962962962" />
         <entry key="../../../../../layout/compose-model-1650399114329.xml" value="1.0" />
+        <entry key="../../../../../layout/compose-model-1650635807125.xml" value="0.15462962962962962" />
+        <entry key="../../../../../layout/compose-model-1650645213190.xml" value="0.11570945945945946" />
+        <entry key="../../../../../layout/compose-model-1650645724695.xml" value="0.11570945945945946" />
+        <entry key="../../../../../layout/compose-model-1650647800136.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/app_icon_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/app_logo.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/app_logo_text.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_accept.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_add_activity.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_add_feedback.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_add_person.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_baseline_flag_24.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_cancel.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_exercise.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_exercise_ac.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_lock_closed.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_lock_open.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_meditation_ac.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_other_ac.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_other_activities.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_password_eye.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_person.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_round_star_rate_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_sleep.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_sleep_ac.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_study.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_study_ac.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_work.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_work_ac.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/app_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>

@@ -33,8 +33,7 @@ fun ActivityTypeField(activityType: MutableState<String>) {
         ActivityType.Sleep.name,
         ActivityType.Work.name,
         ActivityType.Study.name,
-        ActivityType.Meditation.name,
-        ActivityType.Workout.name,
+        ActivityType.Exercise.name,
         ActivityType.Other.name
     )
 

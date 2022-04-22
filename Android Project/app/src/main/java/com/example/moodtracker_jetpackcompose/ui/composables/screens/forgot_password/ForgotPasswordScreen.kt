@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -55,7 +57,7 @@ fun ForgotPasswordScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.4f)
-                .background(color = primaryColor)
+                .background(Color(0xFF191919))
         ) {
             Image(
                 painter = image, contentDescription = "Application Logo", modifier = Modifier
@@ -67,9 +69,10 @@ fun ForgotPasswordScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
+                .background(Color(0xFF191919))
                 .fillMaxSize()
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(whiteBackground)
+                .background(Color(0xFF2D4263))
                 .padding(10.dp)
         ) {
             Text(
@@ -78,7 +81,8 @@ fun ForgotPasswordScreen(navController: NavController) {
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp
                 ),
-                fontSize = 30.sp
+                fontSize = 30.sp,
+                color = Color.White
             )
             Spacer(modifier = Modifier.padding(10.dp))
             Text(
@@ -89,7 +93,8 @@ fun ForgotPasswordScreen(navController: NavController) {
                     letterSpacing = 2.sp
                 ),
                 textAlign = TextAlign.Center,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = Color.White
             )
             Spacer(modifier = Modifier.padding(15.dp))
             EmailField(email, emailError)
@@ -117,15 +122,16 @@ fun ForgotPasswordScreen(navController: NavController) {
                                 }
                             }
                     }
-                }
+                },
+                colors = ButtonDefaults.buttonColors(Color.White)
             ) {
-                Text(text = "Submit", fontSize = 20.sp)
+                Text(text = "Submit", fontSize = 20.sp, color = Color.Black)
             }
             Spacer(modifier = Modifier.padding(10.dp))
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
                 Text("Back to Sign in",
                     fontSize = 16.sp,
-                    color = hyperlinkColor,
+                    color = Color.White,
                     modifier = Modifier.clickable { navController.popBackStack() })
             }
         }

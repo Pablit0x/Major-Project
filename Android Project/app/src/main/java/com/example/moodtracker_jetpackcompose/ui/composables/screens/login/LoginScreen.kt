@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -60,7 +62,7 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.4f)
-                .background(color = primaryColor)
+                .background(Color(0xFF191919))
         ) {
             Image(
                 painter = image, contentDescription = "Application Logo", modifier = Modifier
@@ -72,9 +74,10 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
+                .background(Color(0xFF191919))
                 .fillMaxSize()
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(whiteBackground)
+                .background(Color(0xFF2D4263))
                 .padding(10.dp)
         ) {
             Text(
@@ -83,6 +86,7 @@ fun LoginScreen(navController: NavController) {
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp
                 ),
+                color = Color.White,
                 fontSize = 30.sp,
                 fontFamily = FontFamily.Monospace
             )
@@ -101,12 +105,12 @@ fun LoginScreen(navController: NavController) {
                             navController = navController
                         )
                     }
-                },
+                }, colors = ButtonDefaults.buttonColors(Color.White),
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(50.dp)
             ) {
-                Text(text = "Sign In", fontSize = 20.sp)
+                Text(text = "Sign In", fontSize = 20.sp, color = Color.Black)
             }
             Spacer(modifier = Modifier.padding(20.dp))
             Row(
@@ -115,11 +119,11 @@ fun LoginScreen(navController: NavController) {
             ) {
                 Text(stringResource(id = R.string.sign_up),
                     fontSize = 16.sp,
-                    color = hyperlinkColor,
+                    color = Color.White,
                     modifier = Modifier.clickable { navController.navigate(Screen.SignUpScreen.route) })
                 Text(stringResource(id = R.string.forgot_password),
                     fontSize = 16.sp,
-                    color = hyperlinkColor,
+                    color = Color.White,
                     modifier = Modifier.clickable { navController.navigate(Screen.ForgotPasswordScreen.route) })
             }
         }

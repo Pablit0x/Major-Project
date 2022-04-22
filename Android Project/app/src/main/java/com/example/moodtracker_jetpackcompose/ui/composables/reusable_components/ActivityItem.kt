@@ -36,16 +36,15 @@ fun ListItem(activity: Activity, date: String, userType: Int) {
     var textAlignment by remember { mutableStateOf(TextAlign.Center) }
     var dividerColor by remember { mutableStateOf(Color.LightGray) }
     var checkState by remember { mutableStateOf(activity.done.toString().toBoolean()) }
-    var icon by remember { mutableStateOf(R.drawable.ic_other_ac) }
+    var icon by remember { mutableStateOf(R.drawable.ic_other_activities) }
     var contentColor by remember{mutableStateOf(Color.White)}
 
     when (activity.type) {
-        "Study" -> icon = R.drawable.ic_study_ac
-        "Sleep" -> icon = R.drawable.ic_sleep_ac
-        "Work" -> icon = R.drawable.ic_work_ac
-        "Workout" -> icon = R.drawable.ic_exercise_ac
-        "Meditation" -> icon = R.drawable.ic_meditation_ac
-        "Other" -> icon - R.drawable.ic_other_ac
+        "Study" -> icon = R.drawable.ic_study
+        "Sleep" -> icon = R.drawable.ic_sleep
+        "Work" -> icon = R.drawable.ic_work
+        "Workout" -> icon = R.drawable.ic_exercise
+        "Other" -> icon - R.drawable.ic_other_activities
     }
 
     when (userType) {
@@ -55,7 +54,7 @@ fun ListItem(activity: Activity, date: String, userType: Int) {
 
     when (activity.createdBy) {
         REGULAR_USER -> bgColor = Color.White
-        SUPERVISOR_USER -> bgColor = tertiaryColor
+        SUPERVISOR_USER -> bgColor = Color(0xFFFFD700)
     }
 
     when (checkState) {

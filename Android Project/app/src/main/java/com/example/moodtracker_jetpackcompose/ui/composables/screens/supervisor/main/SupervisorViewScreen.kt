@@ -43,9 +43,14 @@ var date: String = ""
     ExperimentalMaterialApi::class
 )
 @Composable
-fun SupervisorViewScreen(navController: NavHostController, selectedDate: String, userUID: String, username : String) {
+fun SupervisorViewScreen(
+    navController: NavHostController,
+    selectedDate: String,
+    userUID: String,
+    username: String
+) {
 
-    var userRating by remember{ mutableStateOf(0)}
+    var userRating by remember { mutableStateOf(0) }
     var activities: MutableList<Activity> by remember { mutableStateOf(mutableListOf()) }
 
     SideEffect {
@@ -63,7 +68,7 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
         getRating(date, uid = userUID) {
             userRating = it
         }
-        getFeedback(date = date, uid = userUID){
+        getFeedback(date = date, uid = userUID) {
             feedbackComment = mutableStateOf(it)
         }
     }
@@ -118,29 +123,32 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.04f)
-                        .background(color = secondaryColor)
+                        .fillMaxHeight(0.1f)
+                        .background(color = Color(0xFF2D4263))
                 ) {
-                    Text(text = date, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                }
-                if (userRating != 0) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.1f)
-                            .background(color = secondaryColor)
-                    ) {
-                        for (i in 1..userRating) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_round_star_rate_24),
-                                contentDescription = "star",
-                                modifier = Modifier
-                                    .width(52.dp)
-                                    .height(52.dp),
-                                tint = Color(0xFFFFD700)
-                            )
+                    Text(
+                        text = date,
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    if (userRating != 0) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            for (i in 1..userRating) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_round_star_rate_24),
+                                    contentDescription = "star",
+                                    modifier = Modifier
+                                        .width(52.dp)
+                                        .height(52.dp),
+                                    tint = Color(0xFFFFD700)
+                                )
+                            }
                         }
                     }
                 }
@@ -193,12 +201,14 @@ fun SupervisorViewScreen(navController: NavHostController, selectedDate: String,
                                     }
                                 },
                                 dismissContent = {
-                                    ListItem(activity = item, date = date, userType = SUPERVISOR_USER)
+                                    ListItem(
+                                        activity = item,
+                                        date = date,
+                                        userType = SUPERVISOR_USER
+                                    )
                                 },
                                 directions = setOf(DismissDirection.EndToStart)
                             )
-                            Divider()
-
                             if (index == activities.size - 1) {
                                 Spacer(modifier = Modifier.padding(bottom = 150.dp))
                             }

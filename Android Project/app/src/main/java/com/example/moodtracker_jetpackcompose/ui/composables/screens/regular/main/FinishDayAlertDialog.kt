@@ -56,7 +56,7 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
                     .fillMaxWidth()
                     .fillMaxHeight(0.6f)
                     .padding(5.dp)
-                    .border(width = 1.dp, color = primaryColor, shape = RoundedCornerShape(10.dp)),
+                    .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(10.dp)),
                 color = Color((0xFF2D4263))
             ) {
                 Column(

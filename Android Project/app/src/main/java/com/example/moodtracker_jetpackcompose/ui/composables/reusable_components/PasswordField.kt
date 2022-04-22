@@ -16,7 +16,7 @@ import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 @Composable
 fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>) {
     var passwordVisibility by remember { mutableStateOf(false) }
-    OutlinedTextField(
+    TextField(
         value = password.value,
         onValueChange = { passwordValue ->
             password.value = passwordValue
@@ -34,7 +34,7 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
                     Icon(
                         painter = painterResource(id = R.drawable.ic_password_eye),
                         "Password Visibility Identifier",
-                        tint = if (passwordVisibility) primaryColor else Color.Gray
+                        tint = if (passwordVisibility) Color.White else Color.DarkGray
                     )
                 }
             }
@@ -42,12 +42,16 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_lock),
-                "Lock Icon"
+                "Lock Icon",
+                tint = Color.White
             )
         },
-        label = { Text("Password") },
-        placeholder = { Text(text = "Password") },
+        placeholder = { Text(text = "Password", color = Color.LightGray)},
         singleLine = true,
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color(0xFF191919),
+            textColor = Color.White
+        ),
         visualTransformation = if (passwordVisibility) VisualTransformation.None
         else PasswordVisualTransformation(),
         modifier = Modifier

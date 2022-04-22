@@ -3,22 +3,23 @@ package com.example.moodtracker_jetpackcompose.ui.composables.screens.splash_scr
 import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
@@ -54,16 +55,15 @@ fun AnimatedSplashScreen(navController: NavController) {
 fun SplashScreen(alpha : Float) {
     Box(
         contentAlignment = Alignment.Center, modifier = Modifier
-            .background(if (isSystemInDarkTheme()) Color.Black else primaryColor)
+            .background(if (isSystemInDarkTheme()) Color(0xFF2D4263) else primaryColor)
             .fillMaxSize()
     ) {
-        Icon(
+        Image(
+            painter = key(R.drawable.splash_screen) { painterResource(R.drawable.splash_screen) },
+            contentDescription = null,
             modifier = Modifier
-                .size(140.dp)
+                .size(450.dp)
                 .alpha(alpha = alpha),
-            imageVector = Icons.Default.Email,
-            contentDescription = "Logo Icon",
-            tint = Color.White
         )
     }
 }

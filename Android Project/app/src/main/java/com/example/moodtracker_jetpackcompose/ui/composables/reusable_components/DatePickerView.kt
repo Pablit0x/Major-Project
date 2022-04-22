@@ -45,7 +45,7 @@ fun DatePickerView(navController: NavController, userType: Int, userUID : String
             },
             modifier = Modifier.border(
                 2.dp,
-                color = Color.LightGray,
+                color = Color.White,
                 shape = RoundedCornerShape(25.dp)
             )
         )

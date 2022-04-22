@@ -21,10 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
-import com.example.moodtracker_jetpackcompose.ui.theme.SourceSerifPro
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.tertiaryColor
+import com.example.moodtracker_jetpackcompose.ui.theme.*
 
 
 @Composable
@@ -44,14 +41,20 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
         modifier = Modifier
             .fillMaxWidth(0.8f)
     ) {
-        OutlinedTextField(
+        TextField(
             value = userType.value,
             onValueChange = { accountTypeValue ->
                 userType.value = accountTypeValue
             },
             enabled = false,
-            textStyle = TextStyle(color = color, fontFamily = SourceSerifPro, fontSize = 20.sp, fontWeight = FontWeight.ExtraBold),
-            colors = TextFieldDefaults.outlinedTextFieldColors(disabledTextColor = Color.Black),
+            textStyle = TextStyle(
+                color = color,
+                fontSize = 20.sp,
+            ),
+            colors = TextFieldDefaults.textFieldColors(
+                disabledTextColor = Color.White,
+                backgroundColor = Color(0xFF191919)
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .align(CenterHorizontally)
@@ -60,7 +63,7 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coords.size.toSize()
                 },
-            placeholder = { Text( text = "Select User Type", fontFamily = FontFamily.Monospace)},
+            placeholder = { Text(text = "Select User Type", color = Color.LightGray)},
             trailingIcon = {
                 Icon(icon, "contentDescription",
                     Modifier.clickable { expanded = !expanded })
@@ -78,12 +81,15 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
                     isError.value = false
                     expanded = false
                     color = if (userType.value == "Regular") {
-                        secondaryColor
+                        Color.White
                     } else {
-                        primaryColor
+                        Color(0xFFC84B31)
                     }
                 }) {
-                    Text(text = label ,textAlign = TextAlign.Center, fontFamily = FontFamily.Monospace)
+                    Text(
+                        text = label,
+                        textAlign = TextAlign.Center,
+                    )
                 }
             }
         }

@@ -37,34 +37,16 @@ fun FeedbackBox(
     userType: Int,
     feedbackComment: MutableState<String>
 ) {
-    var msg by remember {
-        mutableStateOf("")
-    }
-    var buttonText by remember{ mutableStateOf("")}
-    var textFieldState by remember { mutableStateOf(true) }
-    when (userType) {
-        REGULAR_USER -> {
-            msg = "Feedback"
-            textFieldState = false
-            buttonText = "Close"
-        }
-        SUPERVISOR_USER -> {
-            msg = "Leave Feedback"
-            textFieldState = true
-            buttonText = "Submit"
-        }
-    }
-
     if (isDialogOpen.value) {
         Dialog(onDismissRequest = { isDialogOpen.value = false }) {
             Surface(
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-//                    .fillMaxHeight(0.8f)
+                    .fillMaxHeight(0.8f)
                     .padding(5.dp)
-                    .border(width = 1.dp, color = primaryColor, shape = RoundedCornerShape(10.dp)),
-                color = Color.White
+                    .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(10.dp)),
+                color = Color(0xFF2D4263)
             ) {
                 Column(
                     modifier = Modifier.padding(5.dp),
@@ -74,24 +56,25 @@ fun FeedbackBox(
                     Spacer(modifier = Modifier.padding(5.dp))
 
                     Text(
-                        text = msg,
+                        text = "Leave Feedback",
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace,
-                        color = Color.Black
+                        color = Color.White
                     )
                     Spacer(modifier = Modifier.padding(5.dp))
 
-                    OutlinedTextField(
+                    TextField(
                         value = feedbackComment.value,
                         onValueChange = { text ->
                             feedbackComment.value = text
                         },
-                        enabled = textFieldState,
-                        textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-                        colors = TextFieldDefaults.textFieldColors(disabledTextColor = Color.Black),
-                        placeholder = { Text(text = "Enter your feedback...") },
-//                        modifier = Modifier.fillMaxHeight(0.8f)
+                        colors = TextFieldDefaults.textFieldColors(
+                            textColor = Color.White,
+                            backgroundColor = Color(0xFF191919)
+                        ),
+                        placeholder = { Text(text = "Enter your feedback...", color = Color.LightGray)},
+                        modifier = Modifier.fillMaxHeight(0.8f)
                     )
 
                     Spacer(modifier = Modifier.padding(5.dp))
@@ -100,27 +83,20 @@ fun FeedbackBox(
                     Button(
                         onClick = {
                             isDialogOpen.value = false
-                            if(userType == REGULAR_USER){
-//                                navController.navigate(Screen.RegularMainScreen.passDate(date))
-                                isDialogOpen.value = false
-                            }
-                            else{
-                                addFeedback(
-                                    uid = userID,
-                                    text = feedbackComment.value,
-                                    date = date
-                                )
-                                isDialogOpen.value = false
-                            }
+                            addFeedback(
+                                uid = userID,
+                                text = feedbackComment.value,
+                                date = date
+                            )
                         },
                         modifier = Modifier
                             .height(70.dp)
                             .fillMaxWidth()
                             .padding(10.dp),
                         shape = RoundedCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(primaryColor)
+                        colors = ButtonDefaults.buttonColors(Color.White)
                     ) {
-                        Text(text = buttonText, fontSize = 16.sp)
+                        Text(text = "Submit", fontSize = 16.sp, color = Color.Black)
                     }
                 }
             }

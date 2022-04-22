@@ -13,11 +13,8 @@ sealed class ActivityType(
     object Work : ActivityType(
         name = "Work")
 
-    object Meditation : ActivityType(
-        name = "Meditation")
-
-    object Workout : ActivityType(
-        name = "Workout")
+    object Exercise : ActivityType(
+        name = "Exercise")
 
     object Study : ActivityType(
         name = "Study")

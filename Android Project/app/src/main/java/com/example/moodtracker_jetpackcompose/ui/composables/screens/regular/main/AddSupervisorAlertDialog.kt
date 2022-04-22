@@ -45,8 +45,8 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
                     .fillMaxWidth()
                     .fillMaxHeight(0.60f)
                     .padding(5.dp)
-                    .border(width = 1.dp, color = primaryColor, shape = RoundedCornerShape(10.dp)),
-                color = Color.White
+                    .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(10.dp)),
+                color = Color((0xFF2D4263))
             ) {
                 Column(
                     modifier = Modifier.padding(5.dp),
@@ -57,7 +57,7 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
 
                     Text(
                         text = "Add Supervisor",
-                        color = Color.Black,
+                        color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp,
                         fontFamily = FontFamily.Monospace
@@ -78,11 +78,11 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
                             .fillMaxWidth(0.8f)
                             .padding(10.dp),
                         shape = RoundedCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(primaryColor)
+                        colors = ButtonDefaults.buttonColors(Color.White)
                     ) {
                         Text(
                             text = "Send Request",
-                            color = Color.White,
+                            color = Color.Black,
                             fontSize = 16.sp
                         )
                     }

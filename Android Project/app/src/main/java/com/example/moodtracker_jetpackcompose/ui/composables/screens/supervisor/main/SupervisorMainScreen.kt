@@ -20,10 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
 import com.example.moodtracker_jetpackcompose.data.model.SupervisorUser
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.RegularUserTopBar
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorBottomBar
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorUserTopBar
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserItem
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.google.firebase.auth.FirebaseAuth
 
@@ -65,12 +62,7 @@ fun SupervisorMainScreen(navController: NavHostController) {
                     .padding(padding)
             ) {
                 if(users.isNullOrEmpty()){
-                    Text(
-                        text = "You are not supervising any users!",
-                        textAlign = TextAlign.Center,
-                        fontFamily = FontFamily.Monospace,
-                        color = Color.LightGray
-                    )
+                    AnimatedText(text = "You are not supervising any users!")
                 } else{
                     LazyColumn(
                         modifier = Modifier
@@ -121,7 +113,6 @@ fun SupervisorMainScreen(navController: NavHostController) {
                                 },
                                 directions = setOf(DismissDirection.EndToStart)
                             )
-                            Divider()
                         }
                     }
                 }
