@@ -1,9 +1,7 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main
 
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.RegularMainViewModel
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.ShowAddActivityAlertDialog
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -141,7 +139,7 @@ fun SupervisorViewScreen(
                         ) {
                             for (i in 1..userRating) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_round_star_rate_24),
+                                    painter = painterResource(id = R.drawable.ic_rating_star),
                                     contentDescription = "star",
                                     modifier = Modifier
                                         .width(52.dp)

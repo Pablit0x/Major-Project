@@ -41,7 +41,7 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
         },
         leadingIcon = {
             Icon(
-                painter = painterResource(id = R.drawable.ic_lock),
+                painter = painterResource(id = R.drawable.ic_lock_closed),
                 "Lock Icon",
                 tint = Color.White
             )

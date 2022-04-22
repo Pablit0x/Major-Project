@@ -55,7 +55,7 @@ fun AnimatedSplashScreen(navController: NavController) {
 fun SplashScreen(alpha : Float) {
     Box(
         contentAlignment = Alignment.Center, modifier = Modifier
-            .background(if (isSystemInDarkTheme()) Color(0xFF2D4263) else primaryColor)
+            .background(Color(0xFF2D4263))
             .fillMaxSize()
     ) {
         Image(

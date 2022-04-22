@@ -6,10 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,7 +31,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var firebaseAuth: FirebaseAuth
 private lateinit var signUpViewModel: SignUpViewModel
-private lateinit var loginViewModel : LoginViewModel
+private lateinit var loginViewModel: LoginViewModel
 
 @Composable
 fun SignUpScreen(navController: NavController) {
@@ -52,9 +49,6 @@ fun SignUpScreen(navController: NavController) {
     val emailError: MutableState<Boolean> = remember { mutableStateOf(false) }
     val passwordError: MutableState<Boolean> = remember { mutableStateOf(false) }
 
-    val image = painterResource(id = R.drawable.ic_launcher_foreground)
-
-
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -66,8 +60,11 @@ fun SignUpScreen(navController: NavController) {
                 .background(color = Color(0xFF191919))
         ) {
             Image(
-                painter = image, contentDescription = "Application Logo", modifier = Modifier
+                painter = key(R.drawable.splash_screen) { painterResource(R.drawable.splash_screen) },
+                contentDescription = "App Logo",
+                modifier = Modifier
                     .align(Alignment.CenterHorizontally)
+                    .size(330.dp)
             )
         }
         Column(
@@ -98,16 +95,19 @@ fun SignUpScreen(navController: NavController) {
             Spacer(modifier = Modifier.padding(5.dp))
             UserTypeField(userType = userType, isError = userTypeError)
             Spacer(modifier = Modifier.padding(5.dp))
-            EmailField(email = email, isError =  emailError)
+            EmailField(email = email, isError = emailError)
             Spacer(modifier = Modifier.padding(5.dp))
             PasswordField(password = password, isError = passwordError)
             Spacer(modifier = Modifier.padding(15.dp))
             Button(
                 onClick = {
                     emailError.value = !signUpViewModel.validateEmail(email = email.value)
-                    passwordError.value = !signUpViewModel.validatePassword(password = password.value)
-                    usernameError.value = !signUpViewModel.validateUsername(username = username.value)
-                    userTypeError.value = !signUpViewModel.validateUserType(userType = userType.value)
+                    passwordError.value =
+                        !signUpViewModel.validatePassword(password = password.value)
+                    usernameError.value =
+                        !signUpViewModel.validateUsername(username = username.value)
+                    userTypeError.value =
+                        !signUpViewModel.validateUserType(userType = userType.value)
 
                     if (!usernameError.value && !userTypeError.value && !emailError.value && !passwordError.value) {
                         signUpViewModel.firebaseSignUp(

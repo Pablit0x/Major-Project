@@ -3,6 +3,7 @@ package com.example.moodtracker_jetpackcompose.ui.composables.reusable_component
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -32,7 +33,7 @@ fun EmailField(email: MutableState<String>, isError: MutableState<Boolean>) {
         },
         leadingIcon = {
             Icon(
-                painter = painterResource(id = R.drawable.ic_email),
+                imageVector = Icons.Default.Email,
                 "Email Icon", tint = Color.White
             )
         },

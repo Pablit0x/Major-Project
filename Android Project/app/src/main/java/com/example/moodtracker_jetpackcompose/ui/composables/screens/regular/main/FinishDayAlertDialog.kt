@@ -17,19 +17,15 @@ import androidx.compose.ui.unit.sp
 import com.example.moodtracker_jetpackcompose.R
 import android.view.MotionEvent
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.saveRating
-import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var mRegularMainViewModel: RegularMainViewModel
@@ -81,7 +77,7 @@ fun ShowRatingDialog(isDialogOpen: MutableState<Boolean>, navController: NavCont
                     ) {
                         for (i in 1..5) {
                             Icon(
-                                painter = painterResource(id =R.drawable.ic_round_star_rate_24),
+                                painter = painterResource(id =R.drawable.ic_rating_star),
                                 contentDescription = "star",
                                 modifier = Modifier
                                     .width(size)

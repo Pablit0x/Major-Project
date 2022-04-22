@@ -152,7 +152,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                         ) {
                             for (i in 1..userRating) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_round_star_rate_24),
+                                    painter = painterResource(id = R.drawable.ic_rating_star),
                                     contentDescription = "star",
                                     modifier = Modifier
                                         .width(52.dp)

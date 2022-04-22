@@ -9,10 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,7 +42,6 @@ fun ForgotPasswordScreen(navController: NavController) {
     firebaseAuth = FirebaseAuth.getInstance()
     val context = LocalContext.current
 
-    val image = painterResource(id = R.drawable.ic_launcher_foreground)
     val email: MutableState<String> = remember { mutableStateOf("") }
     val emailError: MutableState<Boolean> = remember { mutableStateOf(false) }
 
@@ -60,8 +56,11 @@ fun ForgotPasswordScreen(navController: NavController) {
                 .background(Color(0xFF191919))
         ) {
             Image(
-                painter = image, contentDescription = "Application Logo", modifier = Modifier
+                painter = key(R.drawable.splash_screen) { painterResource(R.drawable.splash_screen) },
+                contentDescription = "App Logo",
+                modifier = Modifier
                     .align(Alignment.CenterHorizontally)
+                    .size(330.dp)
             )
         }
 

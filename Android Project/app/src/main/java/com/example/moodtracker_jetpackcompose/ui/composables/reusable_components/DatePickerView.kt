@@ -37,7 +37,7 @@ fun DatePickerView(navController: NavController, userType: Int, userUID : String
         modifier = Modifier.fillMaxSize()
     ) {
         AndroidView(
-            factory = { CalendarView(it) },
+            factory = { CalendarView(it)},
             update = {
                 it.setOnDateChangeListener { _, year, month, day ->
                     date = "$day-${month + 1}-$year"

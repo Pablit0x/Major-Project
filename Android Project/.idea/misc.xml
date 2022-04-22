@@ -30,6 +30,7 @@
         <entry key="../../../../../layout/compose-model-1650645213190.xml" value="0.11570945945945946" />
         <entry key="../../../../../layout/compose-model-1650645724695.xml" value="0.11570945945945946" />
         <entry key="../../../../../layout/compose-model-1650647800136.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1650649190466.xml" value="0.15462962962962962" />
         <entry key="app/src/main/res/drawable/app_icon_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/app_logo.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/app_logo_text.xml" value="0.1" />
@@ -37,8 +38,10 @@
         <entry key="app/src/main/res/drawable/ic_add_activity.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_add_feedback.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_add_person.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_arrow_forward.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_flag_24.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_cancel.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_email.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_exercise.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_exercise_ac.xml" value="0.1335" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
