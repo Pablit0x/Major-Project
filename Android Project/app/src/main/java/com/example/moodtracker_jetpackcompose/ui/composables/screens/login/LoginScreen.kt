@@ -1,6 +1,5 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.login
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,24 +12,22 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.EmailField
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.PasswordField
-import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
+import com.example.moodtracker_jetpackcompose.ui.theme.NavyBlue
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var firebaseAuth: FirebaseAuth
@@ -58,7 +55,7 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.4f)
-                .background(Color(0xFF191919))
+                .background(PerfectGray)
         ) {
             Image(
                 painter = key(R.drawable.splash_screen) { painterResource(R.drawable.splash_screen) },
@@ -73,19 +70,19 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .background(Color(0xFF191919))
+                .background(PerfectGray)
                 .fillMaxSize()
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(Color(0xFF2D4263))
+                .background(NavyBlue)
                 .padding(10.dp)
         ) {
             Text(
-                text = "Sign In",
+                text = stringResource(id = R.string.sign_in),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp
                 ),
-                color = Color.White,
+                color = PerfectWhite,
                 fontSize = 30.sp,
                 fontFamily = FontFamily.Monospace
             )
@@ -104,12 +101,16 @@ fun LoginScreen(navController: NavController) {
                             navController = navController
                         )
                     }
-                }, colors = ButtonDefaults.buttonColors(Color.White),
+                }, colors = ButtonDefaults.buttonColors(PerfectWhite),
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(50.dp)
             ) {
-                Text(text = "Sign In", fontSize = 20.sp, color = Color.Black)
+                Text(
+                    text = stringResource(id = R.string.sign_in),
+                    fontSize = 20.sp,
+                    color = PerfectBlack
+                )
             }
             Spacer(modifier = Modifier.padding(20.dp))
             Row(
@@ -118,19 +119,13 @@ fun LoginScreen(navController: NavController) {
             ) {
                 Text(stringResource(id = R.string.sign_up),
                     fontSize = 16.sp,
-                    color = Color.White,
+                    color = PerfectWhite,
                     modifier = Modifier.clickable { navController.navigate(Screen.SignUpScreen.route) })
                 Text(stringResource(id = R.string.forgot_password),
                     fontSize = 16.sp,
-                    color = Color.White,
+                    color = PerfectWhite,
                     modifier = Modifier.clickable { navController.navigate(Screen.ForgotPasswordScreen.route) })
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController())
 }

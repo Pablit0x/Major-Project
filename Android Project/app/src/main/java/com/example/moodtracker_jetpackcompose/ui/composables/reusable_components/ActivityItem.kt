@@ -1,6 +1,5 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
@@ -22,29 +22,28 @@ import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
 import com.example.moodtracker_jetpackcompose.data.model.setActivityStatus
+import com.example.moodtracker_jetpackcompose.ui.theme.GoldenYellow
 import com.example.moodtracker_jetpackcompose.ui.theme.IconSizes
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.tertiaryColor
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 
 @Composable
-fun ListItem(activity: Activity, date: String, userType: Int) {
+fun ActivityItem(activity: Activity, date: String, userType: Int) {
     val regularTextStyle = TextStyle(textDecoration = TextDecoration.None)
     val crossedTextStyle = TextStyle(textDecoration = TextDecoration.LineThrough)
     var style by remember { mutableStateOf(regularTextStyle) }
     var bgColor by remember { mutableStateOf(Color.White) }
     var textAlignment by remember { mutableStateOf(TextAlign.Center) }
-    var dividerColor by remember { mutableStateOf(Color.LightGray) }
     var checkState by remember { mutableStateOf(activity.done.toString().toBoolean()) }
-    var icon by remember { mutableStateOf(R.drawable.ic_other_activities) }
-    var contentColor by remember{mutableStateOf(Color.White)}
+    var activityIcon by remember { mutableStateOf(R.drawable.ic_other_activities) }
+    var contentColor by remember { mutableStateOf(Color.White) }
 
     when (activity.type) {
-        "Study" -> icon = R.drawable.ic_study
-        "Sleep" -> icon = R.drawable.ic_sleep
-        "Work" -> icon = R.drawable.ic_work
-        "Workout" -> icon = R.drawable.ic_exercise
-        "Other" -> icon - R.drawable.ic_other_activities
+        stringResource(id = R.string.study) -> activityIcon = R.drawable.ic_study
+        stringResource(id = R.string.sleep) -> activityIcon = R.drawable.ic_sleep
+        stringResource(id = R.string.work) -> activityIcon = R.drawable.ic_work
+        stringResource(id = R.string.exercise) -> activityIcon = R.drawable.ic_exercise
+        stringResource(id = R.string.other) -> activityIcon - R.drawable.ic_other_activities
     }
 
     when (userType) {
@@ -53,21 +52,19 @@ fun ListItem(activity: Activity, date: String, userType: Int) {
     }
 
     when (activity.createdBy) {
-        REGULAR_USER -> bgColor = Color.White
-        SUPERVISOR_USER -> bgColor = Color(0xFFFFD700)
+        REGULAR_USER -> bgColor = PerfectWhite
+        SUPERVISOR_USER -> bgColor = GoldenYellow
     }
 
     when (checkState) {
         true -> {
             style = crossedTextStyle
             bgColor = Color.DarkGray
-            contentColor = Color.White
-            dividerColor = Color.White
+            contentColor = PerfectWhite
         }
         false -> {
             style = regularTextStyle
-            contentColor = Color.Black
-            dividerColor = Color.LightGray
+            contentColor = PerfectBlack
         }
     }
     Surface(
@@ -76,9 +73,9 @@ fun ListItem(activity: Activity, date: String, userType: Int) {
             .fillMaxWidth()
             .fillMaxHeight(0.1f)
             .padding(5.dp)
-            .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(12.dp)),
+            .border(width = 1.dp, color = PerfectWhite, shape = RoundedCornerShape(12.dp)),
         color = bgColor
-    ){
+    ) {
         Column {
             Row(
                 horizontalArrangement = Arrangement.SpaceAround,
@@ -89,12 +86,15 @@ fun ListItem(activity: Activity, date: String, userType: Int) {
                     .fillMaxWidth()
             ) {
                 Icon(
-                    painter = (painterResource(id = icon)), contentDescription = "", modifier = Modifier
+                    painter = (painterResource(id = activityIcon)),
+                    contentDescription = "activity icon",
+                    modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
                         .size(
                             IconSizes.medium
-                        ), tint = contentColor
+                        ),
+                    tint = contentColor
                 )
                 Text(
                     text = activity.name.toString(),
@@ -116,11 +116,13 @@ fun ListItem(activity: Activity, date: String, userType: Int) {
                             .scale(1.5f)
                             .weight(1f)
                             .fillMaxHeight(),
-                        colors = CheckboxDefaults.colors(Color.White, uncheckedColor = Color.Black)
+                        colors = CheckboxDefaults.colors(
+                            PerfectWhite,
+                            uncheckedColor = PerfectBlack
+                        )
                     )
                 }
             }
-//        Divider(color = dividerColor, modifier = Modifier.fillMaxWidth(), thickness = 1.dp)
         }
     }
 

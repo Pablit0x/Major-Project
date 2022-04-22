@@ -8,10 +8,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
+
 
 @Composable
 fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>) {
@@ -25,7 +28,7 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
         trailingIcon = {
 
             if (isError.value)
-                Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colors.error)
+                Icon(Icons.Filled.Warning, "error icon", tint = MaterialTheme.colors.error)
             else {
 
                 IconButton(onClick = {
@@ -33,8 +36,8 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_password_eye),
-                        "Password Visibility Identifier",
-                        tint = if (passwordVisibility) Color.White else Color.DarkGray
+                        "password visibility identifier",
+                        tint = if (passwordVisibility) PerfectWhite else Color.DarkGray
                     )
                 }
             }
@@ -42,15 +45,20 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_lock_closed),
-                "Lock Icon",
-                tint = Color.White
+                "lock icon",
+                tint = PerfectWhite
             )
         },
-        placeholder = { Text(text = "Password", color = Color.LightGray)},
+        placeholder = {
+            Text(
+                text = stringResource(id = R.string.password),
+                color = Color.LightGray
+            )
+        },
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color(0xFF191919),
-            textColor = Color.White
+            backgroundColor = PerfectGray,
+            textColor = PerfectWhite
         ),
         visualTransformation = if (passwordVisibility) VisualTransformation.None
         else PasswordVisualTransformation(),
@@ -60,7 +68,7 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
 
     if (isError.value) {
         Text(
-            text = "Password field cannot be empty!",
+            text = stringResource(id = R.string.invalid_password_msg),
             color = MaterialTheme.colors.error,
             style = MaterialTheme.typography.caption,
         )

@@ -1,16 +1,13 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,11 +33,12 @@ import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
 import com.example.moodtracker_jetpackcompose.data.model.addActivity
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityTypeField
-import com.example.moodtracker_jetpackcompose.ui.theme.*
-import com.google.firebase.auth.FirebaseAuth
+import com.example.moodtracker_jetpackcompose.ui.theme.NavyBlue
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import java.util.*
 
-private lateinit var mRegularMainViewModel: RegularMainViewModel
 
 @Composable
 fun ShowAddActivityAlertDialog(
@@ -52,12 +50,16 @@ fun ShowAddActivityAlertDialog(
     username: String
 ) {
 
-    mRegularMainViewModel = RegularMainViewModel()
     val nameVal = remember { mutableStateOf("") }
     val activityType = remember { mutableStateOf("") }
     val isChecked = remember { mutableStateOf(false) }
     var privacyType by remember {
         mutableStateOf("Public")
+    }
+    var dialogSize by remember { mutableStateOf(0.8f) }
+    when (userType) {
+        SUPERVISOR_USER -> dialogSize = 0.65f
+        REGULAR_USER -> dialogSize = 0.8f
     }
 
 
@@ -67,10 +69,10 @@ fun ShowAddActivityAlertDialog(
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.8f)
+                    .fillMaxHeight(dialogSize)
                     .padding(5.dp)
                     .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(10.dp)),
-                color = Color((0xFF2D4263))
+                color = NavyBlue
             ) {
                 Column(
                     modifier = Modifier.padding(5.dp),
@@ -80,8 +82,8 @@ fun ShowAddActivityAlertDialog(
                     Spacer(modifier = Modifier.padding(5.dp))
 
                     Text(
-                        text = "Add Activity",
-                        color = Color.White,
+                        text = stringResource(id = R.string.add_activity),
+                        color = PerfectWhite,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp,
                         fontFamily = FontFamily.Monospace
@@ -94,11 +96,16 @@ fun ShowAddActivityAlertDialog(
                             .fillMaxWidth(0.8f),
                         value = nameVal.value,
                         onValueChange = { nameVal.value = it },
-                        placeholder = { Text(text = "Enter Activity Name...", color = Color.LightGray) },
+                        placeholder = {
+                            Text(
+                                text = stringResource(id = R.string.enter_activity_name),
+                                color = Color.LightGray
+                            )
+                        },
                         singleLine = true,
                         colors = TextFieldDefaults.textFieldColors(
-                            textColor = Color.White,
-                            backgroundColor = Color(0xFF191919)
+                            textColor = PerfectWhite,
+                            backgroundColor = PerfectGray
                         )
                     )
 
@@ -118,7 +125,7 @@ fun ShowAddActivityAlertDialog(
 
                         var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
-                        val icon = if (expanded)
+                        val arrowIcon = if (expanded)
                             Icons.Filled.KeyboardArrowUp
                         else
                             Icons.Filled.KeyboardArrowDown
@@ -133,25 +140,21 @@ fun ShowAddActivityAlertDialog(
                                     privacyType = accountTypeValue
                                 },
                                 enabled = false,
-//                                textStyle = TextStyle(
-//                                    fontSize = 20.sp,
-//                                    fontFamily = FontFamily.Monospace
-//                                ),
                                 leadingIcon = {
                                     when (privacyType) {
                                         "Public" -> Icon(
                                             painter = painterResource(id = R.drawable.ic_lock_open),
-                                            "", tint = Color.White
+                                            "open lock icon", tint = PerfectWhite
                                         )
                                         "Private" -> Icon(
                                             painter = painterResource(id = R.drawable.ic_lock_closed),
-                                            "", tint = Color.White
+                                            "closed lock icon", tint = PerfectWhite
                                         )
                                     }
                                 },
                                 colors = TextFieldDefaults.textFieldColors(
-                                    disabledTextColor = Color.White,
-                                    backgroundColor = Color(0xFF191919)
+                                    disabledTextColor = PerfectWhite,
+                                    backgroundColor = PerfectGray
                                 ),
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -162,8 +165,12 @@ fun ShowAddActivityAlertDialog(
                                         textFieldSize = coords.size.toSize()
                                     },
                                 trailingIcon = {
-                                    Icon(icon, "arrow",
-                                        Modifier.clickable { expanded = !expanded }, tint = Color.LightGray)
+                                    Icon(
+                                        arrowIcon,
+                                        "arrow icon",
+                                        Modifier.clickable { expanded = !expanded },
+                                        tint = Color.LightGray
+                                    )
                                 }
                             )
                             DropdownMenu(
@@ -197,7 +204,7 @@ fun ShowAddActivityAlertDialog(
                                     .padding(end = 8.dp)
                             )
 
-                            Text(text = "Completed", fontSize = 20.sp)
+                            Text(text = stringResource(id = R.string.completed), fontSize = 20.sp)
 
                         }
 
@@ -247,11 +254,11 @@ fun ShowAddActivityAlertDialog(
                                 .fillMaxWidth(0.5f)
                                 .padding(10.dp),
                             shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(Color.White)
+                            colors = ButtonDefaults.buttonColors(PerfectWhite)
                         ) {
                             Text(
-                                text = "Add",
-                                color = Color.Black,
+                                text = stringResource(id = R.string.add),
+                                color = PerfectBlack,
                                 fontSize = 16.sp
                             )
                         }
@@ -265,11 +272,11 @@ fun ShowAddActivityAlertDialog(
                                 .fillMaxWidth()
                                 .padding(10.dp),
                             shape = RoundedCornerShape(5.dp),
-                            colors = ButtonDefaults.buttonColors(Color.White)
+                            colors = ButtonDefaults.buttonColors(PerfectWhite)
                         ) {
                             Text(
-                                text = "Cancel",
-                                color = Color.Black,
+                                text = stringResource(id = R.string.cancel),
+                                color = PerfectBlack,
                                 fontSize = 16.sp
                             )
                         }

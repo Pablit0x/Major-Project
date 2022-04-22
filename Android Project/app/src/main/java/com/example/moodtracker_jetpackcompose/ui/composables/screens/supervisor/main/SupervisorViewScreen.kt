@@ -1,7 +1,5 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main
 
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.ShowAddActivityAlertDialog
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,21 +7,31 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.data.model.*
+import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
+import com.example.moodtracker_jetpackcompose.data.model.getFeedback
+import com.example.moodtracker_jetpackcompose.data.model.getPublicActivities
+import com.example.moodtracker_jetpackcompose.data.model.getRating
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityItem
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.FeedbackBox
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorBottomBar
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorUserTopBar
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.ShowAddActivityAlertDialog
+import com.example.moodtracker_jetpackcompose.ui.theme.GoldenYellow
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
@@ -82,24 +90,29 @@ fun SupervisorViewScreen(
                 FloatingActionButton(
                     onClick = { isAddActivityDialogOpen.value = true },
                     backgroundColor = secondaryColor,
-                    contentColor = Color.White,
+                    contentColor = PerfectWhite,
                 ) {
-                    Icon(imageVector = Icons.Default.Add, "Add activity")
+                    Icon(imageVector = Icons.Default.Add, "add activity icon")
                 }
 
                 Spacer(modifier = Modifier.padding(bottom = 10.dp))
 
                 ExtendedFloatingActionButton(
-                    text = { Text(text = "Leave Feedback", fontFamily = FontFamily.Monospace) },
+                    text = {
+                        Text(
+                            text = stringResource(id = R.string.leave_feedback),
+                            fontFamily = FontFamily.Monospace
+                        )
+                    },
                     icon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_add_feedback),
-                            contentDescription = ""
+                            contentDescription = "add feedback icon"
                         )
                     },
                     onClick = { isAddFeedbackDialogOpen.value = true },
                     backgroundColor = secondaryColor,
-                    contentColor = Color.White,
+                    contentColor = PerfectWhite,
                 )
             }
 
@@ -126,7 +139,7 @@ fun SupervisorViewScreen(
                 ) {
                     Text(
                         text = date,
-                        color = Color.White,
+                        color = PerfectWhite,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -140,11 +153,11 @@ fun SupervisorViewScreen(
                             for (i in 1..userRating) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_rating_star),
-                                    contentDescription = "star",
+                                    contentDescription = "star icon",
                                     modifier = Modifier
                                         .width(52.dp)
                                         .height(52.dp),
-                                    tint = Color(0xFFFFD700)
+                                    tint = GoldenYellow
                                 )
                             }
                         }
@@ -161,55 +174,57 @@ fun SupervisorViewScreen(
                                 item.hashCode()
                             }
                         ) { index, item ->
-                            val state = rememberDismissState(
-                                confirmStateChange = {
-                                    if (it == DismissValue.DismissedToStart) {
-                                        activities.remove(item)
-                                        deleteActivity(
-                                            activity = item,
-                                            uid = firebaseAuthentication.uid!!,
-                                            date = date
-                                        )
-                                    }
-                                    true
-                                }
-                            )
-
-                            SwipeToDismiss(
-                                state = state,
-                                background = {
-                                    val color = when (state.dismissDirection) {
-                                        DismissDirection.StartToEnd -> Color.Transparent
-                                        DismissDirection.EndToStart -> Color.Red
-                                        null -> Color.Transparent
-                                    }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .background(color = color)
-                                            .padding(8.dp)
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Delete,
-                                            contentDescription = "Delete",
-                                            tint = Color.White,
-                                            modifier = Modifier.align(Alignment.CenterEnd)
-                                        )
-                                    }
-                                },
-                                dismissContent = {
-                                    ListItem(
-                                        activity = item,
-                                        date = date,
-                                        userType = SUPERVISOR_USER
-                                    )
-                                },
-                                directions = setOf(DismissDirection.EndToStart)
-                            )
-                            if (index == activities.size - 1) {
-                                Spacer(modifier = Modifier.padding(bottom = 150.dp))
-                            }
+                            ActivityItem(activity = item, date = date, userType = SUPERVISOR_USER)
+//                            val state = rememberDismissState(
+//                                confirmStateChange = {
+//                                    if (it == DismissValue.DismissedToStart) {
+//                                        activities.remove(item)
+//                                        deleteActivity(
+//                                            activity = item,
+//                                            uid = firebaseAuthentication.uid!!,
+//                                            date = date
+//                                        )
+//                                    }
+//                                    true
+//                                }
+//                            )
+//
+//                            SwipeToDismiss(
+//                                state = state,
+//                                background = {
+//                                    val color = when (state.dismissDirection) {
+//                                        DismissDirection.StartToEnd -> Color.Transparent
+//                                        DismissDirection.EndToStart -> Color.Red
+//                                        null -> Color.Transparent
+//                                    }
+//
+//                                    Box(
+//                                        modifier = Modifier
+//                                            .fillMaxSize()
+//                                            .background(color = color)
+//                                            .padding(8.dp)
+//                                    ) {
+//                                        Icon(
+//                                            imageVector = Icons.Default.Delete,
+//                                            contentDescription = "Delete",
+//                                            tint = Color.White,
+//                                            modifier = Modifier.align(Alignment.CenterEnd)
+//                                        )
+//                                    }
+//                                },
+//                                dismissContent = {
+//                                    ListItem(
+//                                        activity = item,
+//                                        date = date,
+//                                        userType = SUPERVISOR_USER
+//                                    )
+//                                },
+//                                directions = setOf(DismissDirection.EndToStart)
+//                            )
+//                            if (index == activities.size - 1) {
+//                                Spacer(modifier = Modifier.padding(bottom = 150.dp))
+//                            }
+//                        }
                         }
                     }
                 }
@@ -226,7 +241,6 @@ fun SupervisorViewScreen(
                     isDialogOpen = isAddFeedbackDialogOpen,
                     date = date,
                     userID = userUID,
-                    userType = SUPERVISOR_USER,
                     feedbackComment = feedbackComment
                 )
             }

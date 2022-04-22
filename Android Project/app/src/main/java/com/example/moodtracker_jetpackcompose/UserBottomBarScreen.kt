@@ -1,7 +1,8 @@
 package com.example.moodtracker_jetpackcompose
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class UserBottomBarScreen(

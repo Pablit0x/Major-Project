@@ -1,8 +1,6 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.requests
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
@@ -38,12 +36,12 @@ class RequestsScreenViewModel : ViewModel() {
         }
     }
 
-    fun acceptRequest(uid : String){
+    fun acceptRequest(uid: String) {
         requests.update("requests", FieldValue.arrayRemove(uid))
         requests.update("supervised", FieldValue.arrayUnion(uid))
     }
 
-    fun declineRequest(uid : String){
+    fun declineRequest(uid: String) {
         requests.update("requests", FieldValue.arrayRemove(uid))
     }
 }

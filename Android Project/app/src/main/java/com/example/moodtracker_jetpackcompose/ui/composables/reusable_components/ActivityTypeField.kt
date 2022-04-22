@@ -6,23 +6,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
-import com.example.moodtracker_jetpackcompose.data.model.Activity
+import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.ActivityType
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 
 @Composable
 fun ActivityTypeField(activityType: MutableState<String>) {
@@ -39,7 +38,7 @@ fun ActivityTypeField(activityType: MutableState<String>) {
 
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
-    val icon = if (expanded)
+    val arrowIcon = if (expanded)
         Icons.Filled.KeyboardArrowUp
     else
         Icons.Filled.KeyboardArrowDown
@@ -54,15 +53,10 @@ fun ActivityTypeField(activityType: MutableState<String>) {
                 activityType.value = accountTypeValue
             },
             enabled = false,
-//            textStyle = TextStyle(
-//                fontSize = 20.sp,
-//                fontWeight = FontWeight.Bold
-//            ),
             colors = TextFieldDefaults.textFieldColors(
-                disabledTextColor = Color.White,
-                backgroundColor = Color(0xFF191919)
+                disabledTextColor = PerfectWhite,
+                backgroundColor = PerfectGray
             ),
-//            colors = TextFieldDefaults.outlinedTextFieldColors(disabledTextColor = Color.Black),
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
@@ -71,10 +65,17 @@ fun ActivityTypeField(activityType: MutableState<String>) {
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coords.size.toSize()
                 },
-            placeholder = { Text(text = "Select Activity Type...", color = Color.LightGray) },
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.select_activity_type),
+                    color = Color.LightGray
+                )
+            },
             trailingIcon = {
-                Icon(icon, "contentDescription",
-                    Modifier.clickable { expanded = !expanded }, tint = Color.LightGray)
+                Icon(
+                    arrowIcon, "arrow icon",
+                    Modifier.clickable { expanded = !expanded }, tint = Color.LightGray
+                )
             }
         )
         DropdownMenu(

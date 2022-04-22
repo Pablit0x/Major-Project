@@ -15,19 +15,22 @@ import com.example.moodtracker_jetpackcompose.SupervisorBottomBarScreen
 import com.example.moodtracker_jetpackcompose.UserBottomBarScreen
 
 @Composable
-fun UserBottomBar(navController: NavHostController){
+fun UserBottomBar(navController: NavHostController) {
     val screens = listOf(
         UserBottomBarScreen.Calendar,
-        UserBottomBarScreen.Home,
-//        UserBottomBarScreen.Messenger
+        UserBottomBarScreen.Home
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation{
-        screens.forEach{ screen ->
-            AddUserItem(screen = screen, currentDestination = currentDestination, navController = navController)
+    BottomNavigation {
+        screens.forEach { screen ->
+            AddUserItem(
+                screen = screen,
+                currentDestination = currentDestination,
+                navController = navController
+            )
         }
 
     }
@@ -35,14 +38,14 @@ fun UserBottomBar(navController: NavHostController){
 
 @Composable
 fun RowScope.AddUserItem(
-    screen : UserBottomBarScreen,
-    currentDestination : NavDestination?,
+    screen: UserBottomBarScreen,
+    currentDestination: NavDestination?,
     navController: NavHostController
-){
+) {
     BottomNavigationItem(
-        label = {Text(text = screen.title)},
-    icon = { Icon(imageVector = screen.icon, contentDescription = "Navigation Icon" )},
-        selected = currentDestination?.hierarchy?.any{
+        label = { Text(text = screen.title) },
+        icon = { Icon(imageVector = screen.icon, contentDescription = "bottom navigation Icon") },
+        selected = currentDestination?.hierarchy?.any {
             it.route == screen.route
         } == true,
         onClick = {
@@ -53,19 +56,22 @@ fun RowScope.AddUserItem(
 
 
 @Composable
-fun SupervisorBottomBar(navController: NavHostController){
+fun SupervisorBottomBar(navController: NavHostController) {
     val screens = listOf(
         SupervisorBottomBarScreen.Requests,
-        SupervisorBottomBarScreen.Home,
-//        SupervisorBottomBarScreen.Messenger
+        SupervisorBottomBarScreen.Home
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation{
-        screens.forEach{ screen ->
-            AddSupervisorItem(screen = screen, currentDestination = currentDestination, navController = navController)
+    BottomNavigation {
+        screens.forEach { screen ->
+            AddSupervisorItem(
+                screen = screen,
+                currentDestination = currentDestination,
+                navController = navController
+            )
         }
 
     }
@@ -73,14 +79,14 @@ fun SupervisorBottomBar(navController: NavHostController){
 
 @Composable
 fun RowScope.AddSupervisorItem(
-    screen : SupervisorBottomBarScreen,
-    currentDestination : NavDestination?,
+    screen: SupervisorBottomBarScreen,
+    currentDestination: NavDestination?,
     navController: NavHostController
-){
+) {
     BottomNavigationItem(
-        label = {Text(text = screen.title)},
-        icon = { Icon(imageVector = screen.icon, contentDescription = "Navigation Icon" )},
-        selected = currentDestination?.hierarchy?.any{
+        label = { Text(text = screen.title) },
+        icon = { Icon(imageVector = screen.icon, contentDescription = "bottom navigation Icon") },
+        selected = currentDestination?.hierarchy?.any {
             it.route == screen.route
         } == true,
         onClick = {

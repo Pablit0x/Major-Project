@@ -14,11 +14,11 @@ data class Activity(
     val name: String? = null,
     val type: String? = null,
     val done: Boolean? = null,
-    val id : String? = null,
-    val createdBy : Int? = null,
-    val privacyType : String? = null,
+    val id: String? = null,
+    val createdBy: Int? = null,
+    val privacyType: String? = null,
     @ServerTimestamp
-    val dateCreated : Date? = null
+    val dateCreated: Date? = null
 )
 
 fun addActivity(activity: Activity, uid: String, date: String) {
@@ -57,14 +57,18 @@ fun getAllActivities(date: String, uid: String, myCallback: (SnapshotStateList<A
     }
 }
 
-fun getPublicActivities(date: String, uid: String, myCallback: (SnapshotStateList<Activity>) -> Unit) {
+fun getPublicActivities(
+    date: String,
+    uid: String,
+    myCallback: (SnapshotStateList<Activity>) -> Unit
+) {
     val db = Firebase.firestore
     val activities = db.collection("records").document(uid).collection(date)
     activities.orderBy("dateCreated").get().addOnCompleteListener { task ->
         if (task.isSuccessful) {
             val list = mutableStateListOf<Activity>()
             for (document in task.result) {
-                if(document["privacyType"] == "Public")
+                if (document["privacyType"] == "Public")
                     list.add(document.toObject())
             }
             myCallback(list)

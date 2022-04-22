@@ -1,6 +1,5 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,15 +11,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
-import com.example.moodtracker_jetpackcompose.data.model.SupervisorUser
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.AnimatedText
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorBottomBar
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorUserTopBar
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserItem
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.google.firebase.auth.FirebaseAuth
 
@@ -36,10 +36,10 @@ fun SupervisorMainScreen(navController: NavHostController) {
 
     firebaseAuth = FirebaseAuth.getInstance()
     supervisorMainViewModel = SupervisorMainViewModel()
-    if(firebaseAuth.currentUser != null){
+    if (firebaseAuth.currentUser != null) {
         SideEffect {
             supervisorMainViewModel.getSupervisedUsers { supervisedUsers ->
-                if(!supervisedUsers.isNullOrEmpty()){
+                if (!supervisedUsers.isNullOrEmpty()) {
                     users = supervisedUsers
                     users.sortBy { it!!.username }
                 }
@@ -48,7 +48,12 @@ fun SupervisorMainScreen(navController: NavHostController) {
     }
 
     Scaffold(
-        topBar = { SupervisorUserTopBar(navController = navController, title ="Supervised Users") },
+        topBar = {
+            SupervisorUserTopBar(
+                navController = navController,
+                title = "Supervised Users"
+            )
+        },
         bottomBar = {
             SupervisorBottomBar(
                 navController = navController
@@ -61,9 +66,9 @@ fun SupervisorMainScreen(navController: NavHostController) {
                     .fillMaxSize()
                     .padding(padding)
             ) {
-                if(users.isNullOrEmpty()){
-                    AnimatedText(text = "You are not supervising any users!")
-                } else{
+                if (users.isNullOrEmpty()) {
+                    AnimatedText(text = stringResource(id = R.string.no_supervised_users))
+                } else {
                     LazyColumn(
                         modifier = Modifier
                             .weight(1f)
@@ -100,8 +105,8 @@ fun SupervisorMainScreen(navController: NavHostController) {
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Delete,
-                                            contentDescription = "Delete",
-                                            tint = Color.White,
+                                            contentDescription = "delete icon",
+                                            tint = PerfectWhite,
                                             modifier = Modifier.align(Alignment.CenterEnd)
                                         )
                                     }
@@ -118,10 +123,4 @@ fun SupervisorMainScreen(navController: NavHostController) {
                 }
             }
         })
-}
-
-@Composable
-@Preview(showBackground = true)
-fun SupervisorMainPreview() {
-    SupervisorMainScreen(navController = rememberNavController())
 }

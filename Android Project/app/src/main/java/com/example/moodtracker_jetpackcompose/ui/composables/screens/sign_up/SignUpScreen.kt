@@ -10,28 +10,28 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.login.LoginViewModel
-import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.EmailField
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.PasswordField
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserTypeField
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UsernameField
+import com.example.moodtracker_jetpackcompose.ui.theme.NavyBlue
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var firebaseAuth: FirebaseAuth
 private lateinit var signUpViewModel: SignUpViewModel
-private lateinit var loginViewModel: LoginViewModel
 
 @Composable
 fun SignUpScreen(navController: NavController) {
@@ -57,11 +57,11 @@ fun SignUpScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.25f)
-                .background(color = Color(0xFF191919))
+                .background(color = PerfectGray)
         ) {
             Image(
                 painter = key(R.drawable.splash_screen) { painterResource(R.drawable.splash_screen) },
-                contentDescription = "App Logo",
+                contentDescription = "app logo",
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .size(330.dp)
@@ -69,10 +69,10 @@ fun SignUpScreen(navController: NavController) {
         }
         Column(
             modifier = Modifier
-                .background(Color(0xFF191919))
+                .background(PerfectGray)
                 .fillMaxSize()
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(Color(0xFF2D4263))
+                .background(NavyBlue)
                 .padding(10.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -80,8 +80,8 @@ fun SignUpScreen(navController: NavController) {
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(0.8f),
-                text = "Sign Up",
-                color = Color.White,
+                text = stringResource(id = R.string.sign_up),
+                color = PerfectWhite,
                 fontFamily = FontFamily.Monospace,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
@@ -123,23 +123,22 @@ fun SignUpScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(50.dp),
-                colors = ButtonDefaults.buttonColors(Color.White)
+                colors = ButtonDefaults.buttonColors(PerfectWhite)
             ) {
-                Text(text = "Sign Up", fontSize = 20.sp, color = Color.Black)
+                Text(
+                    text = stringResource(id = R.string.sign_up),
+                    fontSize = 20.sp,
+                    color = PerfectBlack
+                )
             }
             Spacer(modifier = Modifier.padding(10.dp))
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                Text("Back to Sign in",
+                Text(
+                    stringResource(id = R.string.back_to_sign_in),
                     fontSize = 16.sp,
-                    color = Color.White,
+                    color = PerfectWhite,
                     modifier = Modifier.clickable { navController.popBackStack() })
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun SignUpScreenPreview() {
-    SignUpScreen(navController = rememberNavController())
 }

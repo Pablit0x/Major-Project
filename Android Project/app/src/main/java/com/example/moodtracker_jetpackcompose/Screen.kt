@@ -10,15 +10,18 @@ sealed class Screen(val route: String) {
             return "regular_main_screen?date=$date"
         }
     }
+
     object SupervisorMainScreen : Screen(route = "supervisor_main_screen")
-    object SupervisorCalendarScreen : Screen(route = "supervisor_calendar_screen?username={username}&uid={uid}") {
-        fun passUsernameAndUID(username : String,uid: String): String {
+    object SupervisorCalendarScreen :
+        Screen(route = "supervisor_calendar_screen?username={username}&uid={uid}") {
+        fun passUsernameAndUID(username: String, uid: String): String {
             return "supervisor_calendar_screen?username=$username&uid=$uid"
         }
     }
 
-    object SupervisorViewScreen : Screen(route = "supervisor_view_screen?username={username}&uid={uid}&date={date}") {
-        fun passUsernameDateAndUID(username : String, uid: String, date: String): String {
+    object SupervisorViewScreen :
+        Screen(route = "supervisor_view_screen?username={username}&uid={uid}&date={date}") {
+        fun passUsernameDateAndUID(username: String, uid: String, date: String): String {
             return "supervisor_view_screen?username=$username&uid=$uid&date=$date"
         }
     }

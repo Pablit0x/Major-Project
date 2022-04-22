@@ -9,8 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.moodtracker_jetpackcompose.R
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 
 @Composable
 fun EmailField(email: MutableState<String>, isError: MutableState<Boolean>) {
@@ -20,27 +22,32 @@ fun EmailField(email: MutableState<String>, isError: MutableState<Boolean>) {
             email.value = emailValue
             isError.value = false
         },
-        placeholder = { Text(text = "Enter Email...", color = Color.LightGray) },
+        placeholder = {
+            Text(
+                text = stringResource(id = R.string.email),
+                color = Color.LightGray
+            )
+        },
         singleLine = true,
         modifier = Modifier.fillMaxWidth(0.8f),
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.White,
-            backgroundColor = Color(0xFF191919)
+            textColor = PerfectWhite,
+            backgroundColor = PerfectGray
         ),
         trailingIcon = {
             if (isError.value)
-                Icon(Icons.Filled.Warning, "error", tint = MaterialTheme.colors.error)
+                Icon(Icons.Filled.Warning, "error icon", tint = MaterialTheme.colors.error)
         },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Email,
-                "Email Icon", tint = Color.White
+                "email Icon", tint = PerfectWhite
             )
         },
     )
     if (isError.value) {
         Text(
-            text = "Invalid E-mail address!",
+            text = stringResource(id = R.string.invalid_email_msg),
             color = MaterialTheme.colors.error,
             style = MaterialTheme.typography.caption,
         )

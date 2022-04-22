@@ -10,23 +10,19 @@ import com.google.firebase.ktx.Firebase
 class SplashScreenViewModel : ViewModel() {
 
 
-
-
     fun checkLoginStatus(firebaseAuth: FirebaseAuth, navController: NavController) {
         val db = Firebase.firestore
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser != null) {
             val doc = db.collection("regularUsers").whereEqualTo("email", firebaseUser.email)
             doc.get().addOnSuccessListener { documents ->
-                if(documents.size() == 1){
+                if (documents.size() == 1) {
                     navController.navigate(Screen.RegularMainScreen.route)
-                }
-                else{
+                } else {
                     navController.navigate(Screen.SupervisorMainScreen.route)
                 }
             }
-        }
-        else{
+        } else {
             navController.navigate(Screen.LoginScreen.route)
         }
     }

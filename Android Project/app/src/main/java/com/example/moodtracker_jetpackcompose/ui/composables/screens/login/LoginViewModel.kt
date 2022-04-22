@@ -5,7 +5,6 @@ import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.Screen
-import com.example.moodtracker_jetpackcompose.UserBottomBarScreen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,12 +24,12 @@ class LoginViewModel : ViewModel() {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 val db = Firebase.firestore
-                val doc = db.collection("regularUsers").whereEqualTo("email", firebaseAuth.currentUser!!.email)
+                val doc = db.collection("regularUsers")
+                    .whereEqualTo("email", firebaseAuth.currentUser!!.email)
                 doc.get().addOnSuccessListener { documents ->
-                    if(documents.size() == 1){
+                    if (documents.size() == 1) {
                         navController.navigate(Screen.RegularMainScreen.route)
-                    }
-                    else{
+                    } else {
                         navController.navigate(Screen.SupervisorMainScreen.route)
                     }
                 }

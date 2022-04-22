@@ -16,20 +16,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.EmailField
-import com.example.moodtracker_jetpackcompose.ui.theme.hyperlinkColor
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.whiteBackground
+import com.example.moodtracker_jetpackcompose.ui.theme.NavyBlue
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var forgotPasswordViewModel: ForgotPasswordViewModel
@@ -53,11 +53,11 @@ fun ForgotPasswordScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.4f)
-                .background(Color(0xFF191919))
+                .background(PerfectGray)
         ) {
             Image(
                 painter = key(R.drawable.splash_screen) { painterResource(R.drawable.splash_screen) },
-                contentDescription = "App Logo",
+                contentDescription = "app logo",
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .size(330.dp)
@@ -68,32 +68,32 @@ fun ForgotPasswordScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .background(Color(0xFF191919))
+                .background(PerfectGray)
                 .fillMaxSize()
                 .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                .background(Color(0xFF2D4263))
+                .background(NavyBlue)
                 .padding(10.dp)
         ) {
             Text(
-                text = "Forgot your password?",
+                text = stringResource(id = R.string.forgot_password),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp
                 ),
                 fontSize = 30.sp,
-                color = Color.White
+                color = PerfectWhite
             )
             Spacer(modifier = Modifier.padding(10.dp))
             Text(
                 modifier = Modifier.fillMaxWidth(0.8f),
-                text = "Please enter the email you use to sign in to the Mood Tracker.",
+                text = stringResource(id = R.string.forgot_password_description),
                 style = TextStyle(
                     fontWeight = FontWeight.Light,
                     letterSpacing = 2.sp
                 ),
                 textAlign = TextAlign.Center,
                 fontSize = 14.sp,
-                color = Color.White
+                color = PerfectWhite
             )
             Spacer(modifier = Modifier.padding(15.dp))
             EmailField(email, emailError)
@@ -109,11 +109,11 @@ fun ForgotPasswordScreen(navController: NavController) {
                                 if (task.isSuccessful) {
                                     Toast.makeText(
                                         context,
-                                        "We have sent a password recovery instructions to your email.", Toast.LENGTH_SHORT
+                                        context.getString(R.string.recovery_email_was_sent),
+                                        Toast.LENGTH_SHORT
                                     ).show()
                                     navController.navigate(Screen.LoginScreen.route)
-                                }
-                                else{
+                                } else {
                                     Toast.makeText(
                                         context,
                                         task.exception!!.message.toString(), Toast.LENGTH_SHORT
@@ -124,21 +124,20 @@ fun ForgotPasswordScreen(navController: NavController) {
                 },
                 colors = ButtonDefaults.buttonColors(Color.White)
             ) {
-                Text(text = "Submit", fontSize = 20.sp, color = Color.Black)
+                Text(
+                    text = stringResource(id = R.string.submit),
+                    fontSize = 20.sp,
+                    color = PerfectBlack
+                )
             }
             Spacer(modifier = Modifier.padding(10.dp))
             Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-                Text("Back to Sign in",
+                Text(
+                    stringResource(id = R.string.back_to_sign_in),
                     fontSize = 16.sp,
-                    color = Color.White,
+                    color = PerfectWhite,
                     modifier = Modifier.clickable { navController.popBackStack() })
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun ForgotPasswordPreview() {
-    ForgotPasswordScreen(navController = rememberNavController())
 }

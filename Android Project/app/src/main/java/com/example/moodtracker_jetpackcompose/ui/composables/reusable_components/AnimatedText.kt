@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimatedText( text: String) {
+fun AnimatedText(text: String) {
     var startAnimation by remember {
         mutableStateOf(false)
     }

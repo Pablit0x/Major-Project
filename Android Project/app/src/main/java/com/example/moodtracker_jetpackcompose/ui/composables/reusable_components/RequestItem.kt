@@ -4,7 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
@@ -12,16 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.requests.RequestsScreenViewModel
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
 
@@ -34,15 +35,15 @@ fun RequestItem(regularUser: RegularUser, myCallback: (RegularUser) -> Unit) {
             .fillMaxWidth()
             .fillMaxHeight(0.1f)
             .padding(5.dp)
-            .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(12.dp)),
-        color = Color.White
-    ){
-        Column() {
+            .border(width = 1.dp, color = PerfectWhite, shape = RoundedCornerShape(12.dp)),
+        color = PerfectWhite
+    ) {
+        Column {
             Row(
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .background(color = Color.White)
+                    .background(color = PerfectWhite)
                     .fillMaxHeight(0.3f)
                     .defaultMinSize(minHeight = 80.dp)
                     .fillMaxWidth()
@@ -79,7 +80,7 @@ fun RequestItem(regularUser: RegularUser, myCallback: (RegularUser) -> Unit) {
                 }) {
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = "",
+                        contentDescription = "checkmark icon",
                         tint = secondaryColor,
                         modifier = Modifier
                             .weight(1f)
@@ -95,7 +96,7 @@ fun RequestItem(regularUser: RegularUser, myCallback: (RegularUser) -> Unit) {
                 }) {
                     Icon(
                         imageVector = Icons.Default.Clear,
-                        contentDescription = "",
+                        contentDescription = "clear icon",
                         tint = primaryColor,
                         modifier = Modifier
                             .weight(1f)
@@ -103,6 +104,7 @@ fun RequestItem(regularUser: RegularUser, myCallback: (RegularUser) -> Unit) {
                             .size(48.dp)
                     )
                 }
-            } }
+            }
+        }
     }
 }

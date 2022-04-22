@@ -3,39 +3,33 @@ package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.ma
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavController
-import com.example.moodtracker_jetpackcompose.Screen
-import com.example.moodtracker_jetpackcompose.data.model.Activity
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityTypeField
+import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.EmailField
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
-import com.google.firebase.auth.FirebaseAuth
-import java.util.*
+import com.example.moodtracker_jetpackcompose.ui.theme.NavyBlue
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 
-private lateinit var mRegularMainViewModel: RegularMainViewModel
 
 @Composable
 fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
-
-    val firebaseUser = FirebaseAuth.getInstance().currentUser
-    mRegularMainViewModel = RegularMainViewModel()
     val email = remember { mutableStateOf("") }
-
+    val regularMainViewModel = RegularMainViewModel()
 
     if (isDialogOpen.value) {
         Dialog(onDismissRequest = { isDialogOpen.value = false }) {
@@ -45,8 +39,8 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
                     .fillMaxWidth()
                     .fillMaxHeight(0.60f)
                     .padding(5.dp)
-                    .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(10.dp)),
-                color = Color((0xFF2D4263))
+                    .border(width = 1.dp, color = PerfectWhite, shape = RoundedCornerShape(10.dp)),
+                color = NavyBlue
             ) {
                 Column(
                     modifier = Modifier.padding(5.dp),
@@ -56,8 +50,8 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
                     Spacer(modifier = Modifier.padding(5.dp))
 
                     Text(
-                        text = "Add Supervisor",
-                        color = Color.White,
+                        text = stringResource(id = R.string.add_supervisor),
+                        color = PerfectWhite,
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp,
                         fontFamily = FontFamily.Monospace
@@ -78,11 +72,11 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
                             .fillMaxWidth(0.8f)
                             .padding(10.dp),
                         shape = RoundedCornerShape(5.dp),
-                        colors = ButtonDefaults.buttonColors(Color.White)
+                        colors = ButtonDefaults.buttonColors(PerfectWhite)
                     ) {
                         Text(
-                            text = "Send Request",
-                            color = Color.Black,
+                            text = stringResource(id = R.string.send_request),
+                            color = PerfectBlack,
                             fontSize = 16.sp
                         )
                     }

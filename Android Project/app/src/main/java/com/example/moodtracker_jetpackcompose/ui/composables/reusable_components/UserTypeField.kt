@@ -15,13 +15,15 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
-import com.example.moodtracker_jetpackcompose.ui.theme.*
+import com.example.moodtracker_jetpackcompose.R
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
+import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
+import com.example.moodtracker_jetpackcompose.ui.theme.RedRose
 
 
 @Composable
@@ -29,10 +31,10 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
 
     var expanded by remember { mutableStateOf(false) }
     val userTypes = listOf("Regular", "Supervisor")
-    var color by remember { mutableStateOf(tertiaryColor) }
+    var userTypeTextColor by remember { mutableStateOf(PerfectWhite) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
 
-    val icon = if (expanded)
+    val arrowIcon = if (expanded)
         Icons.Filled.KeyboardArrowUp
     else
         Icons.Filled.KeyboardArrowDown
@@ -48,12 +50,12 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
             },
             enabled = false,
             textStyle = TextStyle(
-                color = color,
+                color = userTypeTextColor,
                 fontSize = 20.sp,
             ),
             colors = TextFieldDefaults.textFieldColors(
-                disabledTextColor = Color.White,
-                backgroundColor = Color(0xFF191919)
+                disabledTextColor = PerfectWhite,
+                backgroundColor = PerfectGray
             ),
             modifier = Modifier
                 .fillMaxWidth()
@@ -63,9 +65,14 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
                     //This value is used to assign to the DropDown the same width
                     textFieldSize = coords.size.toSize()
                 },
-            placeholder = { Text(text = "Select User Type", color = Color.LightGray)},
+            placeholder = {
+                Text(
+                    text = stringResource(id = R.string.select_user_type),
+                    color = Color.LightGray
+                )
+            },
             trailingIcon = {
-                Icon(icon, "contentDescription",
+                Icon(arrowIcon, "arrow icon",
                     Modifier.clickable { expanded = !expanded })
             }
         )
@@ -80,10 +87,10 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
                     userType.value = label
                     isError.value = false
                     expanded = false
-                    color = if (userType.value == "Regular") {
-                        Color.White
+                    userTypeTextColor = if (userType.value == "Regular") {
+                        PerfectWhite
                     } else {
-                        Color(0xFFC84B31)
+                        RedRose
                     }
                 }) {
                     Text(
@@ -96,7 +103,7 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
     }
     if (isError.value) {
         Text(
-            text = "Account type cannot be blank!",
+            text = stringResource(id = R.string.invalid_account_type),
             color = MaterialTheme.colors.error,
             style = MaterialTheme.typography.caption,
         )

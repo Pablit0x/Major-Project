@@ -1,6 +1,5 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,14 +30,15 @@ import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.*
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
-import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
-import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityItem
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.AnimatedText
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.RegularUserTopBar
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserBottomBar
+import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
 
 
-val regularMainViewModel = RegularMainViewModel()
 val firebaseAuth = FirebaseAuth.getInstance()
 val currentUser = firebaseAuth.currentUser
 var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
@@ -46,7 +47,6 @@ var isFinishDayDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 
 
-@SuppressLint("UnrememberedMutableState", "SimpleDateFormat")
 @OptIn(
     ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
     ExperimentalMaterialApi::class
@@ -91,9 +91,9 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                     FloatingActionButton(
                         onClick = { isFeedbackDialogOpen.value = !isFeedbackDialogOpen.value },
                         backgroundColor = primaryColor,
-                        contentColor = Color.White,
+                        contentColor = PerfectWhite,
                     ) {
-                        Icon(imageVector = Icons.Default.Warning, "Add activity")
+                        Icon(imageVector = Icons.Default.Warning, "feedback icon")
                     }
 
                     Spacer(modifier = Modifier.padding(bottom = 10.dp))
@@ -102,24 +102,29 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                 FloatingActionButton(
                     onClick = { isAddActivityDialogOpen.value = true },
                     backgroundColor = secondaryColor,
-                    contentColor = Color.White,
+                    contentColor = PerfectWhite,
                 ) {
-                    Icon(imageVector = Icons.Default.Add, "Add activity")
+                    Icon(imageVector = Icons.Default.Add, "add activity icon")
                 }
 
                 Spacer(modifier = Modifier.padding(bottom = 10.dp))
 
                 ExtendedFloatingActionButton(
                     text = { Text(text = "Rate the day", fontFamily = FontFamily.Monospace) },
-                    icon = { Icon(imageVector = Icons.Default.Star, contentDescription = "") },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "rate the day icon"
+                        )
+                    },
                     onClick = { isFinishDayDialogOpen.value = true },
                     backgroundColor = secondaryColor,
-                    contentColor = Color.White,
+                    contentColor = PerfectWhite,
                 )
             }
 
         },
-        topBar = { RegularUserTopBar(navController, "My Activities") },
+        topBar = { RegularUserTopBar(navController, stringResource(id = R.string.my_activities)) },
         content = { padding ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -139,7 +144,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                 ) {
                     Text(
                         text = date,
-                        color = Color.White,
+                        color = PerfectWhite,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -153,7 +158,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                             for (i in 1..userRating) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_rating_star),
-                                    contentDescription = "star",
+                                    contentDescription = "star icon",
                                     modifier = Modifier
                                         .width(52.dp)
                                         .height(52.dp),
@@ -206,14 +211,14 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Delete,
-                                            contentDescription = "Delete",
-                                            tint = Color.White,
+                                            contentDescription = "delete icon",
+                                            tint = PerfectWhite,
                                             modifier = Modifier.align(Alignment.CenterEnd)
                                         )
                                     }
                                 },
                                 dismissContent = {
-                                    ListItem(
+                                    ActivityItem(
                                         activity = item,
                                         date = date,
                                         userType = REGULAR_USER
@@ -233,8 +238,8 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(padding)
-                    ){
-                        AnimatedText("No activities are recorded for that day!")
+                    ) {
+                        AnimatedText(stringResource(id = R.string.empty_activity_list))
                     }
                 }
 
@@ -247,7 +252,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 .padding(5.dp)
                                 .border(
                                     width = 1.dp,
-                                    color = Color.White,
+                                    color = PerfectWhite,
                                     shape = RoundedCornerShape(10.dp)
                                 ),
                             color = Color((0xFF2D4263))
@@ -260,11 +265,11 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 Spacer(modifier = Modifier.padding(5.dp))
 
                                 Text(
-                                    text = "Feedback",
+                                    text = stringResource(id = R.string.feedback),
                                     fontSize = 25.sp,
                                     fontWeight = FontWeight.Bold,
                                     fontFamily = FontFamily.Monospace,
-                                    color = Color.White
+                                    color = PerfectWhite
                                 )
                                 Spacer(modifier = Modifier.padding(5.dp))
                                 TextField(
@@ -275,8 +280,8 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                     enabled = false,
                                     textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                                     colors = textFieldColors(
-                                        backgroundColor = Color((0xFF2D4263)),
-                                        disabledTextColor = Color.White,
+                                        backgroundColor = NavyBlue,
+                                        disabledTextColor = PerfectWhite,
                                         focusedIndicatorColor = Color.Transparent,
                                         unfocusedIndicatorColor = Color.Transparent,
                                         disabledIndicatorColor = Color.Transparent
@@ -295,9 +300,13 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                         .fillMaxWidth()
                                         .padding(10.dp),
                                     shape = RoundedCornerShape(5.dp),
-                                    colors = ButtonDefaults.buttonColors(Color.White)
+                                    colors = ButtonDefaults.buttonColors(PerfectWhite)
                                 ) {
-                                    Text(text = "Close", fontSize = 16.sp, color = Color.Black)
+                                    Text(
+                                        text = stringResource(id = R.string.close),
+                                        fontSize = 16.sp,
+                                        color = PerfectBlack
+                                    )
                                 }
                             }
                         }

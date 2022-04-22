@@ -4,7 +4,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 data class Rating(
-    val rating : Int? = null
+    val rating: Int? = null
 )
 
 fun getRating(date: String, uid: String, myCallback: (Int) -> Unit) {
