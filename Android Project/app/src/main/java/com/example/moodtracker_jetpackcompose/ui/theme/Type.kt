@@ -10,8 +10,6 @@ import com.example.moodtracker_jetpackcompose.R
 
 // Set of Material typography styles to start with
 
-val SourceSerifPro = FontFamily(Font(R.font.source_serif_pro, FontWeight.Bold))
-
 val Typography = Typography(
     body1 = TextStyle(
         fontFamily = FontFamily.Default,

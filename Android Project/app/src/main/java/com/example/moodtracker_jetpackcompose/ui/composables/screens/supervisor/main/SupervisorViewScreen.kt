@@ -37,7 +37,6 @@ import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
 
 
-val firebaseAuthentication = FirebaseAuth.getInstance()
 var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isAddFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var feedbackComment: MutableState<String> = mutableStateOf("")

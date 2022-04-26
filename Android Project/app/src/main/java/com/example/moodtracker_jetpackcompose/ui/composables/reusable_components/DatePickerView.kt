@@ -1,6 +1,5 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 
-//import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.resetUserRating
 import android.widget.CalendarView
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*

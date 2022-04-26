@@ -18,7 +18,8 @@ import com.example.moodtracker_jetpackcompose.UserBottomBarScreen
 fun UserBottomBar(navController: NavHostController) {
     val screens = listOf(
         UserBottomBarScreen.Calendar,
-        UserBottomBarScreen.Home
+        UserBottomBarScreen.Home,
+        UserBottomBarScreen.Supervisors
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()

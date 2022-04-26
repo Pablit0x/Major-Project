@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.setSupervisorDialog
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.setSupervisorDialog
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
@@ -32,7 +32,7 @@ private val firebaseAuth = FirebaseAuth.getInstance()
 
 
 @Composable
-fun RegularUserTopBar(navController: NavController, title: String) {
+fun RegularUserTopBar(navController: NavController, title: String, showAddIcon: Boolean) {
 
     val isAddSupervisorDialogOpen by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -41,18 +41,20 @@ fun RegularUserTopBar(navController: NavController, title: String) {
         title = { Text(title, textAlign = TextAlign.Center) },
         backgroundColor = PerfectGray,
         actions = {
-            IconButton(
-                onClick = { setSupervisorDialog(!isAddSupervisorDialogOpen) },
-                modifier = Modifier
-                    .padding(end = 8.dp)
-                    .width(45.dp)
-                    .height(45.dp)
-            ) {
-                Icon(
-                    painterResource(id = R.drawable.ic_add_person),
-                    contentDescription = "add supervisor icon",
-                    tint = PerfectWhite
-                )
+            if (showAddIcon) {
+                IconButton(
+                    onClick = { setSupervisorDialog(!isAddSupervisorDialogOpen) },
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .width(45.dp)
+                        .height(45.dp)
+                ) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_add_person),
+                        contentDescription = "add supervisor icon",
+                        tint = PerfectWhite
+                    )
+                }
             }
 
             IconButton(

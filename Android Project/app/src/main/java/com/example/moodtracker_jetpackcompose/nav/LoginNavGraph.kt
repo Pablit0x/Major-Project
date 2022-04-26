@@ -12,6 +12,7 @@ import com.example.moodtracker_jetpackcompose.SupervisorBottomBarScreen
 import com.example.moodtracker_jetpackcompose.UserBottomBarScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.forgot_password.ForgotPasswordScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.login.LoginScreen
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.UserSupervisorsScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.calendar.CalendarScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.RegularMainScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.sign_up.SignUpScreen
@@ -63,6 +64,9 @@ fun SetupNavGraph() {
         ) {
             RegularMainScreen(navController = navController, it.arguments?.getString("date")!!)
             Log.e("Arg", it.arguments?.getString("date")!!)
+        }
+        composable(route = UserBottomBarScreen.Supervisors.route){
+            UserSupervisorsScreen(navController = navController)
         }
         composable(route = UserBottomBarScreen.Calendar.route) {
             CalendarScreen(navController = navController)

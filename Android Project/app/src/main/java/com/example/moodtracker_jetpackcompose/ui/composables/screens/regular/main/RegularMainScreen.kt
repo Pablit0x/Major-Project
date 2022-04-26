@@ -42,10 +42,9 @@ import java.time.LocalDateTime
 val firebaseAuth = FirebaseAuth.getInstance()
 val currentUser = firebaseAuth.currentUser
 var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
-var isAddSupervisorDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isFinishDayDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
-
+var regularMainViewModel: RegularMainViewModel = RegularMainViewModel()
 
 @OptIn(
     ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
@@ -124,7 +123,13 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
             }
 
         },
-        topBar = { RegularUserTopBar(navController, stringResource(id = R.string.my_activities)) },
+        topBar = {
+            RegularUserTopBar(
+                navController,
+                stringResource(id = R.string.my_activities),
+                showAddIcon = false
+            )
+        },
         content = { padding ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -326,13 +331,10 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                     navController = navController,
                     date = date
                 )
-                ShowAddSupervisorDialog(
-                    isDialogOpen = isAddSupervisorDialogOpen
-                )
             }
         })
 }
 
-fun setSupervisorDialog(showDialog: Boolean) {
-    isAddSupervisorDialogOpen.value = showDialog
-}
+//fun setSupervisorDialog(showDialog: Boolean) {
+//    isAddSupervisorDialogOpen.value = showDialog
+//}

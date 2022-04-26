@@ -18,6 +18,10 @@ sealed class ActivityType(
         name = "Study"
     )
 
+    object Entertainment : ActivityType(
+        name = "Entertainment"
+    )
+
     object Other : ActivityType(
         name = "Other Activity"
     )

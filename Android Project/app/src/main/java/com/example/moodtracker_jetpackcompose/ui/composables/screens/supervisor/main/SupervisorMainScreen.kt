@@ -35,8 +35,8 @@ fun SupervisorMainScreen(navController: NavHostController) {
     var users: MutableList<RegularUser?> by remember { mutableStateOf(mutableListOf()) }
 
     firebaseAuth = FirebaseAuth.getInstance()
-    supervisorMainViewModel = SupervisorMainViewModel()
     if (firebaseAuth.currentUser != null) {
+        supervisorMainViewModel = SupervisorMainViewModel()
         SideEffect {
             supervisorMainViewModel.getSupervisedUsers { supervisedUsers ->
                 if (!supervisedUsers.isNullOrEmpty()) {
@@ -83,6 +83,9 @@ fun SupervisorMainScreen(navController: NavHostController) {
                                 confirmStateChange = {
                                     if (it == DismissValue.DismissedToStart) {
                                         users.remove(item)
+                                        supervisorMainViewModel.deleteSupervisedUser(
+                                            userID = item!!.uid!!
+                                        )
                                     }
                                     true
                                 }

@@ -43,6 +43,7 @@ fun ActivityItem(activity: Activity, date: String, userType: Int) {
         stringResource(id = R.string.sleep) -> activityIcon = R.drawable.ic_sleep
         stringResource(id = R.string.work) -> activityIcon = R.drawable.ic_work
         stringResource(id = R.string.exercise) -> activityIcon = R.drawable.ic_exercise
+        stringResource(id = R.string.entertainment) -> activityIcon = R.drawable.ic_entertainment
         stringResource(id = R.string.other) -> activityIcon - R.drawable.ic_other_activities
     }
 

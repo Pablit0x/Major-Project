@@ -1,5 +1,8 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,25 +12,30 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 
+
+@SuppressLint("QueryPermissionsNeeded")
 @Composable
 fun UserItem(user: RegularUser, navController: NavHostController) {
-
+    val context = LocalContext.current
     Surface(
         shape = RoundedCornerShape(10.dp),
         modifier = Modifier
@@ -81,6 +89,26 @@ fun UserItem(user: RegularUser, navController: NavHostController) {
                     )
                 }
                 IconButton(onClick = {
+                    val uri = Uri.parse("mailto:${user.email}")
+                        .buildUpon()
+                        .build()
+                    val emailIntent = Intent(Intent.ACTION_SENDTO, uri)
+                    if(emailIntent.resolveActivity(context.packageManager) != null){
+                        startActivity(context ,emailIntent,  null)
+                    }
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Email,
+                        contentDescription = "email icon",
+                        tint = Color.LightGray,
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .size(36.dp)
+                    )
+                }
+
+                IconButton(onClick = {
                     navController.navigate(
                         Screen.SupervisorCalendarScreen.passUsernameAndUID(
                             username = user.username!!,
@@ -95,7 +123,7 @@ fun UserItem(user: RegularUser, navController: NavHostController) {
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxHeight()
-                            .size(48.dp)
+                            .size(36.dp)
                     )
                 }
             }

@@ -7,6 +7,7 @@
     <string name="exercise">Exercise</string>
     <string name="sleep">Sleep</string>
     <string name="work">Work</string>
+    <string name="entertainment">Entertainment</string>
     <string name="other">Other</string>
     <string name="select_activity_type">Select Activity Type…</string>
     <string name="select">Select</string>
@@ -41,5 +42,6 @@
     <string name="empty_request_list">"You have no pending requests!"</string>
     <string name="requests">Requests</string>
     <string name="email">Email</string>
+    <string name="user_not_supervised">You are not supervised by anyone!</string>
 
 </resources>

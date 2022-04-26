@@ -3,6 +3,7 @@ package com.example.moodtracker_jetpackcompose
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class UserBottomBarScreen(
@@ -23,9 +24,9 @@ sealed class UserBottomBarScreen(
         icon = Icons.Default.Home
     )
 
-//    object Messenger : UserBottomBarScreen(
-//        route = "messenger",
-//        title = "Messenger",
-//        icon = Icons.Default.Email
-//    )
+    object Supervisors : UserBottomBarScreen(
+        route = "supervisors",
+        title = "Supervisors",
+        icon = Icons.Default.Person
+    )
 }

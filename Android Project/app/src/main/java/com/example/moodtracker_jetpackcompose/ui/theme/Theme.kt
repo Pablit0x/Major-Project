@@ -20,9 +20,15 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = primaryColor,
-    primaryVariant = secondaryColor,
-    secondary = Teal200
+    primary = Color(0xFF2D4263),
+    primaryVariant = Color(0xFFC84B31),
+    secondary = Color(0xFFECDBBA),
+    background = Color(0xFF2D4263),
+    surface = Color(0xFF191919),
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.White,
+    onSurface = Color.White,
 
     /* Other default colors to override
     background = Color.White,
@@ -39,11 +45,7 @@ fun MoodTracker_JetpackComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
+    val colors = DarkColorPalette
 
     MaterialTheme(
         colors = colors,
