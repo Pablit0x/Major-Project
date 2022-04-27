@@ -19,15 +19,17 @@ import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
-import com.example.moodtracker_jetpackcompose.data.model.getAvatarID
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.select_avatar.AvatarViewModel
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
 
 private val firebaseAuth = FirebaseAuth.getInstance()
+private lateinit var avatarViewModel: AvatarViewModel
 
 @Composable
 fun SupervisorUserTopBar(navController: NavController, title: String, isHome: Boolean) {
+    avatarViewModel = AvatarViewModel()
     var avatar by remember { mutableStateOf(R.drawable.ic_person) }
     val context = LocalContext.current
 
@@ -39,7 +41,7 @@ fun SupervisorUserTopBar(navController: NavController, title: String, isHome: Bo
             IconButton(onClick = { navController.navigateUp() }) {
                 if (isHome && firebaseAuth.currentUser != null) {
                     SideEffect {
-                        getAvatarID(
+                        avatarViewModel.getAvatarID(
                             userID = firebaseAuth.currentUser!!.uid,
                             userType = SUPERVISOR_USER
                         ) {

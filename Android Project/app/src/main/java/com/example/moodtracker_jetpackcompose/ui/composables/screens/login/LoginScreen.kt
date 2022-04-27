@@ -93,7 +93,9 @@ fun LoginScreen(navController: NavController) {
             Button(
                 onClick = {
                     emailError.value = !loginViewModel.validateEmail(email = email.value)
-                    if (loginViewModel.validateEmail(email = email.value)) {
+                    passwordError.value =
+                        !loginViewModel.validatePassword(password = password.value)
+                    if (!emailError.value && !passwordError.value) {
                         loginViewModel.firebaseLogin(
                             firebaseAuth = firebaseAuth,
                             email = email.value,

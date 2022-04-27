@@ -28,13 +28,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
-import com.example.moodtracker_jetpackcompose.data.model.*
+import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityItem
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.AnimatedText
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.RegularUserTopBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserBottomBar
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.ShowSelectAvatarDialog
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.add_activity.ShowAddActivityAlertDialog
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.select_avatar.ShowSelectAvatarDialog
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.isSelectAvatarDialogOpen
 import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
@@ -46,6 +47,7 @@ val currentUser = firebaseAuth.currentUser
 var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isFinishDayDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
+lateinit var regularMainViewModel: RegularMainViewModel
 
 @OptIn(
     ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
@@ -53,6 +55,7 @@ var isFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 )
 @Composable
 fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
+    regularMainViewModel = RegularMainViewModel()
     var feedbackComment by remember { mutableStateOf("") }
     var userRating by remember { mutableStateOf(0) }
     var date by remember { mutableStateOf("") }
@@ -66,15 +69,15 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
             formattedDate
         }
         currentUser?.let { it ->
-            getAllActivities(date, it.uid) {
+            regularMainViewModel.getAllActivities(date, it.uid) {
                 if (!it.isNullOrEmpty()) {
                     activities = it
                 }
             }
-            getRating(date, it.uid) {
+            regularMainViewModel.getRating(date, it.uid) {
                 userRating = it
             }
-            getFeedback(date = date, uid = it.uid) {
+            regularMainViewModel.getFeedback(date = date, uid = it.uid) {
                 feedbackComment = it
             }
         }
@@ -190,7 +193,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 confirmStateChange = {
                                     if (it == DismissValue.DismissedToStart) {
                                         activities.remove(item)
-                                        deleteActivity(
+                                        regularMainViewModel.deleteActivity(
                                             activity = item,
                                             uid = firebaseAuth.uid!!,
                                             date = date

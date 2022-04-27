@@ -22,9 +22,11 @@ import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
-import com.example.moodtracker_jetpackcompose.data.model.setAvatar
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.select_avatar.AvatarViewModel
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.setAvatarDialog
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
+
+private lateinit var selectAvatarViewModel: AvatarViewModel
 
 val avatarList: List<Int> = listOf(
     R.drawable.ic_avatar1,
@@ -39,6 +41,7 @@ val avatarList: List<Int> = listOf(
 
 @Composable
 fun ImagePicker(userType: Int, navController: NavHostController) {
+    selectAvatarViewModel = AvatarViewModel()
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -72,7 +75,10 @@ fun ImagePicker(userType: Int, navController: NavHostController) {
                             .fillMaxHeight()
                             .size(55.dp)
                             .clickable {
-                                setAvatar(userType = userType, avatarID = index)
+                                selectAvatarViewModel.setAvatar(
+                                    userType = userType,
+                                    avatarID = index
+                                )
                                 when (userType) {
                                     REGULAR_USER -> navController.navigate(
                                         Screen.RegularMainScreen.route
@@ -107,7 +113,10 @@ fun ImagePicker(userType: Int, navController: NavHostController) {
                             .fillMaxHeight()
                             .size(55.dp)
                             .clickable {
-                                setAvatar(userType = userType, avatarID = index)
+                                selectAvatarViewModel.setAvatar(
+                                    userType = userType,
+                                    avatarID = index
+                                )
                                 when (userType) {
                                     REGULAR_USER -> navController.navigate(
                                         Screen.RegularMainScreen.route

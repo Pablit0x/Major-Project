@@ -44,5 +44,7 @@
     <string name="email">Email</string>
     <string name="user_not_supervised">You are not supervised by anyone!</string>
     <string name="select_avatar">Select Avatar</string>
+    <string name="invalid_activity_name">Activity name cannot be blank!</string>
+    <string name="invalid_activity_type">Activity type cannot be blank!</string>
 
 </resources>

@@ -24,12 +24,14 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
-import com.example.moodtracker_jetpackcompose.data.model.saveRating
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.rate_day.RateDayViewModel
 import com.example.moodtracker_jetpackcompose.ui.theme.GoldenYellow
 import com.example.moodtracker_jetpackcompose.ui.theme.NavyBlue
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
+
+private lateinit var rateDayViewModel: RateDayViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -38,7 +40,7 @@ fun ShowRatingDialog(
     navController: NavController,
     date: String
 ) {
-
+    rateDayViewModel = RateDayViewModel()
     val firebaseUser = FirebaseAuth.getInstance().currentUser
     var ratingState by remember { mutableStateOf(3) }
     var selected by remember { mutableStateOf(false) }
@@ -107,7 +109,7 @@ fun ShowRatingDialog(
 
                     Button(
                         onClick = {
-                            saveRating(firebaseUser!!.uid, ratingState, date)
+                            rateDayViewModel.saveRating(firebaseUser!!.uid, ratingState, date)
                             isDialogOpen.value = false
                             navController.navigate(Screen.RegularMainScreen.passDate(date = date))
                         },

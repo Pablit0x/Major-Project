@@ -1,4 +1,4 @@
-package com.example.moodtracker_jetpackcompose.ui.composables.screens
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.select_avatar
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,8 +21,6 @@ fun ShowSelectAvatarDialog(
     userType: Int,
     navController: NavHostController
 ) {
-
-
     if (isDialogOpen.value) {
         Dialog(onDismissRequest = { isDialogOpen.value = false }) {
             Surface(

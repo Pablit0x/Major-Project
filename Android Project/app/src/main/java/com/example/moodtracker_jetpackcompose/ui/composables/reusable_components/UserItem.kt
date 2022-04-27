@@ -3,7 +3,6 @@ package com.example.moodtracker_jetpackcompose.ui.composables.reusable_component
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -64,9 +63,9 @@ fun UserItem(user: RegularUser, navController: NavHostController) {
                     shape = CircleShape,
                     elevation = 2.dp
                 ) {
-                    val image: Painter = if(user.avatarID == null){
+                    val image: Painter = if (user.avatarID == null) {
                         painterResource(id = R.drawable.ic_person)
-                    } else{
+                    } else {
                         painterResource(avatarList[user.avatarID])
                     }
                     Image(

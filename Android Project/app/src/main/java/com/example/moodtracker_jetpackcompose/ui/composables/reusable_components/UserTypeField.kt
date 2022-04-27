@@ -60,6 +60,7 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
             modifier = Modifier
                 .fillMaxWidth()
                 .align(CenterHorizontally)
+                .clickable { expanded = !expanded }
                 .onGloballyPositioned
                 { coords ->
                     //This value is used to assign to the DropDown the same width
@@ -72,8 +73,7 @@ fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>
                 )
             },
             trailingIcon = {
-                Icon(arrowIcon, "arrow icon",
-                    Modifier.clickable { expanded = !expanded })
+                Icon(arrowIcon, "arrow icon")
             }
         )
         DropdownMenu(

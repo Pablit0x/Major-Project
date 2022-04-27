@@ -2,9 +2,9 @@ package com.example.moodtracker_jetpackcompose.ui.composables.reusable_component
 
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -22,16 +22,15 @@ import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
-import com.example.moodtracker_jetpackcompose.data.model.getAvatarID
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.currentUser
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.setSupervisorDialog
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.setAvatarDialog
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.select_avatar.AvatarViewModel
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
 
 private val firebaseAuth = FirebaseAuth.getInstance()
-
+private lateinit var avatarViewModel: AvatarViewModel
 
 @Composable
 fun RegularUserTopBar(
@@ -40,7 +39,7 @@ fun RegularUserTopBar(
     showAddIcon: Boolean,
     isHome: Boolean
 ) {
-
+    avatarViewModel = AvatarViewModel()
     val isAddSupervisorDialogOpen by remember { mutableStateOf(false) }
     var avatar by remember { mutableStateOf(R.drawable.ic_person) }
     val context = LocalContext.current
@@ -54,7 +53,10 @@ fun RegularUserTopBar(
                 if (isHome) {
                     SideEffect {
                         if (currentUser != null) {
-                            getAvatarID(userID = currentUser.uid, userType = REGULAR_USER) {
+                            avatarViewModel.getAvatarID(
+                                userID = currentUser.uid,
+                                userType = REGULAR_USER
+                            ) {
                                 avatar = if (it == -1) {
                                     R.drawable.ic_person
                                 } else {

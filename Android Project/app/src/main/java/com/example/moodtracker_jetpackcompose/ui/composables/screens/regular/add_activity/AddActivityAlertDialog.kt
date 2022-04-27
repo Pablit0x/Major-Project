@@ -1,4 +1,4 @@
-package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.add_activity
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +32,6 @@ import com.example.moodtracker_jetpackcompose.Screen
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
-import com.example.moodtracker_jetpackcompose.data.model.addActivity
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityTypeField
 import com.example.moodtracker_jetpackcompose.ui.theme.NavyBlue
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
@@ -56,6 +56,10 @@ fun ShowAddActivityAlertDialog(
     var privacyType by remember {
         mutableStateOf("Public")
     }
+    val activityNameError: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val activityTypeError: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val addActivityViewModel = AddActivityViewModel()
+
     var dialogSize by remember { mutableStateOf(0.8f) }
     when (userType) {
         SUPERVISOR_USER -> dialogSize = 0.65f
@@ -95,7 +99,10 @@ fun ShowAddActivityAlertDialog(
                         modifier = Modifier
                             .fillMaxWidth(0.8f),
                         value = nameVal.value,
-                        onValueChange = { nameVal.value = it },
+                        onValueChange = {
+                            nameVal.value = it
+                            activityNameError.value = false
+                        },
                         placeholder = {
                             Text(
                                 text = stringResource(id = R.string.enter_activity_name),
@@ -106,12 +113,27 @@ fun ShowAddActivityAlertDialog(
                         colors = TextFieldDefaults.textFieldColors(
                             textColor = PerfectWhite,
                             backgroundColor = PerfectGray
-                        )
+                        ),
+                        trailingIcon = {
+                            if (activityNameError.value)
+                                Icon(
+                                    Icons.Filled.Warning,
+                                    "error icon",
+                                    tint = MaterialTheme.colors.error
+                                )
+                        }
                     )
+                    if (activityNameError.value) {
+                        Text(
+                            text = stringResource(id = R.string.invalid_activity_name),
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                        )
+                    }
 
                     Spacer(modifier = Modifier.padding(8.dp))
 
-                    ActivityTypeField(activityType = activityType)
+                    ActivityTypeField(activityType = activityType, activityTypeError)
                     if (userType == REGULAR_USER) {
 
                         Spacer(modifier = Modifier.padding(8.dp))
@@ -219,34 +241,40 @@ fun ShowAddActivityAlertDialog(
                     ) {
                         Button(
                             onClick = {
-                                val uniqueID = UUID.randomUUID().toString()
-                                val activity = Activity(
-                                    name = nameVal.value,
-                                    type = activityType.value,
-                                    done = isChecked.value,
-                                    id = uniqueID,
-                                    createdBy = userType,
-                                    privacyType = privacyType
-                                )
-                                addActivity(
-                                    activity = activity,
-                                    uid = userID,
-                                    date = date
-                                )
-                                isDialogOpen.value = false
-                                when (userType) {
-                                    REGULAR_USER -> navController.navigate(
-                                        Screen.RegularMainScreen.passDate(
-                                            date = date
-                                        )
+                                activityTypeError.value =
+                                    !addActivityViewModel.validateActivityType(activityType = activityType.value)
+                                activityNameError.value =
+                                    !addActivityViewModel.validateActivityName(nameVal.value)
+                                if (!activityNameError.value && !activityTypeError.value) {
+                                    val uniqueID = UUID.randomUUID().toString()
+                                    val activity = Activity(
+                                        name = nameVal.value,
+                                        type = activityType.value,
+                                        done = isChecked.value,
+                                        id = uniqueID,
+                                        createdBy = userType,
+                                        privacyType = privacyType
                                     )
-                                    SUPERVISOR_USER -> navController.navigate(
-                                        Screen.SupervisorViewScreen.passUsernameDateAndUID(
-                                            username = username,
-                                            uid = userID,
-                                            date = date
-                                        )
+                                    addActivityViewModel.addActivity(
+                                        activity = activity,
+                                        uid = userID,
+                                        date = date
                                     )
+                                    isDialogOpen.value = false
+                                    when (userType) {
+                                        REGULAR_USER -> navController.navigate(
+                                            Screen.RegularMainScreen.passDate(
+                                                date = date
+                                            )
+                                        )
+                                        SUPERVISOR_USER -> navController.navigate(
+                                            Screen.SupervisorViewScreen.passUsernameDateAndUID(
+                                                username = username,
+                                                uid = userID,
+                                                date = date
+                                            )
+                                        )
+                                    }
                                 }
                             },
                             modifier = Modifier

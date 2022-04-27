@@ -38,4 +38,9 @@ class LoginViewModel : ViewModel() {
                 Log.e("Login", "Login failed")
             }
     }
+
+
+    fun validatePassword(password: String): Boolean {
+        return password.isNotEmpty() && password.length > 5
+    }
 }

@@ -1,5 +1,6 @@
-package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.add_supervisor
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,10 +27,12 @@ import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
     val email = remember { mutableStateOf("") }
-    val regularMainViewModel = RegularMainViewModel()
+    val emailError: MutableState<Boolean> = remember { mutableStateOf(false) }
+    val addSupervisorViewModel = AddSupervisorViewModel()
 
     if (isDialogOpen.value) {
         Dialog(onDismissRequest = { isDialogOpen.value = false }) {
@@ -59,13 +62,17 @@ fun ShowAddSupervisorDialog(isDialogOpen: MutableState<Boolean>) {
 
                     Spacer(modifier = Modifier.padding(10.dp))
 
-                    EmailField(email = email, isError = mutableStateOf(false))
+                    EmailField(email = email, isError = emailError)
 
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(
                         onClick = {
-                            regularMainViewModel.addSupervisor(email = email.value)
-                            isDialogOpen.value = false
+                            emailError.value =
+                                !addSupervisorViewModel.validateEmail(email = email.value)
+                            if (!emailError.value) {
+                                addSupervisorViewModel.addSupervisor(email = email.value)
+                                isDialogOpen.value = false
+                            }
                         },
                         modifier = Modifier
                             .height(70.dp)

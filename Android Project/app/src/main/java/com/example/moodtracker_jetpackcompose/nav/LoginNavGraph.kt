@@ -19,8 +19,8 @@ import com.example.moodtracker_jetpackcompose.ui.composables.screens.sign_up.Sig
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.splash_screen.AnimatedSplashScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.SupervisorCalendarScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.SupervisorMainScreen
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.SupervisorViewScreen
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.requests.RequestsScreen
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.user_activities.SupervisorViewScreen
 
 @Composable
 fun SetupNavGraph() {

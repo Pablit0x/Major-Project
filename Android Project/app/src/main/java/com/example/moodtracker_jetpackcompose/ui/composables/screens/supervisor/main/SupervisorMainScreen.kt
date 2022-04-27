@@ -21,7 +21,7 @@ import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorBottomBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorUserTopBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserItem
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.ShowSelectAvatarDialog
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.select_avatar.ShowSelectAvatarDialog
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.google.firebase.auth.FirebaseAuth

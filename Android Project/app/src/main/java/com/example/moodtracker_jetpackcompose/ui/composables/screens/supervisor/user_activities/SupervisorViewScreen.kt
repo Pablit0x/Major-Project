@@ -1,5 +1,6 @@
-package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main
+package com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.user_activities
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,14 +23,11 @@ import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
-import com.example.moodtracker_jetpackcompose.data.model.getFeedback
-import com.example.moodtracker_jetpackcompose.data.model.getPublicActivities
-import com.example.moodtracker_jetpackcompose.data.model.getRating
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.ActivityItem
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.FeedbackBox
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorBottomBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorUserTopBar
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.ShowAddActivityAlertDialog
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.add_activity.ShowAddActivityAlertDialog
 import com.example.moodtracker_jetpackcompose.ui.theme.GoldenYellow
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
@@ -40,8 +38,9 @@ var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isAddFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var feedbackComment: MutableState<String> = mutableStateOf("")
 var date: String = ""
+lateinit var supervisorViewViewModel: SupervisorViewViewModel
 
-
+@SuppressLint("MutableCollectionMutableState")
 @OptIn(
     ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
     ExperimentalMaterialApi::class
@@ -53,7 +52,7 @@ fun SupervisorViewScreen(
     userUID: String,
     username: String
 ) {
-
+    supervisorViewViewModel = SupervisorViewViewModel()
     var userRating by remember { mutableStateOf(0) }
     var activities: MutableList<Activity> by remember { mutableStateOf(mutableListOf()) }
 
@@ -64,15 +63,15 @@ fun SupervisorViewScreen(
         date = selectedDate.ifEmpty {
             formattedDate
         }
-        getPublicActivities(date, uid = userUID) {
+        supervisorViewViewModel.getPublicActivities(date, uid = userUID) {
             if (!it.isNullOrEmpty()) {
                 activities = it
             }
         }
-        getRating(date, uid = userUID) {
+        supervisorViewViewModel.getRating(date, uid = userUID) {
             userRating = it
         }
-        getFeedback(date = date, uid = userUID) {
+        supervisorViewViewModel.getFeedback(date = date, uid = userUID) {
             feedbackComment = mutableStateOf(it)
         }
     }
@@ -175,7 +174,7 @@ fun SupervisorViewScreen(
                             key = { _, item ->
                                 item.hashCode()
                             }
-                        ) { index, item ->
+                        ) { _, item ->
                             ActivityItem(activity = item, date = date, userType = SUPERVISOR_USER)
                         }
                     }

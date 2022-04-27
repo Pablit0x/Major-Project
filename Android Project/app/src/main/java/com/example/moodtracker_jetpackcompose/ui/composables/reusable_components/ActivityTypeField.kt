@@ -1,6 +1,7 @@
 package com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
@@ -24,7 +25,7 @@ import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 
 @Composable
-fun ActivityTypeField(activityType: MutableState<String>) {
+fun ActivityTypeField(activityType: MutableState<String>, isError: MutableState<Boolean>) {
     var expanded by remember { mutableStateOf(false) }
 
 
@@ -45,6 +46,8 @@ fun ActivityTypeField(activityType: MutableState<String>) {
         Icons.Filled.KeyboardArrowDown
 
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth(0.8f)
     ) {
@@ -52,6 +55,7 @@ fun ActivityTypeField(activityType: MutableState<String>) {
             value = activityType.value,
             onValueChange = { accountTypeValue ->
                 activityType.value = accountTypeValue
+                isError.value = false
             },
             enabled = false,
             colors = TextFieldDefaults.textFieldColors(
@@ -93,6 +97,13 @@ fun ActivityTypeField(activityType: MutableState<String>) {
                     Text(text = name, textAlign = TextAlign.Center)
                 }
             }
+        }
+        if (isError.value) {
+            Text(
+                text = stringResource(id = R.string.invalid_activity_type),
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+            )
         }
     }
 }

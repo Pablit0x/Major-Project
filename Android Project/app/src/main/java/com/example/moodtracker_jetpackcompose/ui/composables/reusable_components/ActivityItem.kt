@@ -21,7 +21,7 @@ import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.Activity
 import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
 import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
-import com.example.moodtracker_jetpackcompose.data.model.setActivityStatus
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.RegularMainViewModel
 import com.example.moodtracker_jetpackcompose.ui.theme.GoldenYellow
 import com.example.moodtracker_jetpackcompose.ui.theme.IconSizes
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
@@ -37,6 +37,7 @@ fun ActivityItem(activity: Activity, date: String, userType: Int) {
     var checkState by remember { mutableStateOf(activity.done.toString().toBoolean()) }
     var activityIcon by remember { mutableStateOf(R.drawable.ic_other_activities) }
     var contentColor by remember { mutableStateOf(Color.White) }
+    var regularMainViewModel = RegularMainViewModel()
 
     when (activity.type) {
         stringResource(id = R.string.study) -> activityIcon = R.drawable.ic_study
@@ -112,7 +113,11 @@ fun ActivityItem(activity: Activity, date: String, userType: Int) {
                     Checkbox(
                         checked = checkState, onCheckedChange = {
                             checkState = it
-                            setActivityStatus(checkState, activity, date = date)
+                            regularMainViewModel.setActivityStatus(
+                                checkState,
+                                activity,
+                                date = date
+                            )
                         }, modifier = Modifier
                             .scale(1.5f)
                             .weight(1f)

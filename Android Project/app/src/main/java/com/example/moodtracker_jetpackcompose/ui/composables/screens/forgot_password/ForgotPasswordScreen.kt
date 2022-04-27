@@ -103,20 +103,21 @@ fun ForgotPasswordScreen(navController: NavController) {
                     .fillMaxWidth(0.8f)
                     .height(50.dp),
                 onClick = {
-                    if (forgotPasswordViewModel.validateEmail(email = email.value)) {
+                    emailError.value = !forgotPasswordViewModel.validateEmail(email = email.value)
+                    if (!emailError.value) {
                         firebaseAuth.sendPasswordResetEmail(email.value)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     Toast.makeText(
                                         context,
                                         context.getString(R.string.recovery_email_was_sent),
-                                        Toast.LENGTH_SHORT
+                                        Toast.LENGTH_LONG
                                     ).show()
                                     navController.navigate(Screen.LoginScreen.route)
                                 } else {
                                     Toast.makeText(
                                         context,
-                                        task.exception!!.message.toString(), Toast.LENGTH_SHORT
+                                        task.exception!!.message.toString(), Toast.LENGTH_LONG
                                     ).show()
                                 }
                             }

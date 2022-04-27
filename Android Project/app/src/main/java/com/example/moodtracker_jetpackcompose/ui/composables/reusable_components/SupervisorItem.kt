@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,9 +61,9 @@ fun SupervisorUserItem(user: SupervisorUser) {
                     shape = CircleShape,
                     elevation = 2.dp
                 ) {
-                    val image: Painter = if(user.avatarID == null){
+                    val image: Painter = if (user.avatarID == null) {
                         painterResource(id = R.drawable.ic_person)
-                    } else{
+                    } else {
                         painterResource(avatarList[user.avatarID])
                     }
                     Image(
