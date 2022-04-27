@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
-import com.example.moodtracker_jetpackcompose.data.model.Activity
-import com.example.moodtracker_jetpackcompose.data.model.RegularUser
 import com.example.moodtracker_jetpackcompose.data.model.SupervisorUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -42,9 +40,11 @@ class RegularMainViewModel : ViewModel() {
                 Log.e("fail", exception.toString())
             }
     }
+
     fun getUserSupervisors(myCallback: (SnapshotStateList<SupervisorUser>) -> Unit) {
         val firebaseAuth = FirebaseAuth.getInstance()
-        val userSupervisors = db.collection("supervisorUsers").whereArrayContains("supervised", firebaseAuth.currentUser!!.uid)
+        val userSupervisors = db.collection("supervisorUsers")
+            .whereArrayContains("supervised", firebaseAuth.currentUser!!.uid)
         userSupervisors.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val users = mutableStateListOf<SupervisorUser>()
@@ -56,9 +56,9 @@ class RegularMainViewModel : ViewModel() {
         }
     }
 
-    fun deleteSupervisor(supervisorID : String){
+    fun deleteSupervisor(supervisorID: String) {
         val firebaseAuth = FirebaseAuth.getInstance()
-        val supervisorDoc  = db.collection("supervisorUsers").document(supervisorID)
+        val supervisorDoc = db.collection("supervisorUsers").document(supervisorID)
         supervisorDoc.update("supervised", FieldValue.arrayRemove(firebaseAuth.currentUser!!.uid))
     }
 }

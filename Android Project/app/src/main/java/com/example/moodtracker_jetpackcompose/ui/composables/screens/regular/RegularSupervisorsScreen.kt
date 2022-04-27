@@ -16,7 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.SupervisorUser
-import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.*
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.AnimatedText
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.RegularUserTopBar
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorUserItem
+import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserBottomBar
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.RegularMainViewModel
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.ShowAddSupervisorDialog
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
@@ -48,7 +51,8 @@ fun UserSupervisorsScreen(navController: NavHostController) {
             RegularUserTopBar(
                 navController = navController,
                 title = "My Supervisors",
-                showAddIcon = true
+                showAddIcon = true,
+                isHome = false
             )
         },
         bottomBar = {

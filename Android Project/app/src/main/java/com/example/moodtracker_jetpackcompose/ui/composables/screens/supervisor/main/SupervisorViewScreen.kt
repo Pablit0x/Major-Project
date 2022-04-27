@@ -33,7 +33,6 @@ import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.mai
 import com.example.moodtracker_jetpackcompose.ui.theme.GoldenYellow
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.example.moodtracker_jetpackcompose.ui.theme.secondaryColor
-import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
 
 
@@ -117,7 +116,11 @@ fun SupervisorViewScreen(
 
         },
         topBar = {
-            SupervisorUserTopBar(navController = navController, title = "$username Activities")
+            SupervisorUserTopBar(
+                navController = navController,
+                title = "$username Activities",
+                isHome = false
+            )
         },
         content = { padding ->
             Column(
@@ -174,56 +177,6 @@ fun SupervisorViewScreen(
                             }
                         ) { index, item ->
                             ActivityItem(activity = item, date = date, userType = SUPERVISOR_USER)
-//                            val state = rememberDismissState(
-//                                confirmStateChange = {
-//                                    if (it == DismissValue.DismissedToStart) {
-//                                        activities.remove(item)
-//                                        deleteActivity(
-//                                            activity = item,
-//                                            uid = firebaseAuthentication.uid!!,
-//                                            date = date
-//                                        )
-//                                    }
-//                                    true
-//                                }
-//                            )
-//
-//                            SwipeToDismiss(
-//                                state = state,
-//                                background = {
-//                                    val color = when (state.dismissDirection) {
-//                                        DismissDirection.StartToEnd -> Color.Transparent
-//                                        DismissDirection.EndToStart -> Color.Red
-//                                        null -> Color.Transparent
-//                                    }
-//
-//                                    Box(
-//                                        modifier = Modifier
-//                                            .fillMaxSize()
-//                                            .background(color = color)
-//                                            .padding(8.dp)
-//                                    ) {
-//                                        Icon(
-//                                            imageVector = Icons.Default.Delete,
-//                                            contentDescription = "Delete",
-//                                            tint = Color.White,
-//                                            modifier = Modifier.align(Alignment.CenterEnd)
-//                                        )
-//                                    }
-//                                },
-//                                dismissContent = {
-//                                    ListItem(
-//                                        activity = item,
-//                                        date = date,
-//                                        userType = SUPERVISOR_USER
-//                                    )
-//                                },
-//                                directions = setOf(DismissDirection.EndToStart)
-//                            )
-//                            if (index == activities.size - 1) {
-//                                Spacer(modifier = Modifier.padding(bottom = 150.dp))
-//                            }
-//                        }
                         }
                     }
                 }

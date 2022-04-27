@@ -34,6 +34,8 @@ import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.AnimatedText
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.RegularUserTopBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserBottomBar
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.ShowSelectAvatarDialog
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.isSelectAvatarDialogOpen
 import com.example.moodtracker_jetpackcompose.ui.theme.*
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDateTime
@@ -44,7 +46,6 @@ val currentUser = firebaseAuth.currentUser
 var isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isFinishDayDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 var isFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
-var regularMainViewModel: RegularMainViewModel = RegularMainViewModel()
 
 @OptIn(
     ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
@@ -127,7 +128,8 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
             RegularUserTopBar(
                 navController,
                 stringResource(id = R.string.my_activities),
-                showAddIcon = false
+                showAddIcon = false,
+                isHome = true
             )
         },
         content = { padding ->
@@ -326,15 +328,17 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                     userID = currentUser!!.uid,
                     username = ""
                 )
+
                 ShowRatingDialog(
                     isDialogOpen = isFinishDayDialogOpen,
                     navController = navController,
                     date = date
                 )
+                ShowSelectAvatarDialog(
+                    isDialogOpen = isSelectAvatarDialogOpen,
+                    userType = REGULAR_USER,
+                    navController = navController
+                )
             }
         })
 }
-
-//fun setSupervisorDialog(showDialog: Boolean) {
-//    isAddSupervisorDialogOpen.value = showDialog
-//}

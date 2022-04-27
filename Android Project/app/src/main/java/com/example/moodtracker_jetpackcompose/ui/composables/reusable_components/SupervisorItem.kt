@@ -3,13 +3,13 @@ package com.example.moodtracker_jetpackcompose.ui.composables.reusable_component
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
@@ -17,18 +17,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
-import androidx.navigation.NavHostController
-import com.example.moodtracker_jetpackcompose.Screen
-import com.example.moodtracker_jetpackcompose.data.model.RegularUser
+import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.data.model.SupervisorUser
-import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.currentUser
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectBlack
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 
@@ -55,15 +55,27 @@ fun SupervisorUserItem(user: SupervisorUser) {
                     .defaultMinSize(minHeight = 80.dp)
                     .fillMaxWidth()
             ) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "person icon",
+                Card(
                     modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
+                        .padding(start = 8.dp, end = 8.dp)
                         .size(48.dp),
-                    tint = PerfectBlack
-                )
+                    shape = CircleShape,
+                    elevation = 2.dp
+                ) {
+                    val image: Painter = if(user.avatarID == null){
+                        painterResource(id = R.drawable.ic_person)
+                    } else{
+                        painterResource(avatarList[user.avatarID])
+                    }
+                    Image(
+                        painter = image, contentDescription = "",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .size(48.dp)
+                    )
+                }
                 Column(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.weight(4f)
@@ -94,9 +106,10 @@ fun SupervisorUserItem(user: SupervisorUser) {
                         .buildUpon()
                         .build()
                     val emailIntent = Intent(Intent.ACTION_SENDTO, uri)
-                    if(emailIntent.resolveActivity(context.packageManager) != null){
-                        startActivity(context ,emailIntent,  null)
+                    if (emailIntent.resolveActivity(context.packageManager) != null) {
+                        startActivity(context, emailIntent, null)
                     }
+                    Log.e("A", "Dasdad")
                 }) {
                     Icon(
                         imageVector = Icons.Default.Email,

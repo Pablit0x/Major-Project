@@ -36,7 +36,8 @@ class SupervisorMainViewModel : ViewModel() {
             }
         }
     }
-    fun deleteSupervisedUser(userID : String){
-        supervisedUsers.update("supervised",FieldValue.arrayRemove(userID))
+
+    fun deleteSupervisedUser(userID: String) {
+        supervisedUsers.update("supervised", FieldValue.arrayRemove(userID))
     }
 }

@@ -15,18 +15,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.moodtracker_jetpackcompose.R
+import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
 import com.example.moodtracker_jetpackcompose.data.model.RegularUser
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.AnimatedText
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorBottomBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.SupervisorUserTopBar
 import com.example.moodtracker_jetpackcompose.ui.composables.reusable_components.UserItem
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.ShowSelectAvatarDialog
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.example.moodtracker_jetpackcompose.ui.theme.primaryColor
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var supervisorMainViewModel: SupervisorMainViewModel
 private lateinit var firebaseAuth: FirebaseAuth
-
+var isSelectAvatarDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -51,7 +53,8 @@ fun SupervisorMainScreen(navController: NavHostController) {
         topBar = {
             SupervisorUserTopBar(
                 navController = navController,
-                title = "Supervised Users"
+                title = "Supervised Users",
+                isHome = true
             )
         },
         bottomBar = {
@@ -125,5 +128,14 @@ fun SupervisorMainScreen(navController: NavHostController) {
                     }
                 }
             }
+            ShowSelectAvatarDialog(
+                isDialogOpen = isSelectAvatarDialogOpen,
+                userType = SUPERVISOR_USER,
+                navController = navController
+            )
         })
+}
+
+fun setAvatarDialog(avatarDialogState: Boolean) {
+    isSelectAvatarDialogOpen.value = avatarDialogState
 }

@@ -65,7 +65,7 @@ fun SetupNavGraph() {
             RegularMainScreen(navController = navController, it.arguments?.getString("date")!!)
             Log.e("Arg", it.arguments?.getString("date")!!)
         }
-        composable(route = UserBottomBarScreen.Supervisors.route){
+        composable(route = UserBottomBarScreen.Supervisors.route) {
             UserSupervisorsScreen(navController = navController)
         }
         composable(route = UserBottomBarScreen.Calendar.route) {

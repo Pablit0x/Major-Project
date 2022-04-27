@@ -2,19 +2,17 @@ package com.example.moodtracker_jetpackcompose.ui.composables.reusable_component
 
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -23,7 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
+import com.example.moodtracker_jetpackcompose.data.model.Constants.REGULAR_USER
+import com.example.moodtracker_jetpackcompose.data.model.getAvatarID
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.main.currentUser
 import com.example.moodtracker_jetpackcompose.ui.composables.screens.regular.setSupervisorDialog
+import com.example.moodtracker_jetpackcompose.ui.composables.screens.supervisor.main.setAvatarDialog
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
@@ -32,14 +34,46 @@ private val firebaseAuth = FirebaseAuth.getInstance()
 
 
 @Composable
-fun RegularUserTopBar(navController: NavController, title: String, showAddIcon: Boolean) {
+fun RegularUserTopBar(
+    navController: NavController,
+    title: String,
+    showAddIcon: Boolean,
+    isHome: Boolean
+) {
 
     val isAddSupervisorDialogOpen by remember { mutableStateOf(false) }
+    var avatar by remember { mutableStateOf(R.drawable.ic_person) }
     val context = LocalContext.current
 
     TopAppBar(
         title = { Text(title, textAlign = TextAlign.Center) },
         backgroundColor = PerfectGray,
+        navigationIcon =
+        {
+            IconButton(onClick = { navController.navigateUp() }) {
+                if (isHome) {
+                    SideEffect {
+                        if (currentUser != null) {
+                            getAvatarID(userID = currentUser.uid, userType = REGULAR_USER) {
+                                avatar = if (it == -1) {
+                                    R.drawable.ic_person
+                                } else {
+                                    avatarList[it]
+                                }
+                            }
+                        }
+                    }
+                    AnimatedAvatarImage(imageResource = avatar)
+
+                } else if (navController.previousBackStackEntry != null) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = PerfectWhite
+                    )
+                }
+            }
+        },
         actions = {
             if (showAddIcon) {
                 IconButton(

@@ -32,7 +32,8 @@ fun RequestsScreen(navController: NavHostController) {
     Scaffold(topBar = {
         SupervisorUserTopBar(
             navController = navController,
-            title = stringResource(id = R.string.requests)
+            title = stringResource(id = R.string.requests),
+            isHome = false
         )
     },
         bottomBar = { SupervisorBottomBar(navController = navController) }, content = { padding ->

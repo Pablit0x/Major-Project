@@ -13,7 +13,8 @@ fun SupervisorCalendarScreen(navController: NavHostController, username: String,
     Scaffold(bottomBar = { SupervisorBottomBar(navController = navController) }, topBar = {
         SupervisorUserTopBar(
             navController = navController,
-            title = "$username Calendar"
+            title = "$username Calendar",
+            isHome = false
         )
     }, content = {
         DatePickerView(

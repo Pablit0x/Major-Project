@@ -10,7 +10,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.moodtracker_jetpackcompose.R
 import com.example.moodtracker_jetpackcompose.Screen
+import com.example.moodtracker_jetpackcompose.data.model.Constants.SUPERVISOR_USER
+import com.example.moodtracker_jetpackcompose.data.model.getAvatarID
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectGray
 import com.example.moodtracker_jetpackcompose.ui.theme.PerfectWhite
 import com.google.firebase.auth.FirebaseAuth
@@ -25,16 +27,32 @@ import com.google.firebase.auth.FirebaseAuth
 private val firebaseAuth = FirebaseAuth.getInstance()
 
 @Composable
-fun SupervisorUserTopBar(navController: NavController, title: String) {
-
+fun SupervisorUserTopBar(navController: NavController, title: String, isHome: Boolean) {
+    var avatar by remember { mutableStateOf(R.drawable.ic_person) }
     val context = LocalContext.current
 
     TopAppBar(
         title = { Text(title, textAlign = TextAlign.Center, color = PerfectWhite) },
         backgroundColor = PerfectGray,
-        navigationIcon = if (navController.previousBackStackEntry != null) {
-            {
-                IconButton(onClick = { navController.navigateUp() }) {
+        navigationIcon =
+        {
+            IconButton(onClick = { navController.navigateUp() }) {
+                if (isHome && firebaseAuth.currentUser != null) {
+                    SideEffect {
+                        getAvatarID(
+                            userID = firebaseAuth.currentUser!!.uid,
+                            userType = SUPERVISOR_USER
+                        ) {
+                            avatar = if (it == -1) {
+                                R.drawable.ic_person
+                            } else {
+                                avatarList[it]
+                            }
+                        }
+                    }
+                    AnimatedAvatarImage(imageResource = avatar)
+
+                } else if (navController.previousBackStackEntry != null) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Back",
@@ -42,10 +60,9 @@ fun SupervisorUserTopBar(navController: NavController, title: String) {
                     )
                 }
             }
-        } else {
-            null
         },
         actions = {
+
             IconButton(
                 onClick = {
                     navController.navigate(Screen.LoginScreen.route)
