@@ -54,7 +54,7 @@ fun LoginScreen(navController: NavController) {
         Column(
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.4f)
+                .fillMaxHeight(0.3f)
                 .background(PerfectGray)
         ) {
             Image(

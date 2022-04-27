@@ -1,6 +1,7 @@
 package com.example.better_me.ui.composables.reusable_components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -8,9 +9,11 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import com.example.better_me.R
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import com.example.better_me.R
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
 
@@ -28,6 +31,10 @@ fun EmailField(email: MutableState<String>, isError: MutableState<Boolean>) {
                 color = Color.LightGray
             )
         },
+        keyboardOptions =
+        KeyboardOptions(
+            imeAction = ImeAction.Next,
+        ),
         singleLine = true,
         modifier = Modifier.fillMaxWidth(0.8f),
         colors = TextFieldDefaults.textFieldColors(

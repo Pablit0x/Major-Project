@@ -1,14 +1,20 @@
 package com.example.better_me.ui.composables.reusable_components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.better_me.R
@@ -19,7 +25,10 @@ import com.example.better_me.ui.theme.White
 @Composable
 fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>) {
     var passwordVisibility by remember { mutableStateOf(false) }
+
     TextField(
+        modifier = Modifier
+            .fillMaxWidth(0.8f),
         value = password.value,
         onValueChange = { passwordValue ->
             password.value = passwordValue
@@ -60,10 +69,11 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
             backgroundColor = PerfectGray,
             textColor = White
         ),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+        ),
         visualTransformation = if (passwordVisibility) VisualTransformation.None
         else PasswordVisualTransformation(),
-        modifier = Modifier
-            .fillMaxWidth(0.8f)
     )
 
     if (isError.value) {
