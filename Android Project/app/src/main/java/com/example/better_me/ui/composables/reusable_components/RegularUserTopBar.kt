@@ -14,24 +14,28 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.example.better_me.R
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.better_me.Screen
+import com.example.better_me.R
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.Constants.REGULAR_USER
-import com.example.better_me.ui.composables.screens.regular.main.currentUser
-import com.example.better_me.ui.composables.screens.regular.setSupervisorDialog
+import com.example.better_me.ui.composables.screens.regular.user_supervisors.setSupervisorDialog
 import com.example.better_me.ui.composables.screens.select_avatar.AvatarViewModel
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
 import com.google.firebase.auth.FirebaseAuth
 
-private val firebaseAuth = FirebaseAuth.getInstance()
-private lateinit var avatarViewModel: AvatarViewModel
 
+/**
+ * This composable function displays the top bar designed for the Regular Users
+ * @param navController Navigation controller used to navigate between screens
+ * @param title String variable that represents the title of the TopBar
+ * @param showAddIcon Indicates if the option to add the supervisor should be available for that TopBar
+ * @param isHome Indicates if the current destination is a home destination
+ */
 @Composable
 fun RegularUserTopBar(
     navController: NavController,
@@ -39,7 +43,9 @@ fun RegularUserTopBar(
     showAddIcon: Boolean,
     isHome: Boolean
 ) {
-    avatarViewModel = AvatarViewModel()
+    val firebaseAuth = FirebaseAuth.getInstance()
+    val currentUser = firebaseAuth.currentUser
+    val avatarViewModel = AvatarViewModel()
     val isAddSupervisorDialogOpen by remember { mutableStateOf(false) }
     var avatar by remember { mutableStateOf(R.drawable.ic_person) }
     val context = LocalContext.current

@@ -17,16 +17,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.better_me.R
 import com.example.better_me.data.model.Activity
 import com.example.better_me.data.model.Constants.REGULAR_USER
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
 import com.example.better_me.ui.composables.screens.regular.main.RegularMainViewModel
+import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.GoldenYellow
 import com.example.better_me.ui.theme.IconSizes
-import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.White
-import com.example.better_me.R
 
+/**
+ * This composable function represents how each activity item inside the lazy column will look.
+ * @param activity Activity object that will be displayed
+ * @param date Date to which this activity item was assigned
+ * @param userType User type identifier to determine what functionalities should each activity item contain
+ */
 @Composable
 fun ActivityItem(activity: Activity, date: String, userType: Int) {
     val regularTextStyle = TextStyle(textDecoration = TextDecoration.None)
@@ -37,7 +43,7 @@ fun ActivityItem(activity: Activity, date: String, userType: Int) {
     var checkState by remember { mutableStateOf(activity.done.toString().toBoolean()) }
     var activityIcon by remember { mutableStateOf(R.drawable.ic_other_activities) }
     var contentColor by remember { mutableStateOf(Color.White) }
-    var regularMainViewModel = RegularMainViewModel()
+    val regularMainViewModel = RegularMainViewModel()
 
     when (activity.type) {
         stringResource(id = R.string.study) -> activityIcon = R.drawable.ic_study
@@ -57,7 +63,6 @@ fun ActivityItem(activity: Activity, date: String, userType: Int) {
         REGULAR_USER -> bgColor = White
         SUPERVISOR_USER -> bgColor = GoldenYellow
     }
-
     when (checkState) {
         true -> {
             style = crossedTextStyle

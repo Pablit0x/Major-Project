@@ -14,12 +14,18 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.better_me.R
 import com.example.better_me.ui.theme.NavyBlue
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
-import com.example.better_me.R
 
 private lateinit var splashScreenViewModel: SplashScreenViewModel
+
+/**
+ * This composable function displays the animated splash screen for 4 seconds and determines if the user is logged in
+ * If the user is logged in, they will be delegated to the appropriate screen depending on if the user is regular or a supervisor
+ * @param navController Navigation controller to, later on, navigate to the appropriate screen
+ */
 
 @Composable
 fun AnimatedSplashScreen(navController: NavController) {
@@ -48,6 +54,9 @@ fun AnimatedSplashScreen(navController: NavController) {
     SplashScreen(alpha = alphaAnim.value)
 }
 
+/**
+ * This composable contains splash screen image
+ */
 @Composable
 fun SplashScreen(alpha: Float) {
     Box(

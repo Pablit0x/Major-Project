@@ -8,8 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -21,11 +19,15 @@ import com.example.better_me.R
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
 
-
+/**
+ * This composable function contains the field that lets users enter their password
+ * @param password Mutable String variable that represents the password inside the input field
+ * @param isError The mutable Boolean variable that represents the error state of the PasswordField
+ */
 @Composable
 fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>) {
     var passwordVisibility by remember { mutableStateOf(false) }
-
+    val focusManager = LocalFocusManager.current
     TextField(
         modifier = Modifier
             .fillMaxWidth(0.8f),
@@ -69,8 +71,12 @@ fun PasswordField(password: MutableState<String>, isError: MutableState<Boolean>
             backgroundColor = PerfectGray,
             textColor = White
         ),
-        keyboardOptions = KeyboardOptions(
+        keyboardOptions =
+        KeyboardOptions(
             imeAction = ImeAction.Done,
+        ),
+        keyboardActions = KeyboardActions(
+            onAny = { focusManager.clearFocus() }
         ),
         visualTransformation = if (passwordVisibility) VisualTransformation.None
         else PasswordVisualTransformation(),

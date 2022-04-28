@@ -10,9 +10,16 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
+/**
+ * RegularSupervisorScreen ViewModel class used to retrieve user supervisors from the database
+ */
 class RegularSupervisorsViewModel : ViewModel() {
     private val db = Firebase.firestore
 
+    /**
+     * This function returns the supervisors assigned to the currently logged in user
+     * @param myCallback returns the supervisors assigned to the currently logged in user as the callback
+     */
 
     fun getUserSupervisors(myCallback: (SnapshotStateList<SupervisorUser>) -> Unit) {
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -29,6 +36,10 @@ class RegularSupervisorsViewModel : ViewModel() {
         }
     }
 
+    /**
+     * This function deletes the relation between users and their supervisors
+     * @param supervisorID The ID of the supervisor which will no longer be a currently logged in user supervisor
+     */
     fun deleteSupervisor(supervisorID: String) {
         val firebaseAuth = FirebaseAuth.getInstance()
         val supervisorDoc = db.collection("supervisorUsers").document(supervisorID)

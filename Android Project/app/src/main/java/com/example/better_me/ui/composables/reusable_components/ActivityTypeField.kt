@@ -19,11 +19,16 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.toSize
+import com.example.better_me.R
 import com.example.better_me.data.model.ActivityType
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
-import com.example.better_me.R
 
+/**
+ * This composable function contains the field which lets a user select the activity type.
+ * @param activityType Mutable String variable that represents the selected by the user activity type
+ * @param isError The mutable Boolean variable that represents the error state of the ActivityTypeField
+ */
 @Composable
 fun ActivityTypeField(activityType: MutableState<String>, isError: MutableState<Boolean>) {
     var expanded by remember { mutableStateOf(false) }

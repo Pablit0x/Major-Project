@@ -12,6 +12,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.delay
 
+/**
+ * The composable function displays text with an animation that makes it slowly appear.
+ * @param text The string that will be displayed
+ */
 @Composable
 fun AnimatedText(text: String) {
     var startAnimation by remember {

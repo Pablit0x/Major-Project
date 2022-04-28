@@ -11,9 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
-import com.example.better_me.ui.composables.reusable_components.ImagePicker
+import com.example.better_me.ui.composables.reusable_components.AvatarSelector
 import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.White
+
+
+/**
+ * This function displays the alert dialog used to display the avatar selection window
+ * @param isDialogOpen Mutable Boolean variable used to determine if the dialog window should be open
+ * @param navController Navigation controller is used to navigate back to the correct screen
+ */
 
 @Composable
 fun ShowSelectAvatarDialog(
@@ -37,7 +44,7 @@ fun ShowSelectAvatarDialog(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    ImagePicker(userType = userType, navController = navController)
+                    AvatarSelector(userType = userType, navController = navController)
                 }
             }
 

@@ -22,9 +22,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.better_me.R
 import com.example.better_me.ui.theme.PerfectGray
-import com.example.better_me.ui.theme.White
 import com.example.better_me.ui.theme.RedRose
+import com.example.better_me.ui.theme.White
 
+/**
+ * This composable function contains the field which lets a user select the user type.
+ * @param userType Mutable String variable that represents the selected by the user type
+ * @param isError The mutable Boolean variable that represents the error state of the UserTypeField
+ */
 
 @Composable
 fun UserTypeField(userType: MutableState<String>, isError: MutableState<Boolean>) {

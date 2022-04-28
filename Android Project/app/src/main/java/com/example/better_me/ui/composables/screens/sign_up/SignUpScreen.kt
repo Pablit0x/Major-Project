@@ -24,8 +24,8 @@ import com.example.better_me.ui.composables.reusable_components.EmailField
 import com.example.better_me.ui.composables.reusable_components.PasswordField
 import com.example.better_me.ui.composables.reusable_components.UserTypeField
 import com.example.better_me.ui.composables.reusable_components.UsernameField
-import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.Black
+import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
 import com.google.firebase.auth.FirebaseAuth
@@ -33,9 +33,13 @@ import com.google.firebase.auth.FirebaseAuth
 private lateinit var firebaseAuth: FirebaseAuth
 private lateinit var signUpViewModel: SignUpViewModel
 
+/**
+ * This composable function displays the sign-up UI
+ * @param navController Navigation controller to navigate between screens
+ */
+
 @Composable
 fun SignUpScreen(navController: NavController) {
-
     firebaseAuth = FirebaseAuth.getInstance()
     signUpViewModel = SignUpViewModel()
 

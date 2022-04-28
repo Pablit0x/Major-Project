@@ -5,16 +5,21 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import com.example.better_me.data.model.Activity
-import com.example.better_me.data.model.SupervisorUser
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
+/**
+ * RegularMainScreen ViewModelClass used to get and alter activities from the online database
+ */
 class RegularMainViewModel : ViewModel() {
-
-    private val db = Firebase.firestore
+    /**
+     * This function deletes the activity record from the database
+     * @param activity The activity object that will be deleted
+     * @param uid The ID of the user whose activity will be deleted
+     * @param date The date of that activity
+     */
 
     fun deleteActivity(activity: Activity, uid: String, date: String) {
         val db = Firebase.firestore
@@ -24,6 +29,12 @@ class RegularMainViewModel : ViewModel() {
             .addOnFailureListener { e -> Log.e("del", "Error deleting document", e) }
     }
 
+    /**
+     * This function updates the activity status inside the database whenever the user changes its value through UI
+     * @param done The new boolean status
+     * @param activity The activity object with the old boolean status
+     * @param date The date of the activity
+     */
     fun setActivityStatus(done: Boolean, activity: Activity, date: String) {
         val uid = FirebaseAuth.getInstance().currentUser!!.uid
         val activityID = activity.id as String
@@ -34,6 +45,12 @@ class RegularMainViewModel : ViewModel() {
     }
 
 
+    /**
+     * This function returns all activities for a given user in a given day
+     * @param date The date for which the activities should be returned
+     * @param uid The user ID of the user which ones this activities
+     * @param myCallback Returns the activity list as a callback
+     */
     fun getAllActivities(
         date: String,
         uid: String,
@@ -52,6 +69,12 @@ class RegularMainViewModel : ViewModel() {
         }
     }
 
+    /**
+     * This function returns the feedback comment from the online database
+     * @param date The date for which the feedback comment should be returned
+     * @param uid The ID of the user to which the comment was assigned
+     * @param myCallback Returns the feedback comment as a callback
+     */
     fun getFeedback(date: String, uid: String, myCallback: (String) -> Unit) {
         val db = Firebase.firestore
         val activities =
@@ -68,6 +91,12 @@ class RegularMainViewModel : ViewModel() {
         }
     }
 
+    /**
+     * This function returns the rating value from the online database
+     * @param date The date for which the rating value should be returned
+     * @param uid The ID of the user to which the rating was assigned
+     * @param myCallback returns the rating as a callback
+     */
     fun getRating(date: String, uid: String, myCallback: (Int) -> Unit) {
         val db = Firebase.firestore
         val activities = db.collection("records").document(uid).collection("ratings").document(date)

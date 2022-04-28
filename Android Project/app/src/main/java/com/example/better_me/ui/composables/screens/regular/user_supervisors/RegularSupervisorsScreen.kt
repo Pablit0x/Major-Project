@@ -1,4 +1,4 @@
-package com.example.better_me.ui.composables.screens.regular
+package com.example.better_me.ui.composables.screens.regular.user_supervisors
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -18,12 +18,10 @@ import androidx.navigation.NavHostController
 import com.example.better_me.R
 import com.example.better_me.data.model.SupervisorUser
 import com.example.better_me.ui.composables.reusable_components.AnimatedText
+import com.example.better_me.ui.composables.reusable_components.RegularUserBottomBar
 import com.example.better_me.ui.composables.reusable_components.RegularUserTopBar
 import com.example.better_me.ui.composables.reusable_components.SupervisorUserItem
-import com.example.better_me.ui.composables.reusable_components.UserBottomBar
 import com.example.better_me.ui.composables.screens.regular.add_supervisor.ShowAddSupervisorDialog
-import com.example.better_me.ui.composables.screens.regular.main.RegularMainViewModel
-import com.example.better_me.ui.composables.screens.regular.user_supervisors.RegularSupervisorsViewModel
 import com.example.better_me.ui.theme.White
 import com.example.better_me.ui.theme.primaryColor
 import com.google.firebase.auth.FirebaseAuth
@@ -33,6 +31,11 @@ private lateinit var regularSupervisorsViewModel: RegularSupervisorsViewModel
 
 @SuppressLint("MutableCollectionMutableState")
 @OptIn(ExperimentalMaterialApi::class)
+/**
+ * This composable function contains the UI that represents the main/home supervisor's screen which is a list of supervised by them users
+ * @param navController Navigation controller to navigate between screens
+ */
+
 @Composable
 fun UserSupervisorsScreen(navController: NavHostController) {
     val firebaseAuth = FirebaseAuth.getInstance()
@@ -60,7 +63,7 @@ fun UserSupervisorsScreen(navController: NavHostController) {
             )
         },
         bottomBar = {
-            UserBottomBar(
+            RegularUserBottomBar(
                 navController = navController
             )
         }, content = { padding ->
@@ -132,6 +135,10 @@ fun UserSupervisorsScreen(navController: NavHostController) {
     )
 }
 
+/**
+ * This function changes the isAddSupervisorDialogOpen state
+ * @param showDialog Desired boolean value
+ */
 fun setSupervisorDialog(showDialog: Boolean) {
     isAddSupervisorDialogOpen.value = showDialog
 }

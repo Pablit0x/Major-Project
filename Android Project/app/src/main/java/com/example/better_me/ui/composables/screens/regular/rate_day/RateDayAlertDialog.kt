@@ -22,19 +22,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.example.better_me.Screen
+import com.example.better_me.R
+import com.example.better_me.data.screens.Screen
+import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.GoldenYellow
 import com.example.better_me.ui.theme.NavyBlue
-import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.White
-import com.example.better_me.R
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var rateDayViewModel: RateDayViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
+
+/**
+ * This composable function displays the alert dialog used to add a rating to the day
+ * @param isDialogOpen Mutable Boolean variable used to determine if the dialog window should be open
+ * @param navController Navigation controller used to navigate between the screens
+ * @param date String variable used to indicate to which day the rating will be attached
+ */
 @Composable
-fun ShowRatingDialog(
+fun ShowAddRatingDialog(
     isDialogOpen: MutableState<Boolean>,
     navController: NavController,
     date: String

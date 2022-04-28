@@ -13,11 +13,15 @@ import com.example.better_me.R
 import com.example.better_me.data.model.RegularUser
 import com.example.better_me.ui.composables.reusable_components.AnimatedText
 import com.example.better_me.ui.composables.reusable_components.RequestItem
-import com.example.better_me.ui.composables.reusable_components.SupervisorBottomBar
+import com.example.better_me.ui.composables.reusable_components.SupervisorUserBottomBar
 import com.example.better_me.ui.composables.reusable_components.SupervisorUserTopBar
 
 private lateinit var requestsScreenViewModel: RequestsScreenViewModel
 
+/**
+ * This composable function displays the UI presenting the request screen
+ * @param navController Navigation controller used to navigate between screens
+ */
 @Composable
 fun RequestsScreen(navController: NavHostController) {
     requestsScreenViewModel = RequestsScreenViewModel()
@@ -36,7 +40,8 @@ fun RequestsScreen(navController: NavHostController) {
             isHome = false
         )
     },
-        bottomBar = { SupervisorBottomBar(navController = navController) }, content = { padding ->
+        bottomBar = { SupervisorUserBottomBar(navController = navController) },
+        content = { padding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()

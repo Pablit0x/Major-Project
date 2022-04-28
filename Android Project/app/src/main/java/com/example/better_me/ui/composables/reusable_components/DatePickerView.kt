@@ -16,11 +16,18 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.example.better_me.R
-import com.example.better_me.Screen
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.Constants.REGULAR_USER
 import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.White
 
+/**
+ * The composable function responsible for displaying the calendar view
+ * @param navController The navigation controller used to handle navigation to different screens and dates
+ * @param userType A user type specifier is used to navigate to the correct screen after the date selection
+ * @param userUID The UID of the user whose calendar is to be displayed
+ * @param username The username of the user whose calendar is to be displayed
+ */
 @Composable
 fun DatePickerView(navController: NavController, userType: Int, userUID: String, username: String) {
     var date by remember { mutableStateOf("") }

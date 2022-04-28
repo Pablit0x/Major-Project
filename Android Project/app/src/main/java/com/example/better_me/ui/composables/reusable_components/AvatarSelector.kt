@@ -17,9 +17,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.better_me.R
 import androidx.navigation.NavHostController
-import com.example.better_me.Screen
+import com.example.better_me.R
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.Constants.REGULAR_USER
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
 import com.example.better_me.ui.composables.screens.select_avatar.AvatarViewModel
@@ -39,8 +39,13 @@ val avatarList: List<Int> = listOf(
     R.drawable.ic_avatar8,
 )
 
+/**
+ * The composable function displays the choice of avatar icons.
+ * @param userType A user type specifier is used to navigate to the correct screen after the avatar change
+ * @param navController The navigation controller used to handle navigation to different screens
+ */
 @Composable
-fun ImagePicker(userType: Int, navController: NavHostController) {
+fun AvatarSelector(userType: Int, navController: NavHostController) {
     selectAvatarViewModel = AvatarViewModel()
     Column(
         modifier = Modifier.fillMaxSize(),

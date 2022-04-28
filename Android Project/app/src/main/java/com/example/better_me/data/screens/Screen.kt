@@ -1,4 +1,4 @@
-package com.example.better_me
+package com.example.better_me.data.screens
 
 sealed class Screen(val route: String) {
     object SplashScreen : Screen(route = "splash_screen")

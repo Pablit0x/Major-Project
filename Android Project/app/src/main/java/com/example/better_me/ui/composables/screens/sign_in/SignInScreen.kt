@@ -1,4 +1,4 @@
-package com.example.better_me.ui.composables.screens.login
+package com.example.better_me.ui.composables.screens.sign_in
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,25 +20,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.better_me.Screen
+import com.example.better_me.R
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.ui.composables.reusable_components.EmailField
 import com.example.better_me.ui.composables.reusable_components.PasswordField
-import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.Black
+import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
-import com.example.better_me.R
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var firebaseAuth: FirebaseAuth
-private lateinit var loginViewModel: LoginViewModel
+private lateinit var signInViewModel: SignInViewModel
+
+/**
+ * This composable function displays the sign-in UI
+ * @param navController Navigation controller to navigate between screens
+ */
 
 @Composable
 fun LoginScreen(navController: NavController) {
-
     firebaseAuth = FirebaseAuth.getInstance()
-    loginViewModel = LoginViewModel()
-
+    signInViewModel = SignInViewModel()
 
     val email: MutableState<String> = remember { mutableStateOf("") }
     val password: MutableState<String> = remember { mutableStateOf("") }
@@ -54,7 +57,7 @@ fun LoginScreen(navController: NavController) {
         Column(
             verticalArrangement = Arrangement.Center, modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.3f)
+                .fillMaxHeight(0.4f)
                 .background(PerfectGray)
         ) {
             Image(
@@ -92,11 +95,11 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.padding(10.dp))
             Button(
                 onClick = {
-                    emailError.value = !loginViewModel.validateEmail(email = email.value)
+                    emailError.value = !signInViewModel.validateEmail(email = email.value)
                     passwordError.value =
-                        !loginViewModel.validatePassword(password = password.value)
+                        !signInViewModel.validatePassword(password = password.value)
                     if (!emailError.value && !passwordError.value) {
-                        loginViewModel.firebaseLogin(
+                        signInViewModel.firebaseLogin(
                             firebaseAuth = firebaseAuth,
                             email = email.value,
                             password = password.value,

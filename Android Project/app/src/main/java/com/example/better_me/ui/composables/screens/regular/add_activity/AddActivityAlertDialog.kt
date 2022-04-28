@@ -4,6 +4,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -17,28 +19,38 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
-import com.example.better_me.Screen
+import com.example.better_me.R
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.Activity
 import com.example.better_me.data.model.Constants.REGULAR_USER
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
 import com.example.better_me.ui.composables.reusable_components.ActivityTypeField
-import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.Black
+import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
-import com.example.better_me.R
 import java.util.*
 
+/**
+ * This function displays the alert dialog used to add new activities
+ * @param isDialogOpen Mutable Boolean variable used to determine if the dialog window should be open
+ * @param date String variable used to indicate to which day the activity will be attached
+ * @param navController Navigation controller is used to navigate back to the correct screen
+ * @param userType User type identifier to determine what options should the dialog contain
+ * @param userID User ID is used to determine to which user the activity will be attached
+ */
 
 @Composable
 fun ShowAddActivityAlertDialog(
@@ -49,7 +61,7 @@ fun ShowAddActivityAlertDialog(
     userID: String,
     username: String
 ) {
-
+    val focusManager = LocalFocusManager.current
     val nameVal = remember { mutableStateOf("") }
     val activityType = remember { mutableStateOf("") }
     val isChecked = remember { mutableStateOf(false) }
@@ -103,6 +115,13 @@ fun ShowAddActivityAlertDialog(
                             nameVal.value = it
                             activityNameError.value = false
                         },
+                        keyboardOptions =
+                        KeyboardOptions(
+                            imeAction = ImeAction.Done,
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onAny = { focusManager.clearFocus() }
+                        ),
                         placeholder = {
                             Text(
                                 text = stringResource(id = R.string.enter_activity_name),
@@ -215,6 +234,7 @@ fun ShowAddActivityAlertDialog(
                         Spacer(modifier = Modifier.padding(8.dp))
 
                         Row(
+                            verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(5.dp)
                         ) {
                             Checkbox(

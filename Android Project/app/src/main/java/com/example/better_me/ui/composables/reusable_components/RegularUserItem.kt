@@ -1,6 +1,5 @@
 package com.example.better_me.ui.composables.reusable_components
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -28,13 +27,15 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import com.example.better_me.R
-import com.example.better_me.Screen
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.RegularUser
 import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.White
 
-
-@SuppressLint("QueryPermissionsNeeded")
+/**
+ * This composable function represents how each regular user-item inside the lazy column will look.
+ * @param user User object that will be displayed
+ */
 @Composable
 fun UserItem(user: RegularUser, navController: NavHostController) {
     val context = LocalContext.current

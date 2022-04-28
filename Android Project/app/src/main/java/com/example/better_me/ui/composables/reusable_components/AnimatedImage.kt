@@ -14,6 +14,10 @@ import androidx.compose.ui.unit.dp
 import com.example.better_me.ui.composables.screens.supervisor.main.setAvatarDialog
 import kotlinx.coroutines.delay
 
+/**
+ * The composable function displays an image with an animation that makes it slowly appear.
+ * @param imageResource Image resource to the desired image
+ */
 @Composable
 fun AnimatedAvatarImage(imageResource: Int) {
     var startAnimation by remember {

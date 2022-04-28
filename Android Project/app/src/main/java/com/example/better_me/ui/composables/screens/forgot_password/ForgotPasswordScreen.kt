@@ -23,21 +23,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.better_me.Screen
+import com.example.better_me.R
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.ui.composables.reusable_components.EmailField
-import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.Black
+import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
-import com.example.better_me.R
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var forgotPasswordViewModel: ForgotPasswordViewModel
 private lateinit var firebaseAuth: FirebaseAuth
 
+/**
+ * This composable function creates the UI for the forgot password screen
+ * @param navController Navigation controller to navigate between screens
+ */
 @Composable
 fun ForgotPasswordScreen(navController: NavController) {
-
     forgotPasswordViewModel = ForgotPasswordViewModel()
     firebaseAuth = FirebaseAuth.getInstance()
     val context = LocalContext.current

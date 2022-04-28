@@ -1,9 +1,7 @@
 package com.example.better_me.ui.composables.reusable_components
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -31,7 +29,11 @@ import com.example.better_me.data.model.SupervisorUser
 import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.White
 
-@SuppressLint("QueryPermissionsNeeded")
+/**
+ * This composable function represents how each supervisor user-item inside the lazy column will look.
+ * @param user User object that will be displayed
+ */
+
 @Composable
 fun SupervisorUserItem(user: SupervisorUser) {
     val context = LocalContext.current

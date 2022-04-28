@@ -24,8 +24,8 @@ import com.example.better_me.R
 import com.example.better_me.data.model.Activity
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
 import com.example.better_me.ui.composables.reusable_components.ActivityItem
-import com.example.better_me.ui.composables.reusable_components.FeedbackBox
-import com.example.better_me.ui.composables.reusable_components.SupervisorBottomBar
+import com.example.better_me.ui.composables.reusable_components.AddFeedbackDialog
+import com.example.better_me.ui.composables.reusable_components.SupervisorUserBottomBar
 import com.example.better_me.ui.composables.reusable_components.SupervisorUserTopBar
 import com.example.better_me.ui.composables.screens.regular.add_activity.ShowAddActivityAlertDialog
 import com.example.better_me.ui.theme.GoldenYellow
@@ -45,6 +45,13 @@ lateinit var supervisorViewViewModel: SupervisorViewViewModel
     ExperimentalFoundationApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
     ExperimentalMaterialApi::class
 )
+/**
+ * This composable function displays the screen with records of the selected user for the specified date
+ * @param navController Navigation controller used to navigate between screens
+ * @param selectedDate The date for which the records will be displayed
+ * @param userUID The ID of the user for which the records will be displayed
+ * @param username The username of the user for which the records will be displayed
+ */
 @Composable
 fun SupervisorViewScreen(
     navController: NavHostController,
@@ -77,7 +84,7 @@ fun SupervisorViewScreen(
     }
     Scaffold(
         bottomBar = {
-            SupervisorBottomBar(navController = navController)
+            SupervisorUserBottomBar(navController = navController)
         },
         floatingActionButton = {
             Column(
@@ -188,7 +195,7 @@ fun SupervisorViewScreen(
                     userID = userUID,
                     username = username
                 )
-                FeedbackBox(
+                AddFeedbackDialog(
                     isDialogOpen = isAddFeedbackDialogOpen,
                     date = date,
                     userID = userUID,

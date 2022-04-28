@@ -1,6 +1,7 @@
 package com.example.better_me.ui.composables.reusable_components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,8 +18,14 @@ import com.example.better_me.R
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
 
+/**
+ * This composable function contains the field that lets users enter an email address.
+ * @param email Mutable String variable that represents the email inside the input field
+ * @param isError The mutable Boolean variable that represents the error state of the EmailField
+ */
 @Composable
 fun EmailField(email: MutableState<String>, isError: MutableState<Boolean>) {
+    val focusManager = LocalFocusManager.current
     TextField(
         value = email.value,
         onValueChange = { emailValue ->
@@ -33,10 +40,14 @@ fun EmailField(email: MutableState<String>, isError: MutableState<Boolean>) {
         },
         keyboardOptions =
         KeyboardOptions(
-            imeAction = ImeAction.Next,
+            imeAction = ImeAction.Done,
+        ),
+        keyboardActions = KeyboardActions(
+            onAny = { focusManager.clearFocus() }
         ),
         singleLine = true,
-        modifier = Modifier.fillMaxWidth(0.8f),
+        modifier = Modifier
+            .fillMaxWidth(0.8f),
         colors = TextFieldDefaults.textFieldColors(
             textColor = White,
             backgroundColor = PerfectGray

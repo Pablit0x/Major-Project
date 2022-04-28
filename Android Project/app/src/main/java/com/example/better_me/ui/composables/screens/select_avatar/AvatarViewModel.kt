@@ -6,7 +6,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+/**
+ * ViewModel class used to handle avatar changes and retrieve the current user avatar
+ */
 class AvatarViewModel : ViewModel() {
+    /**
+     * This function sets the avatar key value inside the online database to the particular value that represents the user avatar
+     * @param userType User that used to determine where the user information is stored inside the online database
+     * @param avatarID The ID of the selected avatar
+     */
+
     fun setAvatar(userType: Int, avatarID: Int) {
         val db = Firebase.firestore
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -21,6 +30,13 @@ class AvatarViewModel : ViewModel() {
             }
         }
     }
+
+    /**
+     * This function returns the avatarID from the online database
+     * @param userID ID of the user for which we will get an avatar value
+     * @param userType User that used to determine where the user information is stored inside the online database
+     * @param myCallback return the avatarID as a callback
+     */
 
     fun getAvatarID(userID: String, userType: Int, myCallback: (Int) -> Unit) {
         val db = Firebase.firestore

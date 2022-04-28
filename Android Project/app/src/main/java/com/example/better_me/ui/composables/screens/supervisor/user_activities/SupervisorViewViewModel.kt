@@ -8,7 +8,18 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
+/**
+ * SupervisorViewScreen ViewModel class used to get activities from the online database
+ */
 class SupervisorViewViewModel : ViewModel() {
+
+    /**
+     * This function returns only public activities for a given user in a given day
+     * @param date The date for which the activities should be returned
+     * @param uid The ID of the user who owns these activities
+     * @param myCallback Returns the activity list as a callback
+     */
+
     fun getPublicActivities(
         date: String,
         uid: String,
@@ -28,6 +39,12 @@ class SupervisorViewViewModel : ViewModel() {
         }
     }
 
+    /**
+     * This function returns the feedback comment from the online database
+     * @param date The date for which the feedback comment should be returned
+     * @param uid The ID of the user to which the comment was assigned
+     * @param myCallback Returns the feedback comment as a callback
+     */
     fun getFeedback(date: String, uid: String, myCallback: (String) -> Unit) {
         val db = Firebase.firestore
         val activities =
@@ -44,6 +61,12 @@ class SupervisorViewViewModel : ViewModel() {
         }
     }
 
+    /**
+     * This function returns the rating value from the online database
+     * @param date The date for which the rating value should be returned
+     * @param uid The ID of the user to which the rating was assigned
+     * @param myCallback returns the rating as a callback
+     */
     fun getRating(date: String, uid: String, myCallback: (Int) -> Unit) {
         val db = Firebase.firestore
         val activities = db.collection("records").document(uid).collection("ratings").document(date)

@@ -18,7 +18,7 @@ import com.example.better_me.R
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
 import com.example.better_me.data.model.RegularUser
 import com.example.better_me.ui.composables.reusable_components.AnimatedText
-import com.example.better_me.ui.composables.reusable_components.SupervisorBottomBar
+import com.example.better_me.ui.composables.reusable_components.SupervisorUserBottomBar
 import com.example.better_me.ui.composables.reusable_components.SupervisorUserTopBar
 import com.example.better_me.ui.composables.reusable_components.UserItem
 import com.example.better_me.ui.composables.screens.select_avatar.ShowSelectAvatarDialog
@@ -31,6 +31,11 @@ private lateinit var firebaseAuth: FirebaseAuth
 var isSelectAvatarDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 
 @OptIn(ExperimentalMaterialApi::class)
+/**
+ * This composable function contains the UI that represents the main/home supervisor's screen which is a list of supervised by them users
+ * @param navController Navigation controller to navigate between screens
+ */
+
 @Composable
 fun SupervisorMainScreen(navController: NavHostController) {
 
@@ -58,7 +63,7 @@ fun SupervisorMainScreen(navController: NavHostController) {
             )
         },
         bottomBar = {
-            SupervisorBottomBar(
+            SupervisorUserBottomBar(
                 navController = navController
             )
         }, content = { padding ->
@@ -136,6 +141,10 @@ fun SupervisorMainScreen(navController: NavHostController) {
         })
 }
 
+/**
+ * This function changes the isSelectAvatarDialogOpen state
+ * @param avatarDialogState Desired boolean value
+ */
 fun setAvatarDialog(avatarDialogState: Boolean) {
     isSelectAvatarDialogOpen.value = avatarDialogState
 }

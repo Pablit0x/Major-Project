@@ -10,12 +10,18 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
+/**
+ * SupervisorMainScreen ViewModel class used to acquire the supervised users from the database
+ */
 class SupervisorMainViewModel : ViewModel() {
     val firebaseAuth = FirebaseAuth.getInstance()
     private val currentSupervisor = firebaseAuth.currentUser
     private val db = Firebase.firestore
     private val supervisedUsers = db.collection("supervisorUsers").document(currentSupervisor!!.uid)
 
+    /**
+     * This function returns users supervised by the currently logged in supervisor
+     */
     fun getSupervisedUsers(myCallback: (SnapshotStateList<RegularUser?>) -> Unit) {
         val users = mutableStateListOf<RegularUser?>()
         supervisedUsers.get().addOnSuccessListener { documents ->
@@ -37,6 +43,11 @@ class SupervisorMainViewModel : ViewModel() {
         }
     }
 
+
+    /**
+     * This function deletes the relation between a specified user from the list of supervised users
+     * @param userID The ID of the user which will no longer be supervised by the currently logged in supervisor
+     */
     fun deleteSupervisedUser(userID: String) {
         supervisedUsers.update("supervised", FieldValue.arrayRemove(userID))
     }

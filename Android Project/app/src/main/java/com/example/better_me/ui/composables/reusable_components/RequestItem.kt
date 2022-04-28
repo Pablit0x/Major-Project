@@ -26,6 +26,10 @@ import com.example.better_me.ui.theme.White
 import com.example.better_me.ui.theme.primaryColor
 import com.example.better_me.ui.theme.secondaryColor
 
+/**
+ * This composable function represents how each user request item inside the lazy column will look.
+ * @param regularUser User object of the user who sent a request
+ */
 @Composable
 fun RequestItem(regularUser: RegularUser, myCallback: (RegularUser) -> Unit) {
     val requestsScreenViewModel = RequestsScreenViewModel()

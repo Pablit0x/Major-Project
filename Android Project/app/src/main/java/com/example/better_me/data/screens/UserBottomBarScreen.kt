@@ -1,4 +1,4 @@
-package com.example.better_me
+package com.example.better_me.data.screens
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
