@@ -2,9 +2,9 @@ package com.example.better_me.ui.composables.reusable_components
 
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.better_me.R
 import com.example.better_me.data.screens.Screen
-import com.example.better_me.data.model.Constants.REGULAR_USER
 import com.example.better_me.ui.composables.screens.regular.user_supervisors.setSupervisorDialog
 import com.example.better_me.ui.composables.screens.select_avatar.AvatarViewModel
+import com.example.better_me.ui.composables.screens.supervisor.main.setAvatarDialog
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
 import com.google.firebase.auth.FirebaseAuth
@@ -41,7 +41,8 @@ fun RegularUserTopBar(
     navController: NavController,
     title: String,
     showAddIcon: Boolean,
-    isHome: Boolean
+    isHome: Boolean,
+    avatarID: Int
 ) {
     val firebaseAuth = FirebaseAuth.getInstance()
     val currentUser = firebaseAuth.currentUser
@@ -57,22 +58,21 @@ fun RegularUserTopBar(
         {
             IconButton(onClick = { navController.navigateUp() }) {
                 if (isHome) {
-                    SideEffect {
-                        if (currentUser != null) {
-                            avatarViewModel.getAvatarID(
-                                userID = currentUser.uid,
-                                userType = REGULAR_USER
-                            ) {
-                                avatar = if (it == -1) {
-                                    R.drawable.ic_person
-                                } else {
-                                    avatarList[it]
-                                }
-                            }
-                        }
+                    avatar = if (avatarID == -1) {
+                        R.drawable.ic_person
+                    } else {
+                        avatarList[avatarID]
                     }
-                    AnimatedAvatarImage(imageResource = avatar)
-
+                    Image(
+                        painter = painterResource(id = avatar),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .size(45.dp)
+                            .clickable {
+                                setAvatarDialog(true)
+                            }
+                    )
                 } else if (navController.previousBackStackEntry != null) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,

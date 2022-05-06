@@ -37,6 +37,7 @@ import com.example.better_me.ui.composables.reusable_components.RegularUserBotto
 import com.example.better_me.ui.composables.reusable_components.RegularUserTopBar
 import com.example.better_me.ui.composables.screens.regular.add_activity.ShowAddActivityAlertDialog
 import com.example.better_me.ui.composables.screens.regular.rate_day.ShowAddRatingDialog
+import com.example.better_me.ui.composables.screens.select_avatar.AvatarViewModel
 import com.example.better_me.ui.composables.screens.select_avatar.ShowSelectAvatarDialog
 import com.example.better_me.ui.composables.screens.supervisor.main.isSelectAvatarDialogOpen
 import com.example.better_me.ui.theme.*
@@ -58,18 +59,26 @@ import java.time.LocalDateTime
 @Composable
 fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
     val firebaseAuth = FirebaseAuth.getInstance()
+    val avatarViewModel = AvatarViewModel()
     val currentUser = firebaseAuth.currentUser
     val isAddActivityDialogOpen: MutableState<Boolean> = mutableStateOf(false)
     val isFinishDayDialogOpen: MutableState<Boolean> = mutableStateOf(false)
     val isFeedbackDialogOpen: MutableState<Boolean> = mutableStateOf(false)
     val regularMainViewModel = RegularMainViewModel()
     var feedbackComment by remember { mutableStateOf("") }
+    var avatar by remember { mutableStateOf(0) }
     var userRating by remember { mutableStateOf(0) }
     var date by remember { mutableStateOf("") }
-    var activities: MutableList<Activity> by remember { mutableStateOf(mutableListOf()) }
+    var activities by remember { mutableStateOf(mutableStateListOf<Activity>()) }
 
     if (currentUser != null) {
         SideEffect {
+            avatarViewModel.getAvatarID(
+                userID = currentUser.uid,
+                userType = REGULAR_USER
+            ) {
+                avatar = it
+            }
             val currentDate = LocalDateTime.now()
             val formattedDate =
                 "${currentDate.dayOfMonth}-${currentDate.monthValue}-${currentDate.year}"
@@ -140,7 +149,8 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                     navController,
                     stringResource(id = R.string.my_activities),
                     showAddIcon = false,
-                    isHome = true
+                    isHome = true,
+                    avatar
                 )
             },
             content = { padding ->
@@ -160,8 +170,9 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                             .fillMaxHeight(0.1f)
                             .background(color = Color(0xFF2D4263))
                     ) {
+                        val dateArr = date.split("-")
                         Text(
-                            text = date,
+                            text = "${dateArr[0]} ${regularMainViewModel.getMonth(dateArr[1].toInt())} ${dateArr[2]}",
                             color = White,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
@@ -213,6 +224,7 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
                                 )
 
                                 SwipeToDismiss(
+                                    dismissThresholds = { FractionalThreshold(0.7f) },
                                     state = state,
                                     background = {
                                         val color = when (state.dismissDirection) {
@@ -333,23 +345,26 @@ fun RegularMainScreen(navController: NavHostController, selectedDate: String) {
 
                     ShowAddActivityAlertDialog(
                         isDialogOpen = isAddActivityDialogOpen,
-                        navController = navController,
                         date = date,
                         userType = REGULAR_USER,
                         userID = currentUser.uid,
-                        username = ""
-                    )
+                    ) { activity ->
+                        activities.add(activity)
+                    }
 
                     ShowAddRatingDialog(
                         isDialogOpen = isFinishDayDialogOpen,
-                        navController = navController,
                         date = date
-                    )
+                    ) { rating ->
+                        userRating = rating
+                    }
                     ShowSelectAvatarDialog(
                         isDialogOpen = isSelectAvatarDialogOpen,
                         userType = REGULAR_USER,
                         navController = navController
-                    )
+                    ) { avatarID ->
+                        avatar = avatarID
+                    }
                 }
             })
 

@@ -7,6 +7,7 @@ import com.example.better_me.data.model.Activity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.text.DateFormatSymbols
 
 /**
  * SupervisorViewScreen ViewModel class used to get activities from the online database
@@ -80,5 +81,9 @@ class SupervisorViewViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun getMonth(month: Int): String? {
+        return DateFormatSymbols().months[month - 1]
     }
 }

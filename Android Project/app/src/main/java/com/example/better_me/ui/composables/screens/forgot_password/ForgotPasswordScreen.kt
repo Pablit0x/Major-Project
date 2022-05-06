@@ -1,6 +1,5 @@
 package com.example.better_me.ui.composables.screens.forgot_password
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.better_me.R
-import com.example.better_me.data.screens.Screen
 import com.example.better_me.ui.composables.reusable_components.EmailField
 import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.NavyBlue
@@ -108,22 +106,12 @@ fun ForgotPasswordScreen(navController: NavController) {
                 onClick = {
                     emailError.value = !forgotPasswordViewModel.validateEmail(email = email.value)
                     if (!emailError.value) {
-                        firebaseAuth.sendPasswordResetEmail(email.value)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    Toast.makeText(
-                                        context,
-                                        context.getString(R.string.recovery_email_was_sent),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    navController.navigate(Screen.LoginScreen.route)
-                                } else {
-                                    Toast.makeText(
-                                        context,
-                                        task.exception!!.message.toString(), Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
+                        forgotPasswordViewModel.sendPasswordResetEmail(
+                            email = email.value,
+                            context = context,
+                            navController = navController,
+                            firebaseAuth = firebaseAuth
+                        )
                     }
                 },
                 colors = ButtonDefaults.buttonColors(Color.White)

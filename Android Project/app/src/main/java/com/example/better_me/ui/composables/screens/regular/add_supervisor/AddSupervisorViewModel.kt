@@ -29,8 +29,6 @@ class AddSupervisorViewModel : ViewModel() {
                     val updatedRequests = mutableListOf<String>()
                     (document["requests"] as MutableList<String>?)?.let { updatedRequests.addAll(it) }
                     updatedRequests.add(firebaseAuth.currentUser?.uid.toString())
-
-
                     val updatedDoc = SupervisorUser(
                         username = document["username"].toString(),
                         email = document["email"].toString(),

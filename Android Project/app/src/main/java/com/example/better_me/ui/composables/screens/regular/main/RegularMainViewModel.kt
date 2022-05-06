@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.text.DateFormatSymbols
 
 /**
  * RegularMainScreen ViewModelClass used to get and alter activities from the online database
@@ -110,6 +111,10 @@ class RegularMainViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun getMonth(month: Int): String? {
+        return DateFormatSymbols().months[month - 1]
     }
 
 }

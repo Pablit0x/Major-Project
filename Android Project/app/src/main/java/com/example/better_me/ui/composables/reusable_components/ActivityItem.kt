@@ -22,10 +22,7 @@ import com.example.better_me.data.model.Activity
 import com.example.better_me.data.model.Constants.REGULAR_USER
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
 import com.example.better_me.ui.composables.screens.regular.main.RegularMainViewModel
-import com.example.better_me.ui.theme.Black
-import com.example.better_me.ui.theme.GoldenYellow
-import com.example.better_me.ui.theme.IconSizes
-import com.example.better_me.ui.theme.White
+import com.example.better_me.ui.theme.*
 
 /**
  * This composable function represents how each activity item inside the lazy column will look.
@@ -35,11 +32,8 @@ import com.example.better_me.ui.theme.White
  */
 @Composable
 fun ActivityItem(activity: Activity, date: String, userType: Int) {
-    val regularTextStyle = TextStyle(textDecoration = TextDecoration.None)
-    val crossedTextStyle = TextStyle(textDecoration = TextDecoration.LineThrough)
-    var style by remember { mutableStateOf(regularTextStyle) }
+    var style by remember { mutableStateOf(TextStyle(textDecoration = TextDecoration.None)) }
     var bgColor by remember { mutableStateOf(Color.White) }
-    var textAlignment by remember { mutableStateOf(TextAlign.Center) }
     var checkState by remember { mutableStateOf(activity.done.toString().toBoolean()) }
     var activityIcon by remember { mutableStateOf(R.drawable.ic_other_activities) }
     var contentColor by remember { mutableStateOf(Color.White) }
@@ -54,23 +48,18 @@ fun ActivityItem(activity: Activity, date: String, userType: Int) {
         stringResource(id = R.string.other) -> activityIcon - R.drawable.ic_other_activities
     }
 
-    when (userType) {
-        REGULAR_USER -> textAlignment = TextAlign.Center
-        SUPERVISOR_USER -> textAlignment = TextAlign.Start
-    }
-
     when (activity.createdBy) {
         REGULAR_USER -> bgColor = White
-        SUPERVISOR_USER -> bgColor = GoldenYellow
+        SUPERVISOR_USER -> bgColor = DeltaPaleYellow
     }
     when (checkState) {
         true -> {
-            style = crossedTextStyle
-            bgColor = Color.DarkGray
+            style = TextStyle(textDecoration = TextDecoration.LineThrough)
+            bgColor = WageningenGreen
             contentColor = White
         }
         false -> {
-            style = regularTextStyle
+            style = TextStyle(textDecoration = TextDecoration.None)
             contentColor = Black
         }
     }
@@ -106,13 +95,14 @@ fun ActivityItem(activity: Activity, date: String, userType: Int) {
                 Text(
                     text = activity.name.toString(),
                     color = contentColor,
-                    textAlign = textAlignment,
+                    textAlign = TextAlign.Start,
                     style = style,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 24.sp,
                     modifier = Modifier
-                        .weight(4f)
+                        .weight(5f)
                         .fillMaxHeight()
+                        .padding(start = 8.dp, end = 8.dp)
                 )
                 if (userType == REGULAR_USER) {
                     Checkbox(
@@ -136,5 +126,4 @@ fun ActivityItem(activity: Activity, date: String, userType: Int) {
             }
         }
     }
-
 }

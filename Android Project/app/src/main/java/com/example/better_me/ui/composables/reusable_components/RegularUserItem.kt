@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import com.example.better_me.R
-import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.RegularUser
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.White
 

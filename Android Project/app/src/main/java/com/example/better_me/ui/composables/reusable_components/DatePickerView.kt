@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.example.better_me.R
-import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.Constants.REGULAR_USER
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.ui.theme.Black
 import com.example.better_me.ui.theme.White
 
@@ -44,7 +44,7 @@ fun DatePickerView(navController: NavController, userType: Int, userUID: String,
                 }
             },
             modifier = Modifier.border(
-                2.dp,
+                1.dp,
                 color = White,
                 shape = RoundedCornerShape(25.dp)
             )

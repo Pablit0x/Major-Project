@@ -15,12 +15,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.better_me.R
+import com.example.better_me.data.model.Constants
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
 import com.example.better_me.data.model.RegularUser
 import com.example.better_me.ui.composables.reusable_components.AnimatedText
 import com.example.better_me.ui.composables.reusable_components.SupervisorUserBottomBar
 import com.example.better_me.ui.composables.reusable_components.SupervisorUserTopBar
 import com.example.better_me.ui.composables.reusable_components.UserItem
+import com.example.better_me.ui.composables.screens.select_avatar.AvatarViewModel
 import com.example.better_me.ui.composables.screens.select_avatar.ShowSelectAvatarDialog
 import com.example.better_me.ui.theme.White
 import com.example.better_me.ui.theme.primaryColor
@@ -30,6 +32,7 @@ private lateinit var supervisorMainViewModel: SupervisorMainViewModel
 private lateinit var firebaseAuth: FirebaseAuth
 var isSelectAvatarDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 
+
 @OptIn(ExperimentalMaterialApi::class)
 /**
  * This composable function contains the UI that represents the main/home supervisor's screen which is a list of supervised by them users
@@ -38,13 +41,20 @@ var isSelectAvatarDialogOpen: MutableState<Boolean> = mutableStateOf(false)
 
 @Composable
 fun SupervisorMainScreen(navController: NavHostController) {
-
+    val avatarViewModel = AvatarViewModel()
+    var avatar by remember { mutableStateOf(0) }
     var users: MutableList<RegularUser?> by remember { mutableStateOf(mutableListOf()) }
 
     firebaseAuth = FirebaseAuth.getInstance()
     if (firebaseAuth.currentUser != null) {
         supervisorMainViewModel = SupervisorMainViewModel()
         SideEffect {
+            avatarViewModel.getAvatarID(
+                userID = firebaseAuth.currentUser!!.uid,
+                userType = Constants.SUPERVISOR_USER
+            ) {
+                avatar = it
+            }
             supervisorMainViewModel.getSupervisedUsers { supervisedUsers ->
                 if (!supervisedUsers.isNullOrEmpty()) {
                     users = supervisedUsers
@@ -59,7 +69,8 @@ fun SupervisorMainScreen(navController: NavHostController) {
             SupervisorUserTopBar(
                 navController = navController,
                 title = "Supervised Users",
-                isHome = true
+                isHome = true,
+                avatarID = avatar
             )
         },
         bottomBar = {
@@ -98,8 +109,8 @@ fun SupervisorMainScreen(navController: NavHostController) {
                                     true
                                 }
                             )
-
                             SwipeToDismiss(
+                                dismissThresholds = { FractionalThreshold(0.7f) },
                                 state = state,
                                 background = {
                                     val color = when (state.dismissDirection) {
@@ -137,7 +148,9 @@ fun SupervisorMainScreen(navController: NavHostController) {
                 isDialogOpen = isSelectAvatarDialogOpen,
                 userType = SUPERVISOR_USER,
                 navController = navController
-            )
+            ) { avatarID ->
+                avatar = avatarID
+            }
         })
 }
 

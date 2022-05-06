@@ -28,8 +28,8 @@ import com.example.better_me.ui.composables.reusable_components.AddFeedbackDialo
 import com.example.better_me.ui.composables.reusable_components.SupervisorUserBottomBar
 import com.example.better_me.ui.composables.reusable_components.SupervisorUserTopBar
 import com.example.better_me.ui.composables.screens.regular.add_activity.ShowAddActivityAlertDialog
-import com.example.better_me.ui.theme.GoldenYellow
 import com.example.better_me.ui.theme.White
+import com.example.better_me.ui.theme.Yellow
 import com.example.better_me.ui.theme.secondaryColor
 import java.time.LocalDateTime
 
@@ -61,7 +61,7 @@ fun SupervisorViewScreen(
 ) {
     supervisorViewViewModel = SupervisorViewViewModel()
     var userRating by remember { mutableStateOf(0) }
-    var activities: MutableList<Activity> by remember { mutableStateOf(mutableListOf()) }
+    var activities by remember { mutableStateOf(mutableListOf<Activity>()) }
 
     SideEffect {
         val currentDate = LocalDateTime.now()
@@ -125,7 +125,8 @@ fun SupervisorViewScreen(
             SupervisorUserTopBar(
                 navController = navController,
                 title = "$username Activities",
-                isHome = false
+                isHome = false,
+                avatarID = 0
             )
         },
         content = { padding ->
@@ -145,8 +146,9 @@ fun SupervisorViewScreen(
                         .fillMaxHeight(0.1f)
                         .background(color = Color(0xFF2D4263))
                 ) {
+                    val dateArr = date.split("-")
                     Text(
-                        text = date,
+                        text = "${dateArr[0]} ${supervisorViewViewModel.getMonth(dateArr[1].toInt())} ${dateArr[2]}",
                         color = White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
@@ -165,7 +167,7 @@ fun SupervisorViewScreen(
                                     modifier = Modifier
                                         .width(52.dp)
                                         .height(52.dp),
-                                    tint = GoldenYellow
+                                    tint = Yellow
                                 )
                             }
                         }
@@ -189,12 +191,14 @@ fun SupervisorViewScreen(
 
                 ShowAddActivityAlertDialog(
                     isDialogOpen = isAddActivityDialogOpen,
-                    navController = navController,
                     date = date,
                     userType = SUPERVISOR_USER,
-                    userID = userUID,
-                    username = username
-                )
+                    userID = userUID
+                ) { activity ->
+                    if (!activities.contains(activity)) {
+                        activities.add(activity)
+                    }
+                }
                 AddFeedbackDialog(
                     isDialogOpen = isAddFeedbackDialogOpen,
                     date = date,

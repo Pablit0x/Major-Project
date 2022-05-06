@@ -20,7 +20,8 @@ fun SupervisorCalendarScreen(navController: NavHostController, username: String,
         SupervisorUserTopBar(
             navController = navController,
             title = "$username Calendar",
-            isHome = false
+            isHome = false,
+            avatarID = 0
         )
     }, content = {
         DatePickerView(

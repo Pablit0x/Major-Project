@@ -1,7 +1,10 @@
 package com.example.better_me.ui.composables.screens.sign_in
 
+import android.content.Context
 import android.util.Log
 import android.util.Patterns
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.better_me.data.screens.Screen
@@ -35,7 +38,8 @@ class SignInViewModel : ViewModel() {
         firebaseAuth: FirebaseAuth,
         email: String,
         password: String,
-        navController: NavController
+        navController: NavController,
+        context : Context
     ) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
@@ -51,7 +55,7 @@ class SignInViewModel : ViewModel() {
                 }
             }
             .addOnFailureListener {
-                Log.e("Login", "Login failed")
+                Toast.makeText(context, it.message.toString(), Toast.LENGTH_SHORT).show()
             }
     }
 

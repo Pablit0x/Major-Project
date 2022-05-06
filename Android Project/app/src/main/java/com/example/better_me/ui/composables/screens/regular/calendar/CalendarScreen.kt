@@ -21,7 +21,8 @@ fun CalendarScreen(navController: NavHostController) {
             navController = navController,
             title = stringResource(id = R.string.my_calendar),
             showAddIcon = false,
-            isHome = false
+            isHome = false,
+            2
         )
     }, content = { DatePickerView(navController = navController, userType = REGULAR_USER, "", "") })
 }

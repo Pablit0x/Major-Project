@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.better_me.R
-import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.Constants.REGULAR_USER
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
+import com.example.better_me.data.screens.Screen
 import com.example.better_me.ui.composables.screens.select_avatar.AvatarViewModel
 import com.example.better_me.ui.composables.screens.supervisor.main.setAvatarDialog
 import com.example.better_me.ui.theme.White
@@ -45,7 +45,7 @@ val avatarList: List<Int> = listOf(
  * @param navController The navigation controller used to handle navigation to different screens
  */
 @Composable
-fun AvatarSelector(userType: Int, navController: NavHostController) {
+fun AvatarSelector(userType: Int, navController: NavHostController, myCallback: (Int) -> Unit) {
     selectAvatarViewModel = AvatarViewModel()
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -84,14 +84,15 @@ fun AvatarSelector(userType: Int, navController: NavHostController) {
                                     userType = userType,
                                     avatarID = index
                                 )
-                                when (userType) {
-                                    REGULAR_USER -> navController.navigate(
-                                        Screen.RegularMainScreen.route
-                                    )
-                                    SUPERVISOR_USER -> navController.navigate(
-                                        Screen.SupervisorMainScreen.route
-                                    )
-                                }
+//                                when (userType) {
+//                                    REGULAR_USER -> navController.navigate(
+//                                        Screen.RegularMainScreen.route
+//                                    )
+//                                    SUPERVISOR_USER -> navController.navigate(
+//                                        Screen.SupervisorMainScreen.route
+//                                    )
+//                                }
+                                myCallback(index)
                                 setAvatarDialog(avatarDialogState = false)
                             })
                 }

@@ -1,12 +1,13 @@
 package com.example.better_me.ui.composables.screens.sign_up
 
-import android.util.Log
+import android.content.Context
 import android.util.Patterns
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.RegularUser
 import com.example.better_me.data.model.SupervisorUser
+import com.example.better_me.data.screens.Screen
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -71,7 +72,8 @@ class SignUpViewModel : ViewModel() {
         email: String,
         userType: String,
         password: String,
-        navController: NavController
+        navController: NavController,
+        context: Context
     ) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
@@ -105,7 +107,7 @@ class SignUpViewModel : ViewModel() {
                     }
             }
             .addOnFailureListener {
-                Log.e("Sign Up", "Fail")
+                Toast.makeText(context, it.message.toString(), Toast.LENGTH_SHORT).show()
             }
     }
 }

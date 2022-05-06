@@ -1,7 +1,11 @@
 package com.example.better_me.ui.composables.reusable_components
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -13,13 +17,14 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.better_me.R
 import com.example.better_me.data.screens.Screen
-import com.example.better_me.data.model.Constants.SUPERVISOR_USER
 import com.example.better_me.ui.composables.screens.select_avatar.AvatarViewModel
+import com.example.better_me.ui.composables.screens.supervisor.main.setAvatarDialog
 import com.example.better_me.ui.theme.PerfectGray
 import com.example.better_me.ui.theme.White
 import com.google.firebase.auth.FirebaseAuth
@@ -34,7 +39,12 @@ private lateinit var avatarViewModel: AvatarViewModel
  * @param isHome Indicates if the current destination is a home destination
  */
 @Composable
-fun SupervisorUserTopBar(navController: NavController, title: String, isHome: Boolean) {
+fun SupervisorUserTopBar(
+    navController: NavController,
+    title: String,
+    isHome: Boolean,
+    avatarID: Int
+) {
     avatarViewModel = AvatarViewModel()
     var avatar by remember { mutableStateOf(R.drawable.ic_person) }
     val context = LocalContext.current
@@ -46,19 +56,22 @@ fun SupervisorUserTopBar(navController: NavController, title: String, isHome: Bo
         {
             IconButton(onClick = { navController.navigateUp() }) {
                 if (isHome && firebaseAuth.currentUser != null) {
-                    SideEffect {
-                        avatarViewModel.getAvatarID(
-                            userID = firebaseAuth.currentUser!!.uid,
-                            userType = SUPERVISOR_USER
-                        ) {
-                            avatar = if (it == -1) {
-                                R.drawable.ic_person
-                            } else {
-                                avatarList[it]
-                            }
-                        }
+                    avatar = if (avatarID == -1) {
+                        R.drawable.ic_person
+                    } else {
+                        avatarList[avatarID]
                     }
-                    AnimatedAvatarImage(imageResource = avatar)
+                    Image(
+                        painter = painterResource(id = avatar),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .size(45.dp)
+                            .clickable {
+                                setAvatarDialog(true)
+                            }
+                    )
+//                    AnimatedAvatarImage(imageResource = avatar)
 
                 } else if (navController.previousBackStackEntry != null) {
                     Icon(

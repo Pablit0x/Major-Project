@@ -30,9 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.Dialog
-import androidx.navigation.NavController
 import com.example.better_me.R
-import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.model.Activity
 import com.example.better_me.data.model.Constants.REGULAR_USER
 import com.example.better_me.data.model.Constants.SUPERVISOR_USER
@@ -55,11 +53,10 @@ import java.util.*
 @Composable
 fun ShowAddActivityAlertDialog(
     isDialogOpen: MutableState<Boolean>,
-    navController: NavController,
     date: String,
     userType: Int,
     userID: String,
-    username: String
+    myCallback: (Activity) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val nameVal = remember { mutableStateOf("") }
@@ -275,26 +272,17 @@ fun ShowAddActivityAlertDialog(
                                         createdBy = userType,
                                         privacyType = privacyType
                                     )
+                                    myCallback(activity)
+                                    nameVal.value = String()
+                                    activityType.value = String()
+                                    isChecked.value = false
+                                    privacyType = "Public"
                                     addActivityViewModel.addActivity(
                                         activity = activity,
                                         uid = userID,
                                         date = date
                                     )
                                     isDialogOpen.value = false
-                                    when (userType) {
-                                        REGULAR_USER -> navController.navigate(
-                                            Screen.RegularMainScreen.passDate(
-                                                date = date
-                                            )
-                                        )
-                                        SUPERVISOR_USER -> navController.navigate(
-                                            Screen.SupervisorViewScreen.passUsernameDateAndUID(
-                                                username = username,
-                                                uid = userID,
-                                                date = date
-                                            )
-                                        )
-                                    }
                                 }
                             },
                             modifier = Modifier

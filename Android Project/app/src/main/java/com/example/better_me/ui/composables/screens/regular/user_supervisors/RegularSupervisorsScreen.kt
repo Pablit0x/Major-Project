@@ -59,7 +59,8 @@ fun UserSupervisorsScreen(navController: NavHostController) {
                 navController = navController,
                 title = "My Supervisors",
                 showAddIcon = true,
-                isHome = false
+                isHome = false,
+                2
             )
         },
         bottomBar = {
@@ -98,6 +99,7 @@ fun UserSupervisorsScreen(navController: NavHostController) {
                             )
 
                             SwipeToDismiss(
+                                dismissThresholds = { FractionalThreshold(0.7f) },
                                 state = state,
                                 background = {
                                     val color = when (state.dismissDirection) {

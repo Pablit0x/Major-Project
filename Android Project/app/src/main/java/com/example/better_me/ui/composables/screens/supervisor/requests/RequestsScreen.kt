@@ -37,7 +37,8 @@ fun RequestsScreen(navController: NavHostController) {
         SupervisorUserTopBar(
             navController = navController,
             title = stringResource(id = R.string.requests),
-            isHome = false
+            isHome = false,
+            avatarID = 0
         )
     },
         bottomBar = { SupervisorUserBottomBar(navController = navController) },

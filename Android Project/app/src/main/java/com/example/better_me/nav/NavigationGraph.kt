@@ -11,9 +11,9 @@ import com.example.better_me.data.screens.Screen
 import com.example.better_me.data.screens.SupervisorBottomBarScreen
 import com.example.better_me.data.screens.UserBottomBarScreen
 import com.example.better_me.ui.composables.screens.forgot_password.ForgotPasswordScreen
-import com.example.better_me.ui.composables.screens.regular.user_supervisors.UserSupervisorsScreen
 import com.example.better_me.ui.composables.screens.regular.calendar.CalendarScreen
 import com.example.better_me.ui.composables.screens.regular.main.RegularMainScreen
+import com.example.better_me.ui.composables.screens.regular.user_supervisors.UserSupervisorsScreen
 import com.example.better_me.ui.composables.screens.sign_in.LoginScreen
 import com.example.better_me.ui.composables.screens.sign_up.SignUpScreen
 import com.example.better_me.ui.composables.screens.splash_screen.AnimatedSplashScreen

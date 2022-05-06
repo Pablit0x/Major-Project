@@ -23,11 +23,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.better_me.R
-import com.example.better_me.data.screens.Screen
 import com.example.better_me.ui.theme.Black
-import com.example.better_me.ui.theme.GoldenYellow
 import com.example.better_me.ui.theme.NavyBlue
 import com.example.better_me.ui.theme.White
+import com.example.better_me.ui.theme.Yellow
 import com.google.firebase.auth.FirebaseAuth
 
 private lateinit var rateDayViewModel: RateDayViewModel
@@ -43,8 +42,8 @@ private lateinit var rateDayViewModel: RateDayViewModel
 @Composable
 fun ShowAddRatingDialog(
     isDialogOpen: MutableState<Boolean>,
-    navController: NavController,
-    date: String
+    date: String,
+    myCallback: (Int) -> Unit
 ) {
     rateDayViewModel = RateDayViewModel()
     val firebaseUser = FirebaseAuth.getInstance().currentUser
@@ -106,7 +105,7 @@ fun ShowAddRatingDialog(
                                         }
                                         true
                                     },
-                                tint = if (i <= ratingState) GoldenYellow else Color(0xFFA2ADB1)
+                                tint = if (i <= ratingState) Yellow else Color(0xFFA2ADB1)
                             )
                         }
                     }
@@ -117,7 +116,8 @@ fun ShowAddRatingDialog(
                         onClick = {
                             rateDayViewModel.saveRating(firebaseUser!!.uid, ratingState, date)
                             isDialogOpen.value = false
-                            navController.navigate(Screen.RegularMainScreen.passDate(date = date))
+                            myCallback(ratingState)
+//                            navController.navigate(Screen.RegularMainScreen.passDate(date = date))
                         },
                         modifier = Modifier
                             .height(70.dp)
